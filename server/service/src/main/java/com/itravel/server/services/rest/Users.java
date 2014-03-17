@@ -38,7 +38,7 @@ public class Users {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getUser(@PathParam("id") long id){
-		IUser user = manager.getUser(id);
+		IUser user = manager.get(id);
 		return user.toString();
 	}
 	
@@ -96,7 +96,7 @@ public class Users {
 		user.setDistrict(district);
 		user.setLongitude(longitude);
 		user.setLatitude(latitude);
-		manager.addUser(user);
+		manager.save(user);
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
 	}
 	

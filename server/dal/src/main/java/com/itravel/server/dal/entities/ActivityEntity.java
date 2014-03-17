@@ -22,7 +22,6 @@ import java.util.Date;
 	@NamedQuery(name="ActivityEntity.findAvailable", query="SELECT a FROM ActivityEntity a where a.endTime > :endTime and  a.status = 1"),
 })
 
-
 public class ActivityEntity implements Serializable,IActivities {
 	private static final long serialVersionUID = 1L;
 
@@ -167,6 +166,10 @@ public class ActivityEntity implements Serializable,IActivities {
 	public Collection<IUser> getUsers() {
 		// TODO Auto-generated method stub
 		return this.users;
+	}
+	
+	public void addUser(IUser user){
+		this.users.add(user);
 	}
 
 	

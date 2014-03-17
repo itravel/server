@@ -51,4 +51,6 @@ public interface IActivities {
 	public void setUsers(Collection<IUser> users);
 	
 	public Collection<IUser> getUsers();
+	
+	public void addUser(IUser user);
 }

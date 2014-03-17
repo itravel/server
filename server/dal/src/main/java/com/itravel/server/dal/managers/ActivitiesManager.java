@@ -14,6 +14,7 @@ import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
+import com.itravel.server.interfaces.dal.managers.IUserManager;
 
 public class ActivitiesManager extends AbstractManager implements
 		IActivitiesManager {
@@ -21,19 +22,22 @@ public class ActivitiesManager extends AbstractManager implements
 	@Override
 	public IActivities newActivities() {
 		// TODO Auto-generated method stub
-		return new ActivityEntity();
+		IActivities entity = new ActivityEntity();
+		return entity;
 	}
 
 	@Override
-	public boolean add(IActivities activities) {
+	public boolean save(IActivities activities) {
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
 		manager.getTransaction().begin();
-		manager.persist(activities);
+		manager.merge(activities);
 		manager.getTransaction().commit();
 		manager.close();
 		return true;
 	}
+	
+	
 
 	@Override
 	public boolean remove(IActivities activities) {
@@ -58,7 +62,6 @@ public class ActivitiesManager extends AbstractManager implements
 	public List<IActivities> getAvailableActivities(int start, int count) {
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
-		System.out.println("-----------");
 		List<IActivities> entities = manager.createNamedQuery("ActivityEntity.findAvailable").setParameter("endTime", new Date()).getResultList();
 		if( entities == null ) {
 			entities = Lists.newArrayList();
@@ -69,6 +72,12 @@ public class ActivitiesManager extends AbstractManager implements
 	
 	public static void main(String[] args) {
 		ActivitiesManager manager = new ActivitiesManager();
+		IUserManager uManager = new UserManager();
+		IUser user = uManager.get(1);
+		IActivities activities = manager.get(2);
+		activities.addUser(user);
+		manager.save(activities);
+		manager.save(manager.newActivities());
 		System.out.println(manager.get(2).getUsers().size());
 	}
 

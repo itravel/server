@@ -12,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -25,13 +26,16 @@ import javax.ws.rs.core.UriInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Function;
+import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
 import com.google.common.io.ByteSink;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
-import com.itravel.server.dal.managers.ActManager;
 import com.itravel.server.dal.managers.ActivitiesManager;
 import com.itravel.server.interfaces.dal.IActivities;
+import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
 import com.itravel.server.interfaces.dal.managers.ManagerFactory;
@@ -40,6 +44,7 @@ import com.itravel.server.services.utils.ImageResourceUtil;
 @Path("activities")
 public class Activities {
 	IActivitiesManager manager = ManagerFactory.getActivitiesManager();
+	IUserManager userManager = ManagerFactory.getUserManager();
 	ObjectMapper mapper = new ObjectMapper();
 	@Context
 	UriInfo uriInfo;
@@ -47,6 +52,19 @@ public class Activities {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * 创建一个新的结伴活动
+	 * @param name
+	 * @param description
+	 * @param longitude
+	 * @param latitude
+	 * @param startTime
+	 * @param endTime
+	 * @param userId
+	 * @param userName
+	 * @param userAvatar
+	 * @return
+	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -72,7 +90,7 @@ public class Activities {
 		activities.setUserId(userId);
 		activities.setUserName(userName);
 		activities.setUserAvatar(userAvatar);
-		manager.add(activities);
+		manager.save(activities);
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(activities.getId())).build()).build();
 		
 	}
@@ -93,6 +111,29 @@ public class Activities {
 			e.printStackTrace();
 		}
 		return Response.ok().entity(activities).build();
+	}
+	
+	@Path("{activitiesId}/users")
+	@PUT
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addActvitiesUsers(@PathParam(value = "activitiesId") long activitiesId,@FormParam(value = "users") String userIds){
+		List<Long> _userIds = FluentIterable.from(Splitter.on(",").split(userIds)).transform(new Function<String,Long>(){
+
+			@Override
+			public Long apply(String input) {
+				// TODO Auto-generated method stub
+				long id = Integer.valueOf(input);
+				return id;
+			}}).toList();
+		IActivities activities = this.manager.get(activitiesId);
+		for(long userId:_userIds){
+			IUser user = userManager.get(userId);
+			activities.addUser(user);
+		}
+		this.manager.save(activities);
+		return Response.ok().entity(activities).build();
+//		return Response.ok().build();
 	}
 	
 	@Path("{activitiesId}/distination")

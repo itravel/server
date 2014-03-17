@@ -9,7 +9,7 @@ import com.itravel.server.interfaces.dal.managers.IUserManager;
 public class UserManager extends AbstractManager implements IUserManager {
 	
 	@Override
-	public boolean addUser(IUser user) {
+	public boolean save(IUser user) {
 		EntityManager manager = emf.createEntityManager();
 		manager.getTransaction().begin();
 		manager.persist(user);
@@ -19,20 +19,16 @@ public class UserManager extends AbstractManager implements IUserManager {
 	}
 
 	@Override
-	public boolean removeUser(IUser user) {
+	public boolean remove(IUser user) {
 		EntityManager manager = emf.createEntityManager();
 		manager.remove(user);
 		return true;
 	}
 
-	@Override
-	public boolean removeUser(long userId) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+	
 
 	@Override
-	public IUser getUser(long userId) {
+	public IUser get(long userId) {
 		EntityManager manager = emf.createEntityManager();
 		IUser user = manager.find(UserEntity.class, userId);
 		manager.close();
@@ -53,5 +49,7 @@ public class UserManager extends AbstractManager implements IUserManager {
 		// TODO Auto-generated method stub
 		return new UserEntity();
 	}
+
+	
 
 }
