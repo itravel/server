@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
 import com.itravel.server.interfaces.dal.managers.ManagerFactory;
+import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
 
 
@@ -105,7 +106,10 @@ public class Users {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadDistinationPic(@PathParam(value = "userId") long userId,InputStream in){
-		ImageResourceUtil.saveImage(in, String.valueOf(userId));
+		String avatarPicPath = ImageResourceUtil.saveImage(in, ImageCategory.USER_AVATAR,String.valueOf(userId));
+		IUser user = this.manager.get(userId);
+		user.setAvatar(avatarPicPath);
+		this.manager.save(user);
 		return Response.ok().build();
 		
 	}

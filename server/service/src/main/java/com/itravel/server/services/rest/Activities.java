@@ -39,6 +39,7 @@ import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
 import com.itravel.server.interfaces.dal.managers.ManagerFactory;
+import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
 
 @Path("activities")
@@ -141,7 +142,9 @@ public class Activities {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadDistinationPic(@PathParam(value = "activitiesId") long activitiesId,InputStream in){
-		ImageResourceUtil.saveImage(in, String.valueOf(activitiesId));
+		String filePath = ImageResourceUtil.saveImage(in, ImageCategory.ACTIVITIES,String.valueOf(activitiesId));
+		IActivities activites = this.manager.get(activitiesId);
+		//??
 		return Response.ok().build();
 		
 	}
