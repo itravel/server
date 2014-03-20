@@ -7,4 +7,7 @@ import com.itravel.server.interfaces.dal.IAttractions;
 public interface IAttractionsManager extends IManager<IAttractions> {
 
 	boolean batchSave(List<IAttractions> list);
+	
+	List<IAttractions> getByLngLat(int start,int count,double longitude, double latitude);
+
 }

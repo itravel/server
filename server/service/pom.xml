@@ -35,5 +35,13 @@
   		<groupId>org.glassfish.jersey.media</groupId>
   		<artifactId>jersey-media-multipart</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>org.apache.lucene</groupId>
+  		<artifactId>lucene-core</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.lucene</groupId>
+  		<artifactId>lucene-spatial</artifactId>
+  	</dependency>
   </dependencies>
 </project>
