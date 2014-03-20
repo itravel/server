@@ -1,6 +1,7 @@
 package com.itravel.server.services.rest;
 
 import java.io.InputStream;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -13,6 +14,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.itravel.server.interfaces.dal.ITravelNote;
 import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
@@ -36,7 +40,7 @@ public class TravelNotes {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(
 			@FormParam(value = "province") int province, 
@@ -48,8 +52,9 @@ public class TravelNotes {
 			@FormParam(value = "longitude") double longitude, 
 			@FormParam(value = "userId") long userId,
 			@FormParam(value = "userName") String userName,
-			@FormParam(value = "userAvatar") String userAvatar
-			) 
+			@FormParam(value = "userAvatar") String userAvatar,
+			FormDataMultiPart formDataMultiPart
+		) 
 	{
 		ITravelNote tNote = this.tManager.create();
 		tNote.setProvince(province);
@@ -63,21 +68,29 @@ public class TravelNotes {
 		tNote.setLatitude(latitude);
 		tNote.setLongitude(longitude);
 		this.tManager.save(tNote);
+		List<FormDataBodyPart> bodyPartList= formDataMultiPart.getFields("pictures");  
+		for(FormDataBodyPart part:bodyPartList){
+			InputStream input = part.getEntityAs(InputStream.class);
+			String url = ImageResourceUtil.saveImage(input, ImageCategory.TRAVEL_NOTE,String.valueOf(tNote.getId()));
+			System.out.println( url);
+			tNote.addPicture(url);
+			this.tManager.save(tNote);
+		}
 		return Response.ok().entity(tNote).build();
 	}
 	
-	@Path("{traveNoteId}/pictures")
-	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadUserAvatar(@PathParam(value = "traveNoteId") long traveNoteId,InputStream in){
-		ITravelNote tNote = this.tManager.get(traveNoteId);
-		String imagePath = ImageResourceUtil.saveImage(in, ImageCategory.TRAVEL_NOTE, String.valueOf(traveNoteId));
-		tNote.addPicture(imagePath);
-		this.tManager.save(tNote);
-		return Response.ok().entity(tNote).build();
-	
-	}
+//	@Path("{traveNoteId}/pictures")
+//	@POST
+//	@Consumes(MediaType.MULTIPART_FORM_DATA)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response uploadUserAvatar(@PathParam(value = "traveNoteId") long traveNoteId,InputStream in){
+//		ITravelNote tNote = this.tManager.get(traveNoteId);
+//		String imagePath = ImageResourceUtil.saveImage(in, ImageCategory.TRAVEL_NOTE, String.valueOf(traveNoteId));
+//		tNote.addPicture(imagePath);
+//		this.tManager.save(tNote);
+//		return Response.ok().entity(tNote).build();
+//	
+//	}
 	
 	
 	

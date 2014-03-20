@@ -14,7 +14,7 @@ public final class ImageResourceUtil {
 	private static String rootPath = "d:/";
 	
 	public static String saveImage(InputStream input,ImageCategory category,String fileNamePrefix){
-		String filePath = category.name().toLowerCase()+fileNamePrefix+String.valueOf(UUID.randomUUID())+".png";
+		String filePath = category.name().toLowerCase()+"/"+fileNamePrefix+String.valueOf(UUID.randomUUID())+".png";
 		ByteSink byteSink=  Files.asByteSink(new File(rootPath+filePath));
 		try {
 			byteSink.writeFrom(input);

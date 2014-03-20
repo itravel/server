@@ -23,6 +23,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -68,7 +71,7 @@ public class Activities {
 	 */
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response createActivities(
 			@FormParam(value = "name") String name,
 			@FormParam(value = "description") String description,
@@ -78,7 +81,8 @@ public class Activities {
 			@FormParam(value = "endTime") Date endTime,
 			@FormParam(value = "userId") long userId,
 			@FormParam(value = "userName") String userName,
-			@FormParam(value = "userAvatar") String userAvatar
+			@FormParam(value = "userAvatar") String userAvatar,
+			FormDataMultiPart formDataMultiPart
 		)
 	{
 		IActivities activities = manager.create();
@@ -92,6 +96,14 @@ public class Activities {
 		activities.setUserName(userName);
 		activities.setUserAvatar(userAvatar);
 		manager.save(activities);
+		List<FormDataBodyPart> bodyPartList= formDataMultiPart.getFields("pictures");  
+		for(FormDataBodyPart part:bodyPartList){
+			InputStream input = part.getEntityAs(InputStream.class);
+			String url = ImageResourceUtil.saveImage(input, ImageCategory.ACTIVITIES,String.valueOf(activities.getId()));
+			System.out.println( url);
+			activities.addActivitiesPic(url);
+			this.manager.save(activities);
+		}
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(activities.getId())).build()).build();
 		
 	}
