@@ -81,7 +81,7 @@ public class Activities {
 			@FormParam(value = "userAvatar") String userAvatar
 		)
 	{
-		IActivities activities = manager.newActivities();
+		IActivities activities = manager.create();
 		activities.setName(name);
 		activities.setDescription(description);
 		activities.setLongitude(longitude);
@@ -144,7 +144,8 @@ public class Activities {
 	public Response uploadDistinationPic(@PathParam(value = "activitiesId") long activitiesId,InputStream in){
 		String filePath = ImageResourceUtil.saveImage(in, ImageCategory.ACTIVITIES,String.valueOf(activitiesId));
 		IActivities activites = this.manager.get(activitiesId);
-		//??
+		activites.addActivitiesPic(filePath);
+		this.manager.save(activites);
 		return Response.ok().build();
 		
 	}

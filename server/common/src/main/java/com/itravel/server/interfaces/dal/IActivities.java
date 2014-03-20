@@ -53,4 +53,10 @@ public interface IActivities {
 	public Collection<IUser> getUsers();
 	
 	public void addUser(IUser user);
+	
+	public void addActivitiesPic(String picPath);
+	
+	public Collection<String> getActivitiesPics();
+
+	void addActivitiesPics(String... picPath);
 }

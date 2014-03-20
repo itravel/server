@@ -7,6 +7,5 @@ import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IUser;
 
 public interface IActivitiesManager extends IManager<IActivities> {
-	IActivities newActivities();
 	List<IActivities> getAvailableActivities(int start,int count);
 }

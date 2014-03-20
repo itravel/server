@@ -1,9 +1,13 @@
 package com.itravel.server.dal.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.*;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Sets;
 import com.itravel.server.interfaces.dal.ITravelNote;
 
 
@@ -37,10 +41,16 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 	private String userAvatar;
 
 	@Column(name="user_id")
-	private int userId;
+	private long userId;
 
 	@Column(name="user_name")
 	private String userName;
+
+	@Column(name="latitude")
+	private double latitude;
+
+	@Column(name="longitude")
+	private double longitude;
 
 	public TravelNoteEntity() {
 	}
@@ -109,21 +119,21 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 		this.destination = destination;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.ITravelNote#getPictures()
-	 */
-	@Override
-	public String getPictures() {
-		return this.pictures;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.ITravelNote#setPictures(java.lang.String)
-	 */
-	@Override
-	public void setPictures(String pictures) {
-		this.pictures = pictures;
-	}
+//	/* (non-Javadoc)
+//	 * @see com.itravel.server.dal.entities.ITravelNote#getPictures()
+//	 */
+//	@Override
+//	public String getPictures() {
+//		return this.pictures;
+//	}
+//
+//	/* (non-Javadoc)
+//	 * @see com.itravel.server.dal.entities.ITravelNote#setPictures(java.lang.String)
+//	 */
+//	@Override
+//	public void setPictures(String pictures) {
+//		this.pictures = pictures;
+//	}
 
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.ITravelNote#getProvince()
@@ -177,7 +187,7 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 	 * @see com.itravel.server.dal.entities.ITravelNote#getUserId()
 	 */
 	@Override
-	public int getUserId() {
+	public long getUserId() {
 		return this.userId;
 	}
 
@@ -185,7 +195,7 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 	 * @see com.itravel.server.dal.entities.ITravelNote#setUserId(int)
 	 */
 	@Override
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
@@ -203,6 +213,42 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 	@Override
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+
+	@Override
+	public void setLatitude(double latitude) {
+		// TODO Auto-generated method stub
+		this.latitude = latitude;
+	}
+
+	@Override
+	public void setLongitude(double longitude) {
+		// TODO Auto-generated method stub
+		this.longitude = longitude;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.itravel.server.dal.entities.ITravelNote#getPictures()
+	 */
+	@Override
+	public Collection<String> getPictures() {
+		
+		return Sets.newHashSet(this.pictures.split(","));
+	}
+
+	@Override
+	public void setPictures(String... pictures) {
+		// TODO Auto-generated method stub
+		this.pictures = Joiner.on(",").join(pictures);
+	}
+
+	@Override
+	public void addPicture(String picture) {
+		// TODO Auto-generated method stub
+		Collection<String> pictures = this.getPictures();
+		pictures.add(picture);
+		this.pictures = Joiner.on(",").join(pictures);
 	}
 
 }

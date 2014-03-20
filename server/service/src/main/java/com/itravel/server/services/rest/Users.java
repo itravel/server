@@ -84,7 +84,7 @@ public class Users {
 			@FormParam(value = "password") double latitude
 		){
 		
-		IUser user = manager.newUser();
+		IUser user = manager.create();
 		user.setUserName(userName);
 		user.setPassword(password);
 		user.setEmail(email);
@@ -105,7 +105,7 @@ public class Users {
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadDistinationPic(@PathParam(value = "userId") long userId,InputStream in){
+	public Response uploadUserAvatar(@PathParam(value = "userId") long userId,InputStream in){
 		String avatarPicPath = ImageResourceUtil.saveImage(in, ImageCategory.USER_AVATAR,String.valueOf(userId));
 		IUser user = this.manager.get(userId);
 		user.setAvatar(avatarPicPath);

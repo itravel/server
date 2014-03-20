@@ -42,4 +42,10 @@ public class TravelNoteManager extends AbstractManager implements ITravelNoteMan
 
 	}
 
+	@Override
+	public ITravelNote create() {
+		// TODO Auto-generated method stub
+		return new TravelNoteEntity();
+	}
+
 }

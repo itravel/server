@@ -4,11 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Sets;
 import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IUser;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 
 /**
@@ -56,6 +60,9 @@ public class ActivityEntity implements Serializable,IActivities {
 	
 	@Column(name="status")
 	private int status;
+	
+	@Column(name = "pics")
+	private String pics;
 
 	@ManyToMany(targetEntity = UserEntity.class)
 	@JoinTable(
@@ -170,6 +177,36 @@ public class ActivityEntity implements Serializable,IActivities {
 	
 	public void addUser(IUser user){
 		this.users.add(user);
+	}
+
+	@Override
+	public void addActivitiesPic(String picPath) {
+		// TODO Auto-generated method stub
+		Collection<String> pics = this.getActivitiesPics();
+		pics.add(picPath);
+		this.pics = Joiner.on(",").join(pics);
+	}
+	
+	@Override
+	public void addActivitiesPics(String... picPath){
+		Set newPicsPath = Sets.newHashSet(picPath);
+		Collection<String> pics = this.getActivitiesPics();
+		pics.addAll(newPicsPath);
+		this.pics = Joiner.on(",").join(pics);
+	}
+
+	@Override
+	public Collection<String> getActivitiesPics() {
+		// TODO Auto-generated method stub
+		return Sets.newHashSet(Splitter.on(",").split(this.pics));
+	}
+
+	public String getPics() {
+		return pics;
+	}
+
+	public void setPics(String pics) {
+		this.pics = pics;
 	}
 
 	

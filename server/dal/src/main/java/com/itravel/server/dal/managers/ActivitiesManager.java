@@ -20,7 +20,7 @@ public class ActivitiesManager extends AbstractManager implements
 		IActivitiesManager {
 
 	@Override
-	public IActivities newActivities() {
+	public IActivities create() {
 		// TODO Auto-generated method stub
 		IActivities entity = new ActivityEntity();
 		return entity;
@@ -77,7 +77,7 @@ public class ActivitiesManager extends AbstractManager implements
 		IActivities activities = manager.get(2);
 		activities.addUser(user);
 		manager.save(activities);
-		manager.save(manager.newActivities());
+		manager.save(manager.create());
 		System.out.println(manager.get(2).getUsers().size());
 	}
 

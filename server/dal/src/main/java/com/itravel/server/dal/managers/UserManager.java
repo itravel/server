@@ -45,7 +45,7 @@ public class UserManager extends AbstractManager implements IUserManager {
 	}
 
 	@Override
-	public IUser newUser() {
+	public IUser create() {
 		// TODO Auto-generated method stub
 		return new UserEntity();
 	}

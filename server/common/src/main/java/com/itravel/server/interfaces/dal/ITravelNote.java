@@ -1,5 +1,7 @@
 package com.itravel.server.interfaces.dal;
 
+import java.util.Collection;
+
 public interface ITravelNote {
 
 	public abstract long getId();
@@ -18,10 +20,12 @@ public interface ITravelNote {
 
 	public abstract void setDestination(String destination);
 
-	public abstract String getPictures();
+	public abstract Collection<String> getPictures();
 
-	public abstract void setPictures(String pictures);
+	public abstract void setPictures(String... pictures);
 
+	public abstract void addPicture(String picture);
+	
 	public abstract int getProvince();
 
 	public abstract void setProvince(int province);
@@ -34,12 +38,16 @@ public interface ITravelNote {
 
 	public abstract void setUserAvatar(String userAvatar);
 
-	public abstract int getUserId();
+	public abstract long getUserId();
 
-	public abstract void setUserId(int userId);
+	public abstract void setUserId(long userId);
 
 	public abstract String getUserName();
 
 	public abstract void setUserName(String userName);
+
+	public abstract void setLatitude(double latitude);
+
+	public abstract void setLongitude(double longitude);
 
 }
