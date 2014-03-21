@@ -22,10 +22,9 @@ public class UserManager extends AbstractManager implements IUserManager {
 	public boolean remove(IUser user) {
 		EntityManager manager = emf.createEntityManager();
 		manager.remove(user);
+		manager.close();
 		return true;
 	}
-
-	
 
 	@Override
 	public IUser get(long userId) {

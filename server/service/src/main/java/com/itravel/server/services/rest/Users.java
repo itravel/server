@@ -19,6 +19,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
 import com.itravel.server.interfaces.dal.managers.ManagerFactory;
@@ -27,20 +30,21 @@ import com.itravel.server.services.utils.ImageResourceUtil;
 
 
 
-@Path("users")
+@Path("/")
 public class Users {
-	IUserManager manager = ManagerFactory.getUserManager();
+	private static final IUserManager manager = ManagerFactory.getUserManager();
+	private static final Logger logger = LogManager.getLogger(Users.class);
 	@Context
 	UriInfo uriInfo;
 	public Users() {
 		
 	}
-	@Path("{id}")
+	@Path("users/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getUser(@PathParam("id") long id){
+	public Response getUser(@PathParam("id") long id){
 		IUser user = manager.get(id);
-		return user.toString();
+		return Response.ok().entity(user).build();
 	}
 	
 	/**
@@ -49,6 +53,7 @@ public class Users {
 	 * @param password
 	 * @return
 	 */
+	@Path("users")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserByUsrPwd(@QueryParam(value = "userName") String userName,@QueryParam(value = "password") String password){
@@ -65,7 +70,7 @@ public class Users {
 		
 		return Response.status(Status.FORBIDDEN).build();
 	}
-	
+	@Path("users")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -101,7 +106,7 @@ public class Users {
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
 	}
 	
-	@Path("{userId}/avatar")
+	@Path("users/{userId}/avatar")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.MULTIPART_FORM_DATA)
@@ -115,7 +120,7 @@ public class Users {
 	}
 	
 	
-	@Path("{userId}/avatar")
+	@Path("users/{userId}/avatar")
 	@GET
 	@Produces("image/png")
 	public Response readUserAvatar(@PathParam(value = "userId") long userId){

@@ -55,6 +55,7 @@ public class ActivitiesManager extends AbstractManager implements
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
 		IActivities entity = manager.find(ActivityEntity.class, id);
+		manager.close();
 		return entity;
 	}
 
@@ -66,6 +67,7 @@ public class ActivitiesManager extends AbstractManager implements
 		if( entities == null ) {
 			entities = Lists.newArrayList();
 		}
+		manager.close();
 		return entities;
 	}
 

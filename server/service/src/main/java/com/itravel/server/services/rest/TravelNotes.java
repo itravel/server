@@ -23,14 +23,13 @@ import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
 import com.itravel.server.interfaces.dal.managers.ManagerFactory;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
-
-@Path("travelnotes")
+@Path("/")
 public class TravelNotes {
-	ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
+	private static final ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
 	@Context
 	UriInfo uriInfo;
 	
-	@Path("/{id}")
+	@Path("travelnotes/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getById(@PathParam(value="id") long id){
@@ -38,7 +37,7 @@ public class TravelNotes {
 		return Response.ok().entity(travelNote).build();
 		
 	}
-	
+	@Path("travelnotes")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)

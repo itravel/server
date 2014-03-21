@@ -45,17 +45,27 @@ import com.itravel.server.interfaces.dal.managers.ManagerFactory;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
 
-@Path("activities")
+@Path("/")
 public class Activities {
-	IActivitiesManager manager = ManagerFactory.getActivitiesManager();
-	IUserManager userManager = ManagerFactory.getUserManager();
-	ObjectMapper mapper = new ObjectMapper();
+	private static final IActivitiesManager manager = ManagerFactory.getActivitiesManager();
+	private static final IUserManager userManager = ManagerFactory.getUserManager();
+	private static final ObjectMapper mapper = new ObjectMapper();
 	@Context
 	UriInfo uriInfo;
 	public Activities() {
 		// TODO Auto-generated constructor stub
 	}
 	
+	@Path("activities/{activitiesId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getActivities(@PathParam("activitiesId") long activitiesId
+		)
+	{
+		
+		IActivities activities = this.manager.get(activitiesId);
+		return Response.ok().entity(activities).build();
+	}
 	/**
 	 * 创建一个新的结伴活动
 	 * @param name
@@ -69,6 +79,7 @@ public class Activities {
 	 * @param userAvatar
 	 * @return
 	 */
+	@Path("activities")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -107,6 +118,9 @@ public class Activities {
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(activities.getId())).build()).build();
 		
 	}
+	
+	
+	@Path("activities")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getActivities(
@@ -125,8 +139,7 @@ public class Activities {
 		}
 		return Response.ok().entity(activities).build();
 	}
-	
-	@Path("{activitiesId}/users")
+	@Path("activities/{activitiesId}/users")
 	@PUT
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -149,7 +162,7 @@ public class Activities {
 //		return Response.ok().build();
 	}
 	
-	@Path("{activitiesId}/distination")
+	@Path("activities/{activitiesId}/distination")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.MULTIPART_FORM_DATA)
@@ -162,7 +175,7 @@ public class Activities {
 		
 	}
 	
-	@Path("{activitiesId}/distination")
+	@Path("activities/{activitiesId}/distination")
 	@GET
 	@Produces("image/png")
 	public Response readDistinationPic(@PathParam(value = "activitiesId") long activitiesId){

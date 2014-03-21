@@ -110,7 +110,9 @@ public abstract class AbstractSpatialManager<T> {
 
 	}
 	
-	public abstract void initIndex(List<T> pois);
+	public abstract void addIndex(T poi);
+	
+	public abstract void addIndex(List<T> pois);
 
 //	public static void initIndex(List<IAttractions> attractions) {
 //		try {

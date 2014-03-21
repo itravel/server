@@ -2,9 +2,9 @@ package com.itravel.server.interfaces.dal;
 
 public interface IAttractions {
 
-	public abstract int getId();
+	public abstract long getId();
 
-	public abstract void setId(int id);
+	public abstract void setId(long id);
 
 	public abstract String getAddress();
 

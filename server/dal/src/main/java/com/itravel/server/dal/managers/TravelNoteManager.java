@@ -34,7 +34,9 @@ public class TravelNoteManager extends AbstractManager implements ITravelNoteMan
 	public ITravelNote get(long id) {
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
-		return manager.find(TravelNoteEntity.class, id);
+		ITravelNote travelNote = manager.find(TravelNoteEntity.class, id);
+		manager.close();
+		return travelNote;
 	}
 
 	public static void main(String[] args) {

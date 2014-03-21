@@ -12,12 +12,14 @@ import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 
 public final class AttractionsManager extends AbstractManager implements IAttractionsManager {
 
-	AttrationsSpatialManager spatialManager = new AttrationsSpatialManager();
+	AttrationsSpatialManager spatialManager = AttrationsSpatialManager.getInstance();
+	
 	public AttractionsManager() {
 		// TODO Auto-generated constructor stub
-		System.out.println("------------");
-		this.spatialManager.initIndex(this.getAll());
+		List<IAttractions> attractions = this.getAll();
+		spatialManager.addIndex(attractions);
 	}
+	
 	@Override
 	public IAttractions create(){
 		return new AttractionEntity();
@@ -42,7 +44,10 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 	@Override
 	public IAttractions get(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		EntityManager manager = this.emf.createEntityManager();
+		IAttractions attractions = manager.find(AttractionEntity.class, id);
+		manager.close();
+		return attractions;
 	}
 	@Override
 	public boolean batchSave(List<IAttractions> attractions) {
@@ -62,6 +67,7 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 		// TODO Auto-generated method stub
 		EntityManager manager = this.emf.createEntityManager();
 		List<IAttractions> atts = manager.createNamedQuery("AttractionEntity.findAll").getResultList();
+		manager.close();
 		return atts;
 	}
 	@Override
@@ -73,6 +79,7 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 		for(long id:ids){
 			result.add(this.get(id));
 		}
+		
 		return result;
 	}
 

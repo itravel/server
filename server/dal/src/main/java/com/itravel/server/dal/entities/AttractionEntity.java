@@ -19,7 +19,7 @@ public class AttractionEntity implements Serializable, IAttractions {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	private String address;
 
@@ -46,7 +46,7 @@ public class AttractionEntity implements Serializable, IAttractions {
 	 * @see com.itravel.server.dal.entities.IAttractions#getId()
 	 */
 	@Override
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
@@ -54,7 +54,7 @@ public class AttractionEntity implements Serializable, IAttractions {
 	 * @see com.itravel.server.dal.entities.IAttractions#setId(int)
 	 */
 	@Override
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
