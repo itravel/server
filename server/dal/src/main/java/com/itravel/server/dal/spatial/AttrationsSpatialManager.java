@@ -23,10 +23,7 @@ public final class AttrationsSpatialManager extends AbstractSpatialManager<IAttr
 		try {
 			IndexWriter indexWriter = new IndexWriter(directory,
 					new IndexWriterConfig(Version.LUCENE_46, null));
-			indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude()));
-//			for (IAttractions attraction : pois) {
-//				indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude()));
-//			}
+			indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude(),PoiType.attraction));
 
 			indexWriter.close();
 		} catch (IOException e) {
@@ -39,13 +36,11 @@ public final class AttrationsSpatialManager extends AbstractSpatialManager<IAttr
 	@Override
 	public void addIndex(List<IAttractions> pois) {
 		// TODO Auto-generated method stub
-		System.out.println("-----");
 		try {
 			IndexWriter indexWriter = new IndexWriter(directory,
 					new IndexWriterConfig(Version.LUCENE_46, null));
-//			indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude()));
 			for (IAttractions attraction : pois) {
-				indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude()));
+				indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude(),PoiType.attraction));
 			}
 
 			indexWriter.close();
@@ -59,6 +54,18 @@ public final class AttrationsSpatialManager extends AbstractSpatialManager<IAttr
 		// TODO Auto-generated method stub
 		
 		return instance;
+	}
+
+	@Override
+	public void deleteIndex(IAttractions poi) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteIndex(List<IAttractions> pois) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

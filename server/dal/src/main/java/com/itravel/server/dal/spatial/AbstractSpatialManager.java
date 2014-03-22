@@ -6,17 +6,22 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.DoubleField;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queries.function.ValueSource;
 import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.MatchAllDocsQuery;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.spatial.prefix.PrefixTreeStrategy;
 import org.apache.lucene.spatial.prefix.RecursivePrefixTreeStrategy;
@@ -37,7 +42,7 @@ import com.spatial4j.core.distance.DistanceUtils;
 import com.spatial4j.core.shape.Point;
 
 public abstract class AbstractSpatialManager<T> {
-	protected final RAMDirectory directory = new RAMDirectory();
+	protected final static RAMDirectory directory = new RAMDirectory();
 	private static final SpatialPrefixTree grid;
 	private static final PrefixTreeStrategy strategy;
 	static {
@@ -50,9 +55,10 @@ public abstract class AbstractSpatialManager<T> {
 	}
 
 	
-	protected Document createLntLatPoint(long id,double latitude,double longitude) {
+	protected Document createLntLatPoint(long id,double latitude,double longitude,PoiType type) {
 		Document doc = new Document();
 		doc.add(new LongField("id", id, Field.Store.YES));
+		doc.add(new StringField("type",String.valueOf(type.ordinal()), Field.Store.YES));
 		Point shape = SpatialContext.GEO.makePoint(longitude,
 				latitude);
 		doc.add(new DoubleField("lnt", shape.getX(), Field.Store.YES));
@@ -63,27 +69,28 @@ public abstract class AbstractSpatialManager<T> {
 		return doc;
 	}
 
-	public List<Long> search(double lnt, double lat, int radius) {
+	public List<Long> search(PoiType type,double lnt, double lat, int radius) {
 		try {
+			//创建Query
+			Query query = new TermQuery(new Term("type",String.valueOf(type.ordinal())));
+			
+			//创建fileter
 			Point pt = SpatialContext.GEO.makePoint(lnt, lat);
 			SpatialArgs args = new SpatialArgs(SpatialOperation.IsWithin,
 					SpatialContext.GEO.makeCircle(lnt, lat, DistanceUtils
 							.dist2Degrees(radius,
 									DistanceUtils.EARTH_MEAN_RADIUS_KM)));
 			Filter filter = strategy.makeFilter(args);
-
+			//创建Sort
 			double degToM = DistanceUtils.degrees2Dist(1,
 					DistanceUtils.EARTH_MEAN_RADIUS_KM);
-			ValueSource valueSource = strategy.makeDistanceValueSource(pt);// the
-																			// distance
-																			// (in
-																			// m)
+			ValueSource valueSource = strategy.makeDistanceValueSource(pt);
 			IndexReader indexReader = DirectoryReader.open(directory);
 			IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 			Sort distSort = new Sort(valueSource.getSortField(false))
 					.rewrite(indexSearcher);// false=asc dist
-
-			TopDocs docs = indexSearcher.search(new MatchAllDocsQuery(),
+			
+			TopDocs docs = indexSearcher.search(query,
 					filter, 200, distSort);
 			List<Long> poiIds = Lists
 					.newArrayListWithExpectedSize(docs.totalHits);
@@ -100,7 +107,7 @@ public abstract class AbstractSpatialManager<T> {
 				// SpatialContext.GEO.getDistCalc().distance(hotelPoint, lnt,
 				// lat);
 				// logger.debug(hotelPoint + " distance = "+ distance);
-				System.out.println(indexSearcher.doc(doc.doc));
+//				System.out.println(indexSearcher.doc(doc.doc));
 
 			}
 			return poiIds;
@@ -113,6 +120,10 @@ public abstract class AbstractSpatialManager<T> {
 	public abstract void addIndex(T poi);
 	
 	public abstract void addIndex(List<T> pois);
+	
+	public abstract void deleteIndex(T poi);
+	
+	public abstract void deleteIndex(List<T> pois);
 
 //	public static void initIndex(List<IAttractions> attractions) {
 //		try {

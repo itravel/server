@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import com.google.common.collect.Lists;
 import com.itravel.server.dal.entities.AttractionEntity;
 import com.itravel.server.dal.spatial.AttrationsSpatialManager;
+import com.itravel.server.dal.spatial.PoiType;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 
@@ -24,6 +25,7 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 	public IAttractions create(){
 		return new AttractionEntity();
 	}
+	
 	@Override
 	public boolean save(IAttractions entity) {
 		// TODO Auto-generated method stub
@@ -74,7 +76,7 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 	public List<IAttractions> getByLngLat(int start, int count,
 			double longitude, double latitude) {
 		// TODO Auto-generated method stub
-		List<Long> ids = this.spatialManager.search(longitude,latitude,50);
+		List<Long> ids = this.spatialManager.search(PoiType.attraction,longitude,latitude,50);
 		List<IAttractions> result = Lists.newLinkedList();
 		for(long id:ids){
 			result.add(this.get(id));
