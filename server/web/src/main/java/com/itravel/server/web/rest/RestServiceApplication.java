@@ -1,7 +1,5 @@
 package com.itravel.server.web.rest;
 
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
