@@ -20,9 +20,9 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.itravel.server.interfaces.dal.ITravelNote;
 import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
-import com.itravel.server.interfaces.dal.managers.ManagerFactory;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
+import com.itravel.server.services.utils.ManagerFactory;
 @Path("/")
 public class TravelNotes {
 	private static final ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
@@ -77,6 +77,17 @@ public class TravelNotes {
 		}
 		return Response.ok().entity(tNote).build();
 	}
+	
+	@Path("travelnotes")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response create(String json){
+		ITravelNote travelNote = this.tManager.create(json);
+		this.tManager.save(travelNote);
+		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(travelNote.getId())).build()).build();
+	}
+			
 	
 //	@Path("{traveNoteId}/pictures")
 //	@POST

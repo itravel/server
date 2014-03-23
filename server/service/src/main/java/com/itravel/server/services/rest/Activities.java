@@ -41,9 +41,9 @@ import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
-import com.itravel.server.interfaces.dal.managers.ManagerFactory;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
+import com.itravel.server.services.utils.ManagerFactory;
 
 @Path("/")
 public class Activities {

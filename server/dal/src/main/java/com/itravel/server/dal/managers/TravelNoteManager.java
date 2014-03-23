@@ -1,7 +1,11 @@
 package com.itravel.server.dal.managers;
 
+import java.io.IOException;
+
 import javax.persistence.EntityManager;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.itravel.server.dal.entities.TravelNoteEntity;
 import com.itravel.server.interfaces.dal.ITravelNote;
 import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
@@ -48,6 +52,25 @@ public class TravelNoteManager extends AbstractManager implements ITravelNoteMan
 	public ITravelNote create() {
 		// TODO Auto-generated method stub
 		return new TravelNoteEntity();
+	}
+
+	@Override
+	public ITravelNote create(String json) {
+		// TODO Auto-generated method stub
+		try {
+			ITravelNote travelNote = mapper.readValue(json, TravelNoteEntity.class);
+			return travelNote;
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

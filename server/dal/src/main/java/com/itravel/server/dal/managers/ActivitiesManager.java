@@ -1,5 +1,6 @@
 package com.itravel.server.dal.managers;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.Lists;
 import com.itravel.server.dal.entities.ActivitiesUserEntity;
 import com.itravel.server.dal.entities.ActivityEntity;
@@ -81,6 +84,25 @@ public class ActivitiesManager extends AbstractManager implements
 		manager.save(activities);
 		manager.save(manager.create());
 		System.out.println(manager.get(2).getUsers().size());
+	}
+
+	@Override
+	public IActivities create(String json) {
+		// TODO Auto-generated method stub
+		try {
+			IActivities activity = mapper.readValue(json, ActivityEntity.class);
+			return activity;
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 

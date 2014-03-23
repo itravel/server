@@ -24,9 +24,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
-import com.itravel.server.interfaces.dal.managers.ManagerFactory;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
+import com.itravel.server.services.utils.ManagerFactory;
 
 
 
@@ -106,6 +106,17 @@ public class Users {
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
 	}
 	
+	@Path("users")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createUser(String json){
+		IUser user = this.manager.create(json);
+		this.manager.save(user);
+		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
+	}
+			
+	
 	@Path("users/{userId}/avatar")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -137,6 +148,17 @@ public class Users {
 		}
 		return Response.serverError().build();
 		
+	}
+	
+	@Path("users/phone/{phoneNumber}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response validate(@PathParam(value = "phoneNumber") String phoneNumber){
+		IUser user = this.manager.getUserByPhoneNumber(phoneNumber);
+		if (user!=null){
+			return Response.ok().build();
+		}
+		return Response.status(Status.NOT_FOUND).entity("").build();
 	}
 	
 

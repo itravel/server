@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
-import com.itravel.server.interfaces.dal.managers.ManagerFactory;
+import com.itravel.server.services.utils.ManagerFactory;
 
 public final class Test {
 

@@ -1,9 +1,12 @@
 package com.itravel.server.dal.managers;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.Lists;
 import com.itravel.server.dal.entities.AttractionEntity;
 import com.itravel.server.dal.spatial.AttrationsSpatialManager;
@@ -83,6 +86,25 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 		}
 		
 		return result;
+	}
+
+	@Override
+	public IAttractions create(String json) {
+		// TODO Auto-generated method stub
+		try {
+			IAttractions attraction = mapper.readValue(json, AttractionEntity.class);
+			return attraction;
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

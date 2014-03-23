@@ -1,6 +1,10 @@
-package com.itravel.server.interfaces.dal.managers;
+package com.itravel.server.services.utils;
 
 import java.util.ServiceLoader;
+
+import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
+import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
+import com.itravel.server.interfaces.dal.managers.IUserManager;
 
 
 
