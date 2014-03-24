@@ -12,13 +12,6 @@
   	<module>common</module>
   	<module>web</module>
   </modules>
-  <dependencies>
-  	<dependency>
-  		<groupId>com.google.guava</groupId>
-  		<artifactId>guava</artifactId>
-  		<version>16.0</version>
-  	</dependency>
-  </dependencies>
   <dependencyManagement>
   	<dependencies>
   		<dependency>
@@ -86,6 +79,11 @@
   			<groupId>org.apache.logging.log4j</groupId>
   			<artifactId>log4j-api</artifactId>
   			<version>2.0-beta9</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.apache.commons</groupId>
+  			<artifactId>commons-lang3</artifactId>
+  			<version>3.2.1</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>

@@ -1,6 +1,7 @@
 package com.itravel.server.dal.spatial;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.lucene.index.IndexWriter;
@@ -34,12 +35,17 @@ public final class AttrationsSpatialManager extends AbstractSpatialManager<IAttr
 
 
 	@Override
-	public void addIndex(List<IAttractions> pois) {
+	public void addIndex(Collection<IAttractions> pois) {
 		// TODO Auto-generated method stub
 		try {
 			IndexWriter indexWriter = new IndexWriter(directory,
 					new IndexWriterConfig(Version.LUCENE_46, null));
 			for (IAttractions attraction : pois) {
+//				if(attraction == null){
+//					
+//					System.out.println(attraction);
+//					continue;
+//				}
 				indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude(),PoiType.attraction));
 			}
 
@@ -63,7 +69,7 @@ public final class AttrationsSpatialManager extends AbstractSpatialManager<IAttr
 	}
 
 	@Override
-	public void deleteIndex(List<IAttractions> pois) {
+	public void deleteIndex(Collection<IAttractions> pois) {
 		// TODO Auto-generated method stub
 		
 	}

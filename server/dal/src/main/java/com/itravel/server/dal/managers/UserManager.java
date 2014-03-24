@@ -80,6 +80,12 @@ public class UserManager extends AbstractManager implements IUserManager {
 		return null;
 	}
 
+	@Override
+	public List<IUser> getRange(int offset, int count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

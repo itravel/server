@@ -105,5 +105,11 @@ public class ActivitiesManager extends AbstractManager implements
 		return null;
 	}
 
+	@Override
+	public List<IActivities> getRange(int offset, int count) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

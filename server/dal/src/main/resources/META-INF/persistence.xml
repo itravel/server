@@ -13,10 +13,10 @@
 			<property name="javax.persistence.jdbc.password" value="admin"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 			<property name="eclipselink.jdbc.batch-writing" value="jdbc"/> 
-			<property name="eclipselink.jdbc.connections.initial" value="64" />
-			<property name="eclipselink.jdbc.connections.min" value="64" />
-			<property name="eclipselink.jdbc.connections.max" value="64" />
-			<property name="eclipselink.jdbc.cache-statements" value="true"/>   
+			<property name="eclipselink.jdbc.connections.initial" value="10" />
+			<property name="eclipselink.jdbc.connections.min" value="10" />
+			<property name="eclipselink.jdbc.connections.max" value="50" />
+			<!-- <property name="eclipselink.jdbc.cache-statements" value="true"/>    -->
 			<property name="eclipselink.jdbc.batch-writing.size" value="5000"/>
 		</properties>
 	</persistence-unit>

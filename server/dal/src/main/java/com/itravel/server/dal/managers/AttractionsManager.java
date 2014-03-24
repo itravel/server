@@ -1,34 +1,89 @@
 package com.itravel.server.dal.managers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.EntityManager;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.itravel.server.dal.asyn.FetchAttractionTask;
 import com.itravel.server.dal.entities.AttractionEntity;
 import com.itravel.server.dal.spatial.AttrationsSpatialManager;
 import com.itravel.server.dal.spatial.PoiType;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 
-public final class AttractionsManager extends AbstractManager implements IAttractionsManager {
+public final class AttractionsManager extends AbstractManager implements
+		IAttractionsManager {
 
-	AttrationsSpatialManager spatialManager = AttrationsSpatialManager.getInstance();
-	
+	private final AttrationsSpatialManager spatialManager = AttrationsSpatialManager
+			.getInstance();
+	private static final int BATCHNUMBER = 20;
+
 	public AttractionsManager() {
 		// TODO Auto-generated constructor stub
-		List<IAttractions> attractions = this.getAll();
-		spatialManager.addIndex(attractions);
+		int offset = 0;
+		final int count = 1500;
+		boolean hasNext = true;
+		final AtomicInteger a = new AtomicInteger();
+		final CountDownLatch cdl = new CountDownLatch(BATCHNUMBER);
+		final AtomicInteger size = new AtomicInteger();
+		final List<IAttractions> batch = Collections
+				.synchronizedList(new LinkedList<IAttractions>());
+		for (int i = 0; i < BATCHNUMBER; i++) {
+			offset = offset + i * count;
+
+			ListenableFuture<List<IAttractions>> future = service
+					.submit(new FetchAttractionTask(offset, count, this));
+			Futures.addCallback(future,
+					new FutureCallback<List<IAttractions>>() {
+
+						@Override
+						public void onSuccess(List<IAttractions> attractions) {
+							// TODO Auto-generated method stub
+							batch.addAll(attractions);
+							a.addAndGet(attractions.size());
+							size.addAndGet(attractions.size());
+							cdl.countDown();
+						}
+
+						@Override
+						public void onFailure(Throwable t) { // TODO
+							// Auto-generated method stub
+							cdl.countDown();
+						}
+					});
+
+		}
+		try {
+			cdl.await();
+			spatialManager.addIndex(batch);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
-	
+
+
 	@Override
-	public IAttractions create(){
+	public IAttractions create() {
 		return new AttractionEntity();
 	}
-	
+
 	@Override
 	public boolean save(IAttractions entity) {
 		// TODO Auto-generated method stub
@@ -54,37 +109,32 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 		manager.close();
 		return attractions;
 	}
+
 	@Override
 	public boolean batchSave(List<IAttractions> attractions) {
 		// TODO Auto-generated method stub
 		EntityManager manager = this.emf.createEntityManager();
 		manager.getTransaction().begin();
-		for(IAttractions entity:attractions){
-			
+		for (IAttractions entity : attractions) {
+
 			manager.persist(entity);
 		}
 		manager.getTransaction().commit();
 		manager.close();
 		return true;
 	}
-	
-	private List<IAttractions> getAll() {
-		// TODO Auto-generated method stub
-		EntityManager manager = this.emf.createEntityManager();
-		List<IAttractions> atts = manager.createNamedQuery("AttractionEntity.findAll").getResultList();
-		manager.close();
-		return atts;
-	}
+
 	@Override
 	public List<IAttractions> getByLngLat(int start, int count,
 			double longitude, double latitude) {
 		// TODO Auto-generated method stub
-		List<Long> ids = this.spatialManager.search(PoiType.attraction,longitude,latitude,50);
+		List<Long> ids = this.spatialManager.search(PoiType.attraction,
+				longitude, latitude, 50);
 		List<IAttractions> result = Lists.newLinkedList();
-		for(long id:ids){
+		for (long id : ids) {
 			result.add(this.get(id));
 		}
-		
+
 		return result;
 	}
 
@@ -92,7 +142,8 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 	public IAttractions create(String json) {
 		// TODO Auto-generated method stub
 		try {
-			IAttractions attraction = mapper.readValue(json, AttractionEntity.class);
+			IAttractions attraction = mapper.readValue(json,
+					AttractionEntity.class);
 			return attraction;
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
@@ -107,4 +158,50 @@ public final class AttractionsManager extends AbstractManager implements IAttrac
 		return null;
 	}
 
+	@Override
+	public List<IAttractions> getRange(int offset, int count) {
+		// TODO Auto-generated method stub
+		EntityManager manager = emf.createEntityManager();
+		List<IAttractions> attractions = manager
+				.createNativeQuery(
+						String.format(
+								"select * from attractions order by id asc limit %d,%d",
+								offset, count), AttractionEntity.class)
+				.getResultList();
+		manager.close();
+		return attractions;
+	}
+
+	public static void main(String[] args) {
+		final AttractionsManager managr = new AttractionsManager();
+		// managr.test();
+		// for(int j=0;j<30;j++) {
+		// final AtomicInteger a = new AtomicInteger();
+		// final CountDownLatch latch = new CountDownLatch(10);
+		// for(int i=0;i<10;i++){
+		// final int offset = i+i*200;
+		// service.submit(new Callable<List<IAttractions>>(){
+		//
+		// @Override
+		// public List<IAttractions> call() throws Exception {
+		// // TODO Auto-generated method stub
+		// List<IAttractions> atts = managr.getRange(offset,200);
+		// a.addAndGet(atts.size());
+		// latch.countDown();
+		// return atts;
+		// }
+		//
+		// });
+		// }
+		// try {
+		// latch.await();
+		// } catch (InterruptedException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// System.out.println(a.get());
+		// }
+		// service.shutdown();
+
+	}
 }

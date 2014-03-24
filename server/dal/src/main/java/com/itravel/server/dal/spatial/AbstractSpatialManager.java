@@ -1,6 +1,7 @@
 package com.itravel.server.dal.spatial;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
@@ -42,7 +43,7 @@ import com.spatial4j.core.distance.DistanceUtils;
 import com.spatial4j.core.shape.Point;
 
 public abstract class AbstractSpatialManager<T> {
-	protected final static RAMDirectory directory = new RAMDirectory();
+	protected static final RAMDirectory directory = new RAMDirectory();
 	private static final SpatialPrefixTree grid;
 	private static final PrefixTreeStrategy strategy;
 	static {
@@ -119,11 +120,11 @@ public abstract class AbstractSpatialManager<T> {
 	
 	public abstract void addIndex(T poi);
 	
-	public abstract void addIndex(List<T> pois);
+	public abstract void addIndex(Collection<T> pois);
 	
 	public abstract void deleteIndex(T poi);
 	
-	public abstract void deleteIndex(List<T> pois);
+	public abstract void deleteIndex(Collection<T> pois);
 
 //	public static void initIndex(List<IAttractions> attractions) {
 //		try {

@@ -2,11 +2,14 @@ package com.itravel.server.dal.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.*;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.itravel.server.interfaces.dal.ITravelNote;
 
@@ -17,7 +20,11 @@ import com.itravel.server.interfaces.dal.ITravelNote;
  */
 @Entity
 @Table(name="travel_notes")
-@NamedQuery(name="TravelNoteEntity.findAll", query="SELECT t FROM TravelNoteEntity t")
+@NamedQueries(value = { 
+		@NamedQuery(name="TravelNoteEntity.findAll", query="SELECT t FROM TravelNoteEntity t"),
+		@NamedQuery(name = "TravelNoteEntity.findByTimeRange", query = "SELECT t FROM TravelNoteEntity t where t.created between :from and :to"),
+		
+})
 public class TravelNoteEntity implements Serializable,ITravelNote {
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +58,15 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 
 	@Column(name="longitude")
 	private double longitude;
-
+	
+	@Column(name = "created")
+	@Temporal(TemporalType.DATE)
+	private Date created;
+	
+	@Column(name = "modified")
+	@Temporal(TemporalType.DATE)
+	private Date modified;
+	
 	public TravelNoteEntity() {
 	}
 
@@ -233,7 +248,9 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 	 */
 	@Override
 	public Collection<String> getPictures() {
-		
+		if(this.pictures == null){
+			return ImmutableSet.of();
+		}
 		return Sets.newHashSet(this.pictures.split(","));
 	}
 
@@ -249,6 +266,22 @@ public class TravelNoteEntity implements Serializable,ITravelNote {
 		Collection<String> pictures = this.getPictures();
 		pictures.add(picture);
 		this.pictures = Joiner.on(",").join(pictures);
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 }
