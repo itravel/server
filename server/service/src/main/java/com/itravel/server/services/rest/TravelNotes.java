@@ -15,20 +15,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.itravel.server.interfaces.dal.ITravelNote;
 import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
+import com.itravel.server.services.aos.Constants;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
 import com.itravel.server.services.utils.ManagerFactory;
 @Path("/")
 public class TravelNotes {
-	private static final ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
+	private final ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
+	private final Logger logger = LogManager.getLogger(Constants.LOGGER);
 	@Context
 	UriInfo uriInfo;
 	
+	/**
+	 * 根据id获取微游记信息
+	 * @param id
+	 * @return
+	 */
 	@Path("travelnotes/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -37,6 +46,21 @@ public class TravelNotes {
 		return Response.ok().entity(travelNote).build();
 		
 	}
+	/**
+	 * 创建微游记
+	 * @param province
+	 * @param city
+	 * @param destination
+	 * @param title
+	 * @param content
+	 * @param latitude
+	 * @param longitude
+	 * @param userId
+	 * @param userName
+	 * @param userAvatar
+	 * @param formDataMultiPart
+	 * @return
+	 */
 	@Path("travelnotes")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

@@ -30,6 +30,25 @@ public class ActivitiesManager extends AbstractManager implements
 	}
 
 	@Override
+	public IActivities create(String json) {
+		// TODO Auto-generated method stub
+		try {
+			IActivities activity = mapper.readValue(json, ActivityEntity.class);
+			return activity;
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
 	public boolean save(IActivities activities) {
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
@@ -86,30 +105,20 @@ public class ActivitiesManager extends AbstractManager implements
 		System.out.println(manager.get(2).getUsers().size());
 	}
 
-	@Override
-	public IActivities create(String json) {
-		// TODO Auto-generated method stub
-		try {
-			IActivities activity = mapper.readValue(json, ActivityEntity.class);
-			return activity;
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	@Override
 	public List<IActivities> getRange(int offset, int count) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
+	
+	/* =====================保证单例=========================== */
+	public static final IActivitiesManager getInstance(){
+		return ActivitieManagerHolder.INSTANCE;
+	}
+	
+	private static final class ActivitieManagerHolder {
+		private static final IActivitiesManager 	INSTANCE = new ActivitiesManager();
+	}
+	/* =====================保证单例=========================== */
 }

@@ -80,6 +80,12 @@ public class UserManager extends AbstractManager implements IUserManager {
 		return null;
 	}
 
+	public static final IUserManager getInstance(){
+		return UserManagerHolder.INSTANCE;
+	}
+	private static final class UserManagerHolder{
+		private static final IUserManager INSTANCE = new UserManager();
+	}
 	@Override
 	public List<IUser> getRange(int offset, int count) {
 		// TODO Auto-generated method stub

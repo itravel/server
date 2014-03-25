@@ -16,6 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -30,6 +33,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.ITravelNote;
 import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
+import com.itravel.server.services.aos.Constants;
 import com.itravel.server.services.aos.InformationStream;
 import com.itravel.server.services.utils.ManagerFactory;
 
@@ -64,17 +68,7 @@ public class HomeInfoStream {
 	}
 	
 	ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(10));
-//	private static final Function<ITravelNote,InformationStream> travelNote2InformationStream = new TravelNote2InformationStream();
-/*	private static final LoadingCache<Range<Long>,List<InformationStream>> cache = CacheBuilder.newBuilder().maximumSize(60).build(new CacheLoader<Range<Long>,List<InformationStream>>(){
-		private final ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
-		@Override
-		public List<InformationStream> load(Range<Long> key) throws Exception {
-			// TODO Auto-generated method stub
-			List<ITravelNote> travalNotes = tManager.getByTimeRange(new Date(key.lowerEndpoint()),new Date(key.upperEndpoint()));
-			return Lists.transform(travalNotes, travelNote2InformationStream);
-		}
-
-	});*/
+	private Logger logger = LogManager.getLogger(Constants.LOGGER);
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

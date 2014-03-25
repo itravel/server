@@ -23,44 +23,45 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
-import com.google.common.io.ByteSink;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.FileWriteMode;
-import com.google.common.io.Files;
-import com.itravel.server.dal.managers.ActivitiesManager;
 import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
+import com.itravel.server.services.aos.Constants;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
 import com.itravel.server.services.utils.ManagerFactory;
 
 @Path("/")
 public class Activities {
-	private static final IActivitiesManager manager = ManagerFactory.getActivitiesManager();
-	private static final IUserManager userManager = ManagerFactory.getUserManager();
-	private static final ObjectMapper mapper = new ObjectMapper();
+	private final IActivitiesManager manager = ManagerFactory.getActivitiesManager();
+	private final IUserManager userManager = ManagerFactory.getUserManager();
+	private Logger logger = LogManager.getLogger(Constants.LOGGER);
 	@Context
 	UriInfo uriInfo;
 	public Activities() {
-		// TODO Auto-generated constructor stub
+		this.logger.debug("");
 	}
 	
+	/**
+	 * 根据活动id获取活动信息
+	 * @param activitiesId
+	 * @return
+	 */
 	@Path("activities/{activitiesId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getActivities(@PathParam("activitiesId") long activitiesId
-		)
+	public Response getActivities(@PathParam("activitiesId") long activitiesId)
 	{
 		
 		IActivities activities = this.manager.get(activitiesId);
@@ -119,7 +120,12 @@ public class Activities {
 		
 	}
 	
-	
+	/**
+	 * 批量获取活动信息
+	 * @param start 页数
+	 * @param count 每页个数
+	 * @return
+	 */
 	@Path("activities")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -130,15 +136,14 @@ public class Activities {
 	{
 		
 		List<IActivities> activities = manager.getAvailableActivities(start, count);
-				
-		try {
-			mapper.writeValueAsString(activities);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return Response.ok().entity(activities).build();
 	}
+	/**
+	 * 活动中增加用户/用户加入
+	 * @param activitiesId
+	 * @param userIds
+	 * @return
+	 */
 	@Path("activities/{activitiesId}/users")
 	@PUT
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -162,6 +167,12 @@ public class Activities {
 //		return Response.ok().build();
 	}
 	
+	/**
+	 * 
+	 * @param activitiesId
+	 * @param in
+	 * @return
+	 */
 	@Path("activities/{activitiesId}/distination")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -175,6 +186,11 @@ public class Activities {
 		
 	}
 	
+	/**
+	 * 读取活动目的地图片
+	 * @param activitiesId
+	 * @return
+	 */
 	@Path("activities/{activitiesId}/distination")
 	@GET
 	@Produces("image/png")

@@ -172,36 +172,15 @@ public final class AttractionsManager extends AbstractManager implements
 		return attractions;
 	}
 
+	public static final IAttractionsManager getInstance(){
+		return AttractionsManagerHolder.INSTANCE;
+	}
+	
+	private static final class AttractionsManagerHolder {
+		private static final IAttractionsManager INSTANCE = new AttractionsManager();
+	}
 	public static void main(String[] args) {
 		final AttractionsManager managr = new AttractionsManager();
-		// managr.test();
-		// for(int j=0;j<30;j++) {
-		// final AtomicInteger a = new AtomicInteger();
-		// final CountDownLatch latch = new CountDownLatch(10);
-		// for(int i=0;i<10;i++){
-		// final int offset = i+i*200;
-		// service.submit(new Callable<List<IAttractions>>(){
-		//
-		// @Override
-		// public List<IAttractions> call() throws Exception {
-		// // TODO Auto-generated method stub
-		// List<IAttractions> atts = managr.getRange(offset,200);
-		// a.addAndGet(atts.size());
-		// latch.countDown();
-		// return atts;
-		// }
-		//
-		// });
-		// }
-		// try {
-		// latch.await();
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// System.out.println(a.get());
-		// }
-		// service.shutdown();
 
 	}
 }

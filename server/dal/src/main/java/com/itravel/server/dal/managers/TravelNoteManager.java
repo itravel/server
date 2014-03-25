@@ -108,5 +108,13 @@ public class TravelNoteManager extends AbstractManager implements ITravelNoteMan
 	}
 	
 	
+	public static final ITravelNoteManager getInstance(){
+		return TravelNoteManagerHolder.INSTANCE;
+	}
+	private static final class TravelNoteManagerHolder {
+		private static final ITravelNoteManager INSTANCE = new TravelNoteManager();
+	}
+	
+	
 
 }

@@ -16,16 +16,25 @@ import com.itravel.server.dal.managers.AttractionsManager;
 import com.itravel.server.dal.spatial.AbstractSpatialManager;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
+import com.itravel.server.services.aos.Constants;
+import com.itravel.server.services.utils.ManagerFactory;
 
 @Path("/")
 public class Attractions {
 	
-	private static final IAttractionsManager aManager = new AttractionsManager();
-	private static final Logger logger = LogManager.getLogger(Attractions.class);
+	private final IAttractionsManager aManager = ManagerFactory.getAttractionManager();
+	private final Logger logger = LogManager.getLogger(Constants.LOGGER);
 	public Attractions(){
 		
 	}
-	
+	/**
+	 * 获取指定位置周边景点
+	 * @param latitude
+	 * @param longitude
+	 * @param start
+	 * @param count
+	 * @return
+	 */
 	@Path("around/attractions")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

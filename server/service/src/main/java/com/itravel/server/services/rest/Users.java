@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
+import com.itravel.server.services.aos.Constants;
 import com.itravel.server.services.utils.ImageCategory;
 import com.itravel.server.services.utils.ImageResourceUtil;
 import com.itravel.server.services.utils.ManagerFactory;
@@ -32,13 +33,18 @@ import com.itravel.server.services.utils.ManagerFactory;
 
 @Path("/")
 public class Users {
-	private static final IUserManager manager = ManagerFactory.getUserManager();
-	private static final Logger logger = LogManager.getLogger(Users.class);
+	private final IUserManager manager = ManagerFactory.getUserManager();
+	private final Logger logger = LogManager.getLogger(Constants.LOGGER);
 	@Context
 	UriInfo uriInfo;
 	public Users() {
 		
 	}
+	/**
+	 * 根据id获取用户信息
+	 * @param id
+	 * @return
+	 */
 	@Path("users/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -70,6 +76,22 @@ public class Users {
 		
 		return Response.status(Status.FORBIDDEN).build();
 	}
+	/**
+	 * 创建用户信息
+	 * @param userName
+	 * @param email
+	 * @param password
+	 * @param avatar
+	 * @param cellPhone
+	 * @param qq
+	 * @param weibo
+	 * @param province
+	 * @param city
+	 * @param district
+	 * @param longitude
+	 * @param latitude
+	 * @return
+	 */
 	@Path("users")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -106,6 +128,11 @@ public class Users {
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
 	}
 	
+	/**
+	 * 创建用户信息
+	 * @param json
+	 * @return
+	 */
 	@Path("users")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -116,7 +143,12 @@ public class Users {
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
 	}
 			
-	
+	/**
+	 * 上传头像
+	 * @param userId
+	 * @param in
+	 * @return
+	 */
 	@Path("users/{userId}/avatar")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -130,7 +162,11 @@ public class Users {
 		
 	}
 	
-	
+	/**
+	 * 获取头像
+	 * @param userId
+	 * @return
+	 */
 	@Path("users/{userId}/avatar")
 	@GET
 	@Produces("image/png")
@@ -147,9 +183,13 @@ public class Users {
 			e.printStackTrace();
 		}
 		return Response.serverError().build();
-		
 	}
 	
+	/**
+	 * 验证手机号码是否重复
+	 * @param phoneNumber
+	 * @return
+	 */
 	@Path("users/phone/{phoneNumber}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
