@@ -31,7 +31,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.itravel.server.interfaces.dal.EntityType;
+import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.ITravelNote;
+import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
 import com.itravel.server.interfaces.dal.managers.ITravelNoteManager;
 import com.itravel.server.services.aos.Constants;
 import com.itravel.server.services.aos.InformationStream;
@@ -40,17 +42,25 @@ import com.itravel.server.services.utils.ManagerFactory;
 
 @Path("infostreams")
 public class HomeInfoStream {
+	
 	private static final class TravelNote2InformationStream implements Function<ITravelNote,InformationStream>{
-
 		@Override
 		public InformationStream apply(ITravelNote input) {
 			// TODO Auto-generated method stub
 			return new InformationStream(EntityType.travelnote,input);
 		}
-		
 	}
+	
+	private static final class Activities2InformationStream implements Function<IActivities,InformationStream>{
+		@Override
+		public InformationStream apply(IActivities input) {
+			// TODO Auto-generated method stub
+			return new InformationStream(EntityType.attraction,input);
+		}
+	}
+	
 	private static final class FetchTravelNotesTask implements Callable<List<ITravelNote>> {
-		private static final ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
+		private final ITravelNoteManager tManager = ManagerFactory.getTravelNoteManager();
 		private int offset;
 		private int count;
 		public FetchTravelNotesTask(int offset,int count){
@@ -59,12 +69,24 @@ public class HomeInfoStream {
 		}
 		@Override
 		public List<ITravelNote> call() throws Exception {
-			// TODO Auto-generated method stub
 			List<ITravelNote> travalNotes = tManager.getRange(offset, count);
-			
 			return travalNotes;
 		}
-		
+	}
+	
+	private static final class FetchActivitiesTask implements Callable<List<IActivities>> {
+		private final IActivitiesManager aManager = ManagerFactory.getActivitiesManager();
+		private int offset;
+		private int count;
+		public FetchActivitiesTask(int offset,int count){
+			this.offset = offset;
+			this.count = count;
+		}
+		@Override
+		public List<IActivities> call() throws Exception {
+			List<IActivities> activities = aManager.getRange(offset, count);
+			return activities;
+		}
 	}
 	
 	ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(10));
@@ -72,26 +94,44 @@ public class HomeInfoStream {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInfoStream(@QueryParam(value = "offset") int offset,@QueryParam(value="count") int count){
+	public Response getInfoStream(@QueryParam(value = "start") int start,@QueryParam(value="count") int count){
 		final CountDownLatch cdl = new CountDownLatch(1);
 		final List<InformationStream> stream = Lists.newArrayListWithCapacity(count);
 		// add the travelNotes to informationstream;
-		ListenableFuture<List<ITravelNote>> getTravelNoteFuture = service.submit(new FetchTravelNotesTask(offset,count));
+		ListenableFuture<List<ITravelNote>> getTravelNoteFuture = service.submit(new FetchTravelNotesTask(start,count));
 		Futures.addCallback(getTravelNoteFuture, new FutureCallback<List<ITravelNote>>(){
-
 			@Override
 			public void onSuccess(List<ITravelNote> travalNotes) {
 				// TODO Auto-generated method stub
 				stream.addAll(Lists.transform(travalNotes, new TravelNote2InformationStream()));
 				cdl.countDown();
 			}
+			@Override
+			public void onFailure(Throwable t) {
+				// TODO Auto-generated method stub
+				logger.error(t);
+				cdl.countDown();
+			}});
+		// TODO add the activities to informationstream;
+		ListenableFuture<List<IActivities>> getActivitiesFuture = service.submit(new FetchActivitiesTask(start,count));
+		Futures.addCallback(getActivitiesFuture, new FutureCallback<List<IActivities>>() {
+
+			@Override
+			public void onSuccess(List<IActivities> activities) {
+				// TODO Auto-generated method stub
+				
+				stream.addAll(Lists.transform(activities, new Activities2InformationStream()));
+				cdl.countDown();
+			}
 
 			@Override
 			public void onFailure(Throwable t) {
 				// TODO Auto-generated method stub
+				logger.error(t);
 				cdl.countDown();
-			}});
-		
+			}
+			
+		});
 		
 		try {
 			cdl.await(5, TimeUnit.SECONDS);
@@ -101,9 +141,6 @@ public class HomeInfoStream {
 			e.printStackTrace();
 			return Response.status(Status.REQUEST_TIMEOUT).entity("Time out").build();
 		}
-		
-		
-		
 	}
 	
 }

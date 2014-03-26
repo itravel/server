@@ -109,7 +109,9 @@ public class ActivitiesManager extends AbstractManager implements
 	@Override
 	public List<IActivities> getRange(int offset, int count) {
 		// TODO Auto-generated method stub
-		return null;
+		EntityManager manager = emf.createEntityManager();
+		List<IActivities> activities = manager.createNativeQuery(String.format("select * from activities order by id limit %d,%d",offset,count),ActivityEntity.class).getResultList();
+		return activities;
 	}
 	
 	/* =====================±£Ö¤µ¥Àý=========================== */

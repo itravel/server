@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IUser;
@@ -62,7 +63,7 @@ public class ActivityEntity implements Serializable,IActivities {
 	private int status;
 	
 	@Column(name = "pics")
-	private String pics;
+	private String pics = "";
 
 	@ManyToMany(targetEntity = UserEntity.class)
 	@JoinTable(
@@ -198,6 +199,9 @@ public class ActivityEntity implements Serializable,IActivities {
 	@Override
 	public Collection<String> getActivitiesPics() {
 		// TODO Auto-generated method stub
+		if(pics == null){
+			return Sets.newHashSet();
+		}
 		return Sets.newHashSet(Splitter.on(",").split(this.pics));
 	}
 

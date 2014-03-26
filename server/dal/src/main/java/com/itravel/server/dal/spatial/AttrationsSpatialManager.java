@@ -9,6 +9,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.util.Version;
 
 import com.itravel.server.dal.managers.AttractionsManager;
+import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 
@@ -24,7 +25,7 @@ public final class AttrationsSpatialManager extends AbstractSpatialManager<IAttr
 		try {
 			IndexWriter indexWriter = new IndexWriter(directory,
 					new IndexWriterConfig(Version.LUCENE_46, null));
-			indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude(),PoiType.attraction));
+			indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude(),EntityType.attraction));
 
 			indexWriter.close();
 		} catch (IOException e) {
@@ -46,7 +47,7 @@ public final class AttrationsSpatialManager extends AbstractSpatialManager<IAttr
 //					System.out.println(attraction);
 //					continue;
 //				}
-				indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude(),PoiType.attraction));
+				indexWriter.addDocument(this.createLntLatPoint(attraction.getId(), attraction.getLatitude(), attraction.getLongitude(),EntityType.attraction));
 			}
 
 			indexWriter.close();

@@ -36,6 +36,7 @@ import org.apache.lucene.util.Version;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.itravel.server.dal.managers.AttractionsManager;
+import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 import com.spatial4j.core.context.SpatialContext;
@@ -56,7 +57,7 @@ public abstract class AbstractSpatialManager<T> {
 	}
 
 	
-	protected Document createLntLatPoint(long id,double latitude,double longitude,PoiType type) {
+	protected Document createLntLatPoint(long id,double latitude,double longitude,EntityType type) {
 		Document doc = new Document();
 		doc.add(new LongField("id", id, Field.Store.YES));
 		doc.add(new StringField("type",String.valueOf(type.ordinal()), Field.Store.YES));
@@ -70,7 +71,7 @@ public abstract class AbstractSpatialManager<T> {
 		return doc;
 	}
 
-	public List<Long> search(PoiType type,double lnt, double lat, int radius) {
+	public List<Long> search(EntityType type,double lnt, double lat, int radius) {
 		try {
 			//´´½¨Query
 			Query query = new TermQuery(new Term("type",String.valueOf(type.ordinal())));

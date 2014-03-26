@@ -22,7 +22,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.itravel.server.dal.asyn.FetchAttractionTask;
 import com.itravel.server.dal.entities.AttractionEntity;
 import com.itravel.server.dal.spatial.AttrationsSpatialManager;
-import com.itravel.server.dal.spatial.PoiType;
+import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 
@@ -128,7 +128,7 @@ public final class AttractionsManager extends AbstractManager implements
 	public List<IAttractions> getByLngLat(int start, int count,
 			double longitude, double latitude) {
 		// TODO Auto-generated method stub
-		List<Long> ids = this.spatialManager.search(PoiType.attraction,
+		List<Long> ids = this.spatialManager.search(EntityType.attraction,
 				longitude, latitude, 50);
 		List<IAttractions> result = Lists.newLinkedList();
 		for (long id : ids) {
