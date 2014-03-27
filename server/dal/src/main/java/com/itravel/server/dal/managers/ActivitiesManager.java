@@ -22,6 +22,9 @@ import com.itravel.server.interfaces.dal.managers.IUserManager;
 public class ActivitiesManager extends AbstractManager implements
 		IActivitiesManager {
 
+	public ActivitiesManager() {
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public IActivities create() {
 		// TODO Auto-generated method stub

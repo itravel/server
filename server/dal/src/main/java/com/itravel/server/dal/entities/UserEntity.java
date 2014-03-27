@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.itravel.server.interfaces.dal.IUser;
 
 
@@ -159,4 +161,9 @@ public class UserEntity implements Serializable,IUser {
 		this.weibo = weibo;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

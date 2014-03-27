@@ -50,6 +50,7 @@ public class Users {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUser(@PathParam("id") long id){
 		IUser user = manager.get(id);
+		logger.debug(user);
 		return Response.ok().entity(user).build();
 	}
 	
@@ -73,7 +74,7 @@ public class Users {
 		if (password == usr.getPassword()) {
 			return Response.ok(usr.toString()).build();
 		}
-		
+		logger.debug(usr);
 		return Response.status(Status.FORBIDDEN).build();
 	}
 	/**
@@ -125,6 +126,7 @@ public class Users {
 		user.setLongitude(longitude);
 		user.setLatitude(latitude);
 		manager.save(user);
+		logger.debug(user);
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
 	}
 	
@@ -140,6 +142,7 @@ public class Users {
 	public Response createUser(String json){
 		IUser user = this.manager.create(json);
 		this.manager.save(user);
+		logger.debug(user);
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
 	}
 			
@@ -158,6 +161,7 @@ public class Users {
 		IUser user = this.manager.get(userId);
 		user.setAvatar(avatarPicPath);
 		this.manager.save(user);
+		logger.debug(user);
 		return Response.ok().build();
 		
 	}
@@ -198,6 +202,7 @@ public class Users {
 		if (user!=null){
 			return Response.ok().build();
 		}
+		logger.debug(user);
 		return Response.status(Status.NOT_FOUND).entity("").build();
 	}
 	

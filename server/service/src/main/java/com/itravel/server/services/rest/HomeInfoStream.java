@@ -135,6 +135,7 @@ public class HomeInfoStream {
 		
 		try {
 			cdl.await(5, TimeUnit.SECONDS);
+			logger.debug(stream);
 			return Response.ok().entity(stream).build();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

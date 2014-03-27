@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.itravel.server.interfaces.dal.IAttractions;
 
 
@@ -185,5 +187,10 @@ public class AttractionEntity implements Serializable, IAttractions {
 	public void setPictures(String pictures) {
 		this.pictures = pictures;
 	}
-
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

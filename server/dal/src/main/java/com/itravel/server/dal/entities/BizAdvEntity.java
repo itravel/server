@@ -1,7 +1,10 @@
 package com.itravel.server.dal.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
 /**
@@ -89,6 +92,12 @@ public class BizAdvEntity implements Serializable {
 
 	public void setPictures(String pictures) {
 		this.pictures = pictures;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

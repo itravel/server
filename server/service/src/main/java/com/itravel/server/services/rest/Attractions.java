@@ -43,7 +43,7 @@ public class Attractions {
 			@QueryParam(value="start") int start,
 			@QueryParam(value="count") int count){
 		List<IAttractions> atts = this.aManager.getByLngLat(start, count, longitude,latitude /*116.406887, 39.98207*/);
-		System.out.println(atts);
+		logger.debug(atts);
 		return Response.ok().entity(atts).build();
 	}
 }

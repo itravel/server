@@ -99,6 +99,7 @@ public class TravelNotes {
 			tNote.addPicture(url);
 			this.tManager.save(tNote);
 		}
+		logger.debug(tNote);
 		return Response.ok().entity(tNote).build();
 	}
 	

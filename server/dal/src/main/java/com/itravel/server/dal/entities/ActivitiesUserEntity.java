@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 
 /**
  * The persistent class for the activities_user database table.
@@ -61,6 +63,11 @@ public class ActivitiesUserEntity implements Serializable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

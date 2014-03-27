@@ -50,7 +50,6 @@ public class Activities {
 	@Context
 	UriInfo uriInfo;
 	public Activities() {
-		this.logger.debug("");
 	}
 	
 	/**
@@ -65,6 +64,7 @@ public class Activities {
 	{
 		
 		IActivities activities = this.manager.get(activitiesId);
+		logger.debug(activities);
 		return Response.ok().entity(activities).build();
 	}
 	/**
@@ -116,6 +116,7 @@ public class Activities {
 			activities.addActivitiesPic(url);
 			this.manager.save(activities);
 		}
+		logger.debug(activities);
 		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(activities.getId())).build()).build();
 		
 	}
@@ -136,6 +137,7 @@ public class Activities {
 	{
 		
 		List<IActivities> activities = manager.getAvailableActivities(start, count);
+		logger.debug(activities);
 		return Response.ok().entity(activities).build();
 	}
 	/**
@@ -162,9 +164,9 @@ public class Activities {
 			IUser user = userManager.get(userId);
 			activities.addUser(user);
 		}
+		logger.debug(activities);
 		this.manager.save(activities);
 		return Response.ok().entity(activities).build();
-//		return Response.ok().build();
 	}
 	
 	/**
@@ -182,6 +184,7 @@ public class Activities {
 		IActivities activites = this.manager.get(activitiesId);
 		activites.addActivitiesPic(filePath);
 		this.manager.save(activites);
+		logger.debug(activites);
 		return Response.ok().build();
 		
 	}
@@ -205,6 +208,7 @@ public class Activities {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return Response.serverError().build();
 	}
 	
