@@ -77,74 +77,7 @@ public class Users {
 		logger.debug(usr);
 		return Response.status(Status.FORBIDDEN).build();
 	}
-	/**
-	 * 创建用户信息
-	 * @param userName
-	 * @param email
-	 * @param password
-	 * @param avatar
-	 * @param cellPhone
-	 * @param qq
-	 * @param weibo
-	 * @param province
-	 * @param city
-	 * @param district
-	 * @param longitude
-	 * @param latitude
-	 * @return
-	 */
-	@Path("users")
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response createUser(
-			@FormParam(value = "userName") String userName,
-			@FormParam(value = "password") String email,
-			@FormParam(value = "password") String password,
-			@FormParam(value = "password") String avatar,
-			@FormParam(value = "password") String cellPhone,
-			@FormParam(value = "password") int qq,
-			@FormParam(value = "password") String weibo,
-			@FormParam(value = "password") int province,
-			@FormParam(value = "password") int city,
-			@FormParam(value = "password") int district,
-			@FormParam(value = "password") double longitude,
-			@FormParam(value = "password") double latitude
-		){
-		
-		IUser user = manager.create();
-		user.setUserName(userName);
-		user.setPassword(password);
-		user.setEmail(email);
-		user.setAvatar("");
-		user.setCellPhone(cellPhone);
-		user.setQq(qq);
-		user.setWeibo(weibo);
-		user.setProvince(province);
-		user.setCity(city);
-		user.setDistrict(district);
-		user.setLongitude(longitude);
-		user.setLatitude(latitude);
-		manager.save(user);
-		logger.debug(user);
-		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
-	}
 	
-	/**
-	 * 创建用户信息
-	 * @param json
-	 * @return
-	 */
-	@Path("users")
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUser(String json){
-		IUser user = this.manager.create(json);
-		this.manager.save(user);
-		logger.debug(user);
-		return Response.created(this.uriInfo.getRequestUriBuilder().path(String.valueOf(user.getId())).build()).build();
-	}
 			
 	/**
 	 * 上传头像
@@ -189,22 +122,7 @@ public class Users {
 		return Response.serverError().build();
 	}
 	
-	/**
-	 * 验证手机号码是否重复
-	 * @param phoneNumber
-	 * @return
-	 */
-	@Path("users/phone/{phoneNumber}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response validate(@PathParam(value = "phoneNumber") String phoneNumber){
-		IUser user = this.manager.getUserByPhoneNumber(phoneNumber);
-		if (user!=null){
-			return Response.ok().build();
-		}
-		logger.debug(user);
-		return Response.status(Status.NOT_FOUND).entity("").build();
-	}
+	
 	
 
 	
