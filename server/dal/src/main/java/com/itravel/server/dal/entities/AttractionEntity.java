@@ -1,11 +1,14 @@
 package com.itravel.server.dal.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.*;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Sets;
 import com.itravel.server.interfaces.dal.IAttractions;
 
 
@@ -15,7 +18,10 @@ import com.itravel.server.interfaces.dal.IAttractions;
  */
 @Entity
 @Table(name="attractions")
-@NamedQuery(name="AttractionEntity.findAll", query="SELECT a FROM AttractionEntity a")
+@NamedQueries(value = { 
+		@NamedQuery(name="AttractionEntity.findAll", query="SELECT a FROM AttractionEntity a"),
+		@NamedQuery(name = "AttractionEntity.findByCity", query = "SELECT a FROM AttractionEntity a where a.cityCode = :cityCode ") 
+})
 public class AttractionEntity implements Serializable, IAttractions {
 	private static final long serialVersionUID = 1L;
 
@@ -27,9 +33,6 @@ public class AttractionEntity implements Serializable, IAttractions {
 
 	@Column(name="city_code")
 	private int cityCode;
-
-	@Column(name="city_name")
-	private String cityName;
 
 	private String description;
 
@@ -90,22 +93,6 @@ public class AttractionEntity implements Serializable, IAttractions {
 	@Override
 	public void setCityCode(int cityCode) {
 		this.cityCode = cityCode;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.IAttractions#getCityName()
-	 */
-	@Override
-	public String getCityName() {
-		return this.cityName;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.IAttractions#setCityName(java.lang.String)
-	 */
-	@Override
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
 	}
 
 	/* (non-Javadoc)
@@ -176,16 +163,29 @@ public class AttractionEntity implements Serializable, IAttractions {
 	 * @see com.itravel.server.dal.entities.IAttractions#getPictures()
 	 */
 	@Override
-	public String getPictures() {
-		return this.pictures;
+	public Collection<String> getPictures() {
+		if(this.pictures == null || this.pictures.isEmpty()){
+			return Sets.newHashSet();
+		}
+		return Sets.newHashSet(this.pictures.split(","));
 	}
 
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IAttractions#setPictures(java.lang.String)
 	 */
 	@Override
-	public void setPictures(String pictures) {
-		this.pictures = pictures;
+	public void setPictures(Collection<String> pictures) {
+		this.pictures = Joiner.on(",").join(pictures);
+	}
+	
+	
+
+	@Override
+	public void addPicture(String picture) {
+		// TODO Auto-generated method stub
+		Collection<String> pics = this.getPictures();
+		pics.add(picture);
+		this.pictures = Joiner.on(",").join(pics);
 	}
 	
 	@Override

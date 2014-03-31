@@ -180,7 +180,18 @@ public final class AttractionsManager extends AbstractManager implements
 		private static final IAttractionsManager INSTANCE = new AttractionsManager();
 	}
 	public static void main(String[] args) {
-		final AttractionsManager managr = new AttractionsManager();
+		AttractionsManager managr = new AttractionsManager();
+		System.out.println(managr.getByCity(0,10,230900));;
+	
+	}
 
+
+	@Override
+	public List<IAttractions> getByCity(int start, int count, int cityCode) {
+		// TODO Auto-generated method stub
+		EntityManager manager = emf.createEntityManager();
+		List<IAttractions> attractions = manager.createNativeQuery(String.format("select * from attractions where city_code = %d limit %d,%d", cityCode,start,count),AttractionEntity.class).getResultList();
+		manager.close();
+		return attractions;
 	}
 }

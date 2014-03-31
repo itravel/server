@@ -8,11 +8,6 @@
   <artifactId>dal</artifactId>
   <dependencies>
   	<dependency>
-  		<groupId>com.itravel</groupId>
-  		<artifactId>common</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
   		<groupId>org.eclipse.persistence</groupId>
   		<artifactId>eclipselink</artifactId>
   	</dependency>
@@ -51,6 +46,11 @@
   	<dependency>
   		<groupId>org.apache.logging.log4j</groupId>
   		<artifactId>log4j-core</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.itravel</groupId>
+  		<artifactId>common</artifactId>
+  		<version>0.0.2-SNAPSHOT</version>
   	</dependency>
   </dependencies>
 </project>

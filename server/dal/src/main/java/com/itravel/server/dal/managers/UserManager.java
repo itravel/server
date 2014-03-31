@@ -92,6 +92,8 @@ public class UserManager extends AbstractManager implements IUserManager {
 		return null;
 	}
 
-	
+	public static void main(String[] args) {
+		
+	}
 
 }

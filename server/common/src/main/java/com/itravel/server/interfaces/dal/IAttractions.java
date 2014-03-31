@@ -1,5 +1,7 @@
 package com.itravel.server.interfaces.dal;
 
+import java.util.Collection;
+
 public interface IAttractions {
 
 	public abstract long getId();
@@ -13,10 +15,6 @@ public interface IAttractions {
 	public abstract int getCityCode();
 
 	public abstract void setCityCode(int cityCode);
-
-	public abstract String getCityName();
-
-	public abstract void setCityName(String cityName);
 
 	public abstract String getDescription();
 
@@ -34,8 +32,9 @@ public interface IAttractions {
 
 	public abstract void setName(String name);
 
-	public abstract String getPictures();
+	public abstract Collection<String> getPictures();
 
-	public abstract void setPictures(String pictures);
+	public abstract void addPicture(String picture);
 
+	public abstract void setPictures(Collection<String> pictures);
 }
