@@ -55,7 +55,7 @@ public class HomeInfoStream {
 		@Override
 		public InformationStream apply(IActivities input) {
 			// TODO Auto-generated method stub
-			return new InformationStream(EntityType.attraction,input);
+			return new InformationStream(EntityType.activity,input);
 		}
 	}
 	
