@@ -18,7 +18,8 @@ import com.itravel.server.interfaces.dal.IUser;
 @NamedQueries(value = { 
 		@NamedQuery(name="UserEntity.findAll", query="SELECT u FROM UserEntity u"),
 		@NamedQuery(name="UserEntity.findActivitiesUsers", query="SELECT u FROM UserEntity u , ActivitiesUserEntity au where  u.id = au.userId and au.activitiesId = :activitiesId"),
-		@NamedQuery(name="UserEntity.findByPhone", query="SELECT u FROM UserEntity u where u.cellPhone = :cellPhone")
+		@NamedQuery(name="UserEntity.findByPhone", query="SELECT u FROM UserEntity u where u.cellPhone = :cellPhone"),
+		@NamedQuery(name="UserEntity.findByUserName", query="SELECT u FROM UserEntity u where u.userName = :userName")
 })
 
 public class UserEntity implements Serializable,IUser {

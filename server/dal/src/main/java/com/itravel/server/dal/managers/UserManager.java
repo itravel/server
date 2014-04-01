@@ -44,9 +44,12 @@ public class UserManager extends AbstractManager implements IUserManager {
 	public IUser getUserByUserName(String userName) {
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
-		IUser user = manager.find(UserEntity.class, 2L);
+		List<IUser> users = manager.createNamedQuery("UserEntity.findByUserName").setParameter("userName", userName).getResultList();
 		manager.close();
-		return user;
+		if( users.size() >0){
+			return users.get(0);
+		}
+		return null;
 	}
 
 	@Override
