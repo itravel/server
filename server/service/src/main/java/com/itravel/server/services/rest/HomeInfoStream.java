@@ -95,7 +95,7 @@ public class HomeInfoStream {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getInfoStream(@QueryParam(value = "start") int start,@QueryParam(value="count") int count){
-		final CountDownLatch cdl = new CountDownLatch(1);
+		final CountDownLatch cdl = new CountDownLatch(2);
 		final List<InformationStream> stream = Lists.newArrayListWithCapacity(count);
 		// add the travelNotes to informationstream;
 		ListenableFuture<List<ITravelNote>> getTravelNoteFuture = service.submit(new FetchTravelNotesTask(start,count));
