@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -110,5 +111,29 @@ public class Authentication {
 		}
 		logger.debug(user);
 		return Response.status(Status.NOT_FOUND).entity("").build();
+	}
+	
+	/**
+	 * 根据用户名，密码获取用户信息
+	 * @param userName
+	 * @param password
+	 * @return
+	 */
+	@Path("users")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserByUsrPwd(@QueryParam(value = "userName") String userName,@QueryParam(value = "password") String password){
+		if(userName == null || password == null) {
+			return Response.status(Status.BAD_REQUEST).entity("用户名密码不能为空").build();
+		}
+		IUser usr = this.manager.getUserByUserName(userName);
+		if(usr == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		if (password == usr.getPassword()) {
+			return Response.ok(usr.toString()).build();
+		}
+		logger.debug(usr);
+		return Response.status(Status.FORBIDDEN).build();
 	}
 }

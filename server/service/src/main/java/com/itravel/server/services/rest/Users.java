@@ -54,29 +54,7 @@ public class Users {
 		return Response.ok().entity(user).build();
 	}
 	
-	/**
-	 * 根据用户名，密码获取用户信息
-	 * @param userName
-	 * @param password
-	 * @return
-	 */
-	@Path("users")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUserByUsrPwd(@QueryParam(value = "userName") String userName,@QueryParam(value = "password") String password){
-		if(userName == null || password == null) {
-			return Response.status(Status.BAD_REQUEST).entity("用户名密码不能为空").build();
-		}
-		IUser usr = this.manager.getUserByUserName(userName);
-		if(usr == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		if (password == usr.getPassword()) {
-			return Response.ok(usr.toString()).build();
-		}
-		logger.debug(usr);
-		return Response.status(Status.FORBIDDEN).build();
-	}
+	
 	
 			
 	/**
