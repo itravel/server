@@ -21,7 +21,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.itravel.server.dal.asyn.FetchAttractionTask;
 import com.itravel.server.dal.entities.AttractionEntity;
-import com.itravel.server.dal.spatial.AttrationsSpatialManager;
+import com.itravel.server.dal.spatial.AttractionsSpatialManager;
 import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
@@ -29,53 +29,11 @@ import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 public final class AttractionsManager extends AbstractManager implements
 		IAttractionsManager {
 
-	private final AttrationsSpatialManager spatialManager = AttrationsSpatialManager
-			.getInstance();
+//	private final AttractionsSpatialManager spatialManager = AttractionsSpatialManager
+//			.getInstance();
 	private static final int BATCHNUMBER = 20;
 
 	public AttractionsManager() {
-		// TODO Auto-generated constructor stub
-		int offset = 0;
-		final int count = 1500;
-		boolean hasNext = true;
-		final AtomicInteger a = new AtomicInteger();
-		final CountDownLatch cdl = new CountDownLatch(BATCHNUMBER);
-		final AtomicInteger size = new AtomicInteger();
-		final List<IAttractions> batch = Collections
-				.synchronizedList(new LinkedList<IAttractions>());
-		for (int i = 0; i < BATCHNUMBER; i++) {
-			offset = offset + i * count;
-
-			ListenableFuture<List<IAttractions>> future = service
-					.submit(new FetchAttractionTask(offset, count, this));
-			Futures.addCallback(future,
-					new FutureCallback<List<IAttractions>>() {
-
-						@Override
-						public void onSuccess(List<IAttractions> attractions) {
-							// TODO Auto-generated method stub
-							batch.addAll(attractions);
-							a.addAndGet(attractions.size());
-							size.addAndGet(attractions.size());
-							cdl.countDown();
-						}
-
-						@Override
-						public void onFailure(Throwable t) { // TODO
-							// Auto-generated method stub
-							cdl.countDown();
-						}
-					});
-
-		}
-		try {
-			cdl.await();
-			spatialManager.addIndex(batch);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 
@@ -124,10 +82,12 @@ public final class AttractionsManager extends AbstractManager implements
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public List<IAttractions> getByLngLat(int start, int count,
 			double longitude, double latitude) {
 		// TODO Auto-generated method stub
+		System.out.println(longitude);
+		logger.debug(longitude);
 		List<Long> ids = this.spatialManager.search(EntityType.attraction,
 				longitude, latitude, 50);
 		List<IAttractions> result = Lists.newLinkedList();
@@ -136,7 +96,7 @@ public final class AttractionsManager extends AbstractManager implements
 		}
 
 		return result;
-	}
+	}*/
 
 	@Override
 	public IAttractions create(String json) {
@@ -162,12 +122,7 @@ public final class AttractionsManager extends AbstractManager implements
 	public List<IAttractions> getRange(int offset, int count) {
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
-		List<IAttractions> attractions = manager
-				.createNativeQuery(
-						String.format(
-								"select * from attractions order by id asc limit %d,%d",
-								offset, count), AttractionEntity.class)
-				.getResultList();
+		List<IAttractions> attractions = manager.createNamedQuery("AttractionEntity.findAll").setFirstResult(offset).setMaxResults(count).getResultList();
 		manager.close();
 		return attractions;
 	}
@@ -193,5 +148,12 @@ public final class AttractionsManager extends AbstractManager implements
 		List<IAttractions> attractions = manager.createNativeQuery(String.format("select * from attractions where city_code = %d limit %d,%d", cityCode,start,count),AttractionEntity.class).getResultList();
 		manager.close();
 		return attractions;
+	}
+	
+	public long size(){
+		EntityManager manager = emf.createEntityManager();
+		long size = (Long)manager.createNativeQuery("select count(1) from attractions ").getSingleResult();
+		manager.close();
+		return size;
 	}
 }

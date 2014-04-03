@@ -20,7 +20,7 @@ import com.itravel.server.interfaces.dal.IAttractions;
 @Table(name="attractions")
 @NamedQueries(value = { 
 		@NamedQuery(name="AttractionEntity.findAll", query="SELECT a FROM AttractionEntity a"),
-		@NamedQuery(name = "AttractionEntity.findByCity", query = "SELECT a FROM AttractionEntity a where a.cityCode = :cityCode ") 
+		@NamedQuery(name = "AttractionEntity.findByCity", query = "SELECT a FROM AttractionEntity a where a.cityCode = :cityCode "),
 })
 public class AttractionEntity implements Serializable, IAttractions {
 	private static final long serialVersionUID = 1L;

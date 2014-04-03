@@ -18,8 +18,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.collect.FluentIterable;
+import com.itravel.server.dal.spatial.AttractionsSpatialManager;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
+import com.itravel.server.interfaces.dal.managers.ISpatialSearchManager;
 import com.itravel.server.services.aos.Constants;
 import com.itravel.server.services.utils.ManagerFactory;
 
@@ -47,6 +50,7 @@ public class Attractions {
 		}
 	}
 	private final IAttractionsManager aManager = ManagerFactory.getAttractionManager();
+	private final ISpatialSearchManager<IAttractions> sManager = AttractionsSpatialManager.getInstance();
 	private final Logger logger = LogManager.getLogger(Constants.LOGGER);
 	@Context
 	private UriInfo requestContext;
@@ -69,7 +73,8 @@ public class Attractions {
 			@QueryParam(value="start") int start,
 			@QueryParam(value="count") int count){
 		
-		List<IAttractions> atts = this.aManager.getByLngLat(start, count, longitude,latitude /*116.406887, 39.98207*/);
+		List<IAttractions> atts = this.sManager.getByLatLnt(latitude, longitude/*116.406887, 39.98207*/);
+		atts = FluentIterable.from(atts).skip(start).limit(count).toList();
 		logger.debug(atts);
 		return Response.ok().entity(atts).build();
 	}

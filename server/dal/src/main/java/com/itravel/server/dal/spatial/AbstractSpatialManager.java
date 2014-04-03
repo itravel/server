@@ -3,7 +3,10 @@ package com.itravel.server.dal.spatial;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Executors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.DoubleField;
 import org.apache.lucene.document.Field;
@@ -35,16 +38,22 @@ import org.apache.lucene.util.Version;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.itravel.server.dal.Constants;
 import com.itravel.server.dal.managers.AttractionsManager;
 import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
+import com.itravel.server.interfaces.dal.managers.ISpatialIndexManager;
 import com.spatial4j.core.context.SpatialContext;
 import com.spatial4j.core.distance.DistanceUtils;
 import com.spatial4j.core.shape.Point;
 
-public abstract class AbstractSpatialManager<T> {
+public abstract class AbstractSpatialManager<T> implements ISpatialIndexManager<T> {
 	protected static final RAMDirectory directory = new RAMDirectory();
+	protected static final ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(100));
+	protected final Logger logger = LogManager.getLogger(Constants.LOGGER);
 	private static final SpatialPrefixTree grid;
 	private static final PrefixTreeStrategy strategy;
 	static {
@@ -99,17 +108,6 @@ public abstract class AbstractSpatialManager<T> {
 			for (ScoreDoc doc : docs.scoreDocs) {
 				poiIds.add(indexSearcher.doc(doc.doc).getField("id")
 						.numericValue().longValue());
-				// double lnt_hotel =
-				// indexSearcher.doc(doc.doc).getField("lnt").numericValue().doubleValue();
-				// double lat_hotel =
-				// indexSearcher.doc(doc.doc).getField("lat").numericValue().doubleValue();
-				// Point hotelPoint = SpatialContext.GEO.makePoint(lnt_hotel,
-				// lat_hotel);
-				// double distance =
-				// SpatialContext.GEO.getDistCalc().distance(hotelPoint, lnt,
-				// lat);
-				// logger.debug(hotelPoint + " distance = "+ distance);
-//				System.out.println(indexSearcher.doc(doc.doc));
 
 			}
 			return poiIds;
@@ -119,36 +117,7 @@ public abstract class AbstractSpatialManager<T> {
 
 	}
 	
-	public abstract void addIndex(T poi);
-	
-	public abstract void addIndex(Collection<T> pois);
-	
-	public abstract void deleteIndex(T poi);
-	
-	public abstract void deleteIndex(Collection<T> pois);
 
-//	public static void initIndex(List<IAttractions> attractions) {
-//		try {
-//			IndexWriter indexWriter = new IndexWriter(directory,
-//					new IndexWriterConfig(Version.LUCENE_46, null));
-//			for (IAttractions attraction : attractions) {
-//				indexWriter.addDocument(createHotelLntLatPoint(attraction));
-//			}
-//
-//			indexWriter.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
-//
-//	public static void main(String[] args) throws IOException {
-//		IAttractionsManager manager = new AttractionsManager();
-//		// manager.getAll();
-//		Pois.initIndex(manager.getAll());
-//		List<Long> ids = Pois.search(116.406887, 39.98207, 5);
-//		System.out.println(ids.toString());
-//	}
+
 
 }

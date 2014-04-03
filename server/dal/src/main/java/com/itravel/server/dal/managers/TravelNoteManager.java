@@ -114,6 +114,11 @@ public class TravelNoteManager extends AbstractManager implements ITravelNoteMan
 	private static final class TravelNoteManagerHolder {
 		private static final ITravelNoteManager INSTANCE = new TravelNoteManager();
 	}
+	@Override
+	public long size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 

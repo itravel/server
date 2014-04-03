@@ -16,5 +16,5 @@ public abstract class AbstractManager {
 	protected static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("dal");
 	protected static final ObjectMapper mapper = new ObjectMapper();
 	protected final Logger logger = LogManager.getLogger(this.getClass());
-	protected static final ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(100));
+	
 }

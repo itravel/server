@@ -113,7 +113,7 @@ public class ActivitiesManager extends AbstractManager implements
 	public List<IActivities> getRange(int offset, int count) {
 		// TODO Auto-generated method stub
 		EntityManager manager = emf.createEntityManager();
-		List<IActivities> activities = manager.createNativeQuery(String.format("select * from activities order by id limit %d,%d",offset,count),ActivityEntity.class).getResultList();
+		List<IActivities> activities = manager.createNamedQuery("ActivityEntity.findAll").setFirstResult(offset).setMaxResults(count).getResultList();
 		return activities;
 	}
 	
@@ -126,4 +126,13 @@ public class ActivitiesManager extends AbstractManager implements
 		private static final IActivitiesManager 	INSTANCE = new ActivitiesManager();
 	}
 	/* =====================±£Ö¤µ¥Àý=========================== */
+
+	@Override
+	public long size() {
+		// TODO Auto-generated method stub
+		EntityManager manager = emf.createEntityManager();
+		long size = (Long)manager.createNativeQuery("select count(1) from activities ").getSingleResult();
+		manager.close();
+		return size;
+	}
 }

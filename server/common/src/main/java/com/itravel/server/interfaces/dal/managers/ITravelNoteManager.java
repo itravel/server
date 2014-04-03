@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.itravel.server.interfaces.dal.ITravelNote;
 
-public interface ITravelNoteManager extends IManager<ITravelNote> {
+public interface ITravelNoteManager extends IDaoManager<ITravelNote> {
 
 	List<ITravelNote> getByTimeRange(Date fromDate, Date toDate);
 	

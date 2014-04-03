@@ -18,12 +18,10 @@
       <role-name>users</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <login-config>
-      <auth-method>BASIC</auth-method>
-      <realm-name>itravel</realm-name>
+    <auth-method>BASIC</auth-method>
+    <realm-name>itravel</realm-name>
   </login-config>
-  
   <security-role>
     <role-name>users</role-name>
   </security-role>

@@ -33,9 +33,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
+import com.itravel.server.dal.managers.ActivitiesManager;
+import com.itravel.server.dal.spatial.ActivitiesSpatialManager;
 import com.itravel.server.interfaces.dal.IActivities;
+import com.itravel.server.interfaces.dal.IAttractions;
 import com.itravel.server.interfaces.dal.IUser;
 import com.itravel.server.interfaces.dal.managers.IActivitiesManager;
+import com.itravel.server.interfaces.dal.managers.ISpatialSearchManager;
 import com.itravel.server.interfaces.dal.managers.IUserManager;
 import com.itravel.server.services.aos.Constants;
 import com.itravel.server.services.utils.ImageCategory;
@@ -46,6 +50,7 @@ import com.itravel.server.services.utils.ManagerFactory;
 public class Activities {
 	private final IActivitiesManager manager = ManagerFactory.getActivitiesManager();
 	private final IUserManager userManager = ManagerFactory.getUserManager();
+	private final ISpatialSearchManager<IActivities> sManager = ActivitiesSpatialManager.getInstance();
 	private Logger logger = LogManager.getLogger(Constants.LOGGER);
 	@Context
 	UriInfo uriInfo;
@@ -210,6 +215,28 @@ public class Activities {
 		}
 		
 		return Response.serverError().build();
+	}
+	
+	/**
+	 * 获取指定位置周边活动
+	 * @param latitude
+	 * @param longitude
+	 * @param start
+	 * @param count
+	 * @return
+	 */
+	@Path("around/activities")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response aroundAttractions(@QueryParam(value="latitude") double latitude,
+			@QueryParam(value="longitude") double longitude,
+			@QueryParam(value="start") int start,
+			@QueryParam(value="count") int count){
+		
+		List<IActivities> atts = this.sManager.getByLatLnt(latitude, longitude/*116.406887, 39.98207*/);
+		atts = FluentIterable.from(atts).skip(start).limit(count).toList();
+		logger.debug(atts);
+		return Response.ok().entity(atts).build();
 	}
 	
 }

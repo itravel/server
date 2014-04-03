@@ -99,4 +99,10 @@ public class UserManager extends AbstractManager implements IUserManager {
 		
 	}
 
+	@Override
+	public long size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
