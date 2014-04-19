@@ -26,8 +26,8 @@ public class SpatialIndexInitializationListener implements ServletContextListene
      */
     public void contextInitialized(ServletContextEvent arg0) {
         // TODO Auto-generated method stub
-    	ActivitiesSpatialManager.getInstance().initIndex();
-    	AttractionsSpatialManager.getInstance().initIndex();
+//    	ActivitiesSpatialManager.getInstance().initIndex();
+//    	AttractionsSpatialManager.getInstance().initIndex();
     }
 
 	/**

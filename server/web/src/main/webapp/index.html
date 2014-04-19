@@ -27,23 +27,424 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script
 	src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<style type="text/css">
+body,button,input,select,textarea,h1,h2,h3,h4,h5,h6 {
+	font-family: Microsoft YaHei, '宋体', Tahoma, Helvetica, Arial,
+		"\5b8b\4f53", sans-serif;
+}
+
+.jumbotron {
+	margin-bottom: 0px;
+	background-image: url(resources/homepage-background-QLD.jpg);
+	background-position: 0% 25%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: white;
+	text-shadow: black 0.3em 0.3em 0.3em;
+}
+
+.row .cell {
+	margin-top: 15px;
+	margin-right:5px;
+	margin-bottom:15px;
+	box-shadow: 1px 1px 5px 0 #bbb;
+	-webkit-transition: box-shadow 300ms linear;
+	-moz-transition: box-shadow 300ms linear;
+	-o-transition: box-shadow 300ms linear;
+	-ms-transition: box-shadow 300ms linear;
+	transition: box-shadow 300ms linear;
+}
+
+.row .cell .header {
+	padding-left: 15px;
+	padding-right: 15px;
+	background-color: #fafafc;
+}
+
+.row .cell .content {
+	padding-bottom: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.row .cell .bottom {
+	border-top: 1px solid #eaeaec;
+	padding: 15px;
+	background-color: #fafafc;
+}
+
+span.minibox {
+	display: block;
+	float: left;
+	width: 64px;
+	height: 64px;
+	overflow: hidden;
+	margin-right: 10px;
+}
+</style>
 </head>
-<body>
-	<nav class="banner navbar navbar-default" role="banner">
+<body style="background-color: #fafafc">
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
-			<div class="navbar-inner">
-				<nav class="collapse navbar-collapse" role="navigation">
-      <ul id="menu-primary-navigation" class="nav navbar-nav"><li class="active menu-home"><a href="/" class=" roll"><span data-title="HOME">Home</span></a></li>
-<li class="menu-about"><a href="/about/" class=" roll"><span data-title="ABOUT">About</span></a></li>
-<li class="menu-portfolio"><a href="/portfolio/" class=" roll"><span data-title="PORTFOLIO">Portfolio</span></a></li>
-<li class="menu-blog"><a href="/blog/" class=" roll"><span data-title="BLOG">Blog</span></a></li>
-<li class="menu-contatti"><a href="/contatti/" class=" roll"><span data-title="CONTATTI">Contatti</span></a></li>
-</ul>    </nav>
+			<div class="navbar-header">
+
+				<a class="navbar-brand" href="#">iTravel</a>
 			</div>
+			<div class="navbar-collapse collapse"></div>
+			<!--/.navbar-collapse -->
 		</div>
-	</nav>
+	</div>
+
+	<div class="jumbotron">
+		<div class="container" style="height: 320px">
+			<div style="float:right">
+				<h1>爱侣游</h1>
+				<div>一次旅行，一个故事，一段回忆</div>
+			
+			</div>
+			
+		</div>
+	</div>
+
+	<div class="container" style="margin-left:20px;margin-right:0px">
+		<!-- Example row of columns -->
+		<div class="row" style="margin-top: 20px">
+			<div class="col-md-11" style="width:930px">
+				<div class="row">
+					<div class="col-md-4 cell"
+						style="width: 300px; padding: 0px; background-color: #fff;">
+						<div class="content">
+
+							<div
+								style="border-right: 1px solid #eaeaec; float: left; width: 160px; margin-right: 10px; height: 76px">
+								<h4>
+									日不落帝国的暧昧<br> <small>最繁华的街头，与心仪的她/他浪漫邂逅...</small>
+								</h4>
+							</div>
+							<div style="height: 76px;">
+								<h4 style="font-weight: bold">￥8800</h4>
+								<h5>
+									<small>市场价:￥10000</small>
+								</h5>
+							</div>
+							<div style="width: 100%;">
+								<img alt="" style="width: 100%" src="resources/6.jpg">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<span><img class="img-circle" alt="" src="resources/person2.jpg"></span> 
+							<span><small style="color:silver">旅游达人</small><strong>飞翔的风筝</strong><small style="color:silver">打造</small></span>
+							<span style="float:right;"><small style="color:silver">已报名</small><strong>26</strong><small>人</small></span>
+						</div>
+						<div class="bottom">
+							<div >
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person3.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person4.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 cell"
+						style="width: 300px; padding: 0px; background-color: #fff;">
+						<div class="content">
+
+							<div
+								style="border-right: 1px solid #eaeaec; float: left; width: 160px; margin-right: 10px; height: 76px">
+								<h4>
+									情迷普罗旺斯<br> <small>最了解你心情的地方，与浪漫有约...</small>
+								</h4>
+							</div>
+							<div style="height: 76px;">
+								<h4 style="font-weight: bold">￥16800</h4>
+								<h5>
+									<small>市场价:￥21000</small>
+								</h5>
+							</div>
+							<div style="width: 100%;">
+								<img alt="" style="width: 100%" src="resources/1.jpg">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<span><img class="img-circle" alt="" src="resources/person3.jpg"></span> 
+							<span><small style="color:silver">旅游达人</small><strong>倩倩</strong><small style="color:silver">打造</small></span>
+							<span style="float:right;"><small style="color:silver">已报名</small><strong>26</strong><small>人</small></span>
+						</div>
+						<div class="bottom">
+							<div >
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person3.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person4.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 cell"
+						style="width: 300px; padding: 0px; background-color: #fff;">
+						<div class="content">
+
+							<div
+								style="border-right: 1px solid #eaeaec; float: left; width: 160px; margin-right: 10px; height: 76px">
+								<h4>
+									浪漫澳洲寻宝<br> <small>在浪漫的澳洲海岛，遗落神秘的宝藏...</small>
+								</h4>
+							</div>
+							<div style="height: 76px;">
+								<h4 style="font-weight: bold">￥6800</h4>
+								<h5>
+									<small>市场价:￥20000</small>
+								</h5>
+							</div>
+							<div style="width: 100%; height: 180px">
+								<img alt="" style="width: 100%; height: 180px"
+									src="resources/background_map_states_english.png">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<div >
+								<span><img class="img-circle" alt="" src="resources/person1.jpg"></span> 
+								<span style="font-size:16px;font-weight:bold">中青旅限时打造</span>
+								<span style="float:right;"><small style="color:silver">已报名</small><strong>26</strong><small>人</small></span>
+							</div>
+						</div>
+						<div class="bottom">
+							<div >
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person3.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person4.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 cell"
+						style="width: 300px; padding: 0px; background-color: #fff;">
+						<div class="content">
+
+							<div
+								style="border-right: 1px solid #eaeaec; float: left; width: 160px; margin-right: 10px; height: 76px">
+								<h4>
+									情迷普罗旺斯<br> <small>最了解你心情的地方，与浪漫有约...</small>
+								</h4>
+							</div>
+							<div style="height: 76px;">
+								<h4 style="font-weight: bold">￥16800</h4>
+								<h5>
+									<small>市场价:￥21000</small>
+								</h5>
+							</div>
+							<div style="width: 100%;">
+								<img alt="" style="width: 100%" src="resources/7.jpg">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<span><img class="img-circle" alt="" src="resources/person3.jpg"></span> 
+							<span><small style="color:silver">旅游达人</small><strong>倩倩</strong><small style="color:silver">打造</small></span>
+							<span style="float:right;"><small style="color:silver">已报名</small><strong>26</strong><small>人</small></span>
+						</div>
+						<div class="bottom">
+							<div >
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person3.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person4.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-4 cell"
+						style="width: 300px; padding: 0px; background-color: #fff;">
+						<div class="content">
+
+							<div
+								style="border-right: 1px solid #eaeaec; float: left; width: 160px; margin-right: 10px; height: 76px">
+								<h4>
+									情迷普罗旺斯<br> <small>最了解你心情的地方，与浪漫有约...</small>
+								</h4>
+							</div>
+							<div style="height: 76px;">
+								<h4 style="font-weight: bold">￥16800</h4>
+								<h5>
+									<small>市场价:￥21000</small>
+								</h5>
+							</div>
+							<div style="width: 100%;">
+								<img alt="" style="width: 100%" src="resources/5.jpg">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<span><img class="img-circle" alt="" src="resources/person3.jpg"></span> 
+							<span><small style="color:silver">旅游达人</small><strong>倩倩</strong><small style="color:silver">打造</small></span>
+							<span style="float:right;"><small style="color:silver">已报名</small><strong>26</strong><small>人</small></span>
+						</div>
+						<div class="bottom">
+							<div >
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person3.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person4.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-4 cell"
+						style="width: 300px; padding: 0px; background-color: #fff;">
+						<div class="content">
+
+							<div
+								style="border-right: 1px solid #eaeaec; float: left; width: 160px; margin-right: 10px; height: 76px">
+								<h4>
+									情迷普罗旺斯<br> <small>最了解你心情的地方，与浪漫有约...</small>
+								</h4>
+							</div>
+							<div style="height: 76px;">
+								<h4 style="font-weight: bold">￥16800</h4>
+								<h5>
+									<small>市场价:￥21000</small>
+								</h5>
+							</div>
+							<div style="width: 100%;">
+								<img alt="" style="width: 100%" src="resources/8.jpg">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<span><img class="img-circle" alt="" src="resources/person3.jpg"></span> 
+							<span><small style="color:silver">旅游达人</small><strong>倩倩</strong><small style="color:silver">打造</small></span>
+							<span style="float:right;"><small style="color:silver">已报名</small><strong>26</strong><small>人</small></span>
+						</div>
+						<div class="bottom">
+							<div >
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person3.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person4.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person1.jpg"></span>
+								<span><img style="width:32px;height:32px" alt="" src="resources/person2.jpg"></span>
+							</div>
+						</div>
+					</div>
+					
+					
+					
+					
+					
+					
+
+				</div>
+
+			</div>
+
+			<div class="col-md-1" style="width:240px">
+				<div class="row">
+					<div class="col-md-12">
+						<div style="border-right: 1px solid #eaeaec; float: left; padding-right:10px; margin-right: 10px; height: 76px">
+							<h5>资助不平凡的旅程<br> <small>dfdfd</small></h5>
+						</div>
+						<div style="float:right">
+							<span style="font-size:32px;font-weight:bold;">众筹</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12 cell"
+						style="width: 260px; padding: 0px; background-color: #fff;">
+						<div class="content" style="padding-left:0px;padding-right:0px;padding-bottom:0px">
+
+							<div style="padding-left:15px;padding-right:15px;border-right: 1px solid #eaeaec; float: left; width: 100%; margin-right: 10px; height: 76px">
+								<h4>
+									用轮椅访问20个城市<br> <small>一次意外让他永远失去了运动的能力</small>
+								</h4>
+							</div>
+							<div style="padding-left:0px;padding-right:0px;width: 100%;padding-bottom:0px">
+								<img alt="" style="width: 100%;"
+									src="resources/zhongchou1.png">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<div >
+								<div style="background-color: #d8d8d8; border-radius: 4px; padding: 0px; width: 233px;">
+									<div style="width:89%;height:8px;background-color: #f79f38;border-radius: 10px;"></div>
+									<div style="float:left"><span>￥32000</span></div>
+									<div style="float:right"><span>￥52000</span></div>
+									
+								</div>
+								<div>&nbsp;</div>
+							</div>
+						</div>
+						<div class="bottom">
+							<div >
+								剩余12天
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12 cell"
+						style="width: 260px; padding: 0px; background-color: #fff;">
+						<div class="content" style="padding-left:0px;padding-right:0px;padding-bottom:0px">
+
+							<div style="padding-left:15px;padding-right:15px;border-right: 1px solid #eaeaec; float: left; width: 100%; margin-right: 10px; height: 76px">
+								<h4>
+									用轮椅访问20个城市<br> <small>一次意外让他永远失去了运动的能力</small>
+								</h4>
+							</div>
+							<div style="padding-left:0px;padding-right:0px;width: 100%;padding-bottom:0px">
+								<img alt="" style="width: 100%;"
+									src="resources/zhongchou1.png">
+							</div>
+
+						</div>
+						<div class="bottom">
+							<div >
+								<div style="background-color: #d8d8d8; border-radius: 4px; padding: 0px; width: 233px;">
+									<div style="width:89%;height:8px;background-color: #f79f38;border-radius: 10px;"></div>
+									<div style="float:left"><span>￥32000</span></div>
+									<div style="float:right"><span>￥52000</span></div>
+									
+								</div>
+								<div>&nbsp;</div>
+							</div>
+						</div>
+						<div class="bottom">
+							<div >
+								剩余12天
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+				
 
 
+
+
+
+
+
+		</div>
+	</div>
 
 
 </body>

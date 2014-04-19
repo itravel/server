@@ -14,7 +14,7 @@ import com.itravel.server.services.rest.Ping;
 import com.itravel.server.services.rest.TravelNotes;
 import com.itravel.server.services.rest.Users;
 
-@ApplicationPath( "services" )
+//@ApplicationPath( "services" )
 public class RestServiceApplication extends ResourceConfig {
 	public RestServiceApplication() {
 		
