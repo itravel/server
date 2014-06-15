@@ -1,6 +1,6 @@
 package com.itravel.server.dal.entities;
 
-import com.itravel.server.dal.entities.UpcomingEvents;
+import com.itravel.server.dal.entities.UpcomingEventsEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.EAGER;
 @Entity
 @Table(name="activities")
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class ActivitiesEntity extends UpcomingEvents implements Serializable {
+public class ActivitiesEntity extends UpcomingEventsEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public ActivitiesEntity() {
 		super();

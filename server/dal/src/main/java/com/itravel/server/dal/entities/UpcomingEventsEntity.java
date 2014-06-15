@@ -16,12 +16,12 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
  */
 
 @MappedSuperclass
-public abstract class UpcomingEvents implements Serializable {
+public abstract class UpcomingEventsEntity implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
 
-	public UpcomingEvents() {
+	public UpcomingEventsEntity() {
 		super();
 	}
 	

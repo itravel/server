@@ -32,12 +32,12 @@ import com.mysql.jdbc.log.LogFactory;
  *
  */
 @Singleton
-@Path("/upcomingevents")
-public class UpomingEvents {
-	private static Logger logger = LogManager.getLogger(UpomingEvents.class);
+@Path("/activities")
+public class Activities {
+	private static Logger logger = LogManager.getLogger(Activities.class);
 	private static IDataRepository<ActivitiesEntity> dataRepo = new UpcomingEventsDBRepository();
 	private static ObjectMapper om = new ObjectMapper();
-	public UpomingEvents(){
+	public Activities(){
 		logger.info("");
 	}
 	
