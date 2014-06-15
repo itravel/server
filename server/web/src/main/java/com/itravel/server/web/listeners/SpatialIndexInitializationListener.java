@@ -4,8 +4,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import com.itravel.server.dal.spatial.ActivitiesSpatialManager;
-import com.itravel.server.dal.spatial.AttractionsSpatialManager;
 
 /**
  * Application Lifecycle Listener implementation class SpatialIndexInitializationListener
