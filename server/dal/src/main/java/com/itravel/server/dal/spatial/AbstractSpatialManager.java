@@ -1,5 +1,6 @@
 package com.itravel.server.dal.spatial;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -33,30 +34,35 @@ import org.apache.lucene.spatial.prefix.tree.GeohashPrefixTree;
 import org.apache.lucene.spatial.prefix.tree.SpatialPrefixTree;
 import org.apache.lucene.spatial.query.SpatialArgs;
 import org.apache.lucene.spatial.query.SpatialOperation;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.itravel.server.dal.Constants;
-import com.itravel.server.dal.managers.AttractionsManager;
 import com.itravel.server.interfaces.dal.EntityType;
-import com.itravel.server.interfaces.dal.IAttractions;
-import com.itravel.server.interfaces.dal.managers.IAttractionsManager;
 import com.itravel.server.interfaces.dal.managers.ISpatialIndexManager;
 import com.spatial4j.core.context.SpatialContext;
 import com.spatial4j.core.distance.DistanceUtils;
 import com.spatial4j.core.shape.Point;
 
 public abstract class AbstractSpatialManager<T> implements ISpatialIndexManager<T> {
-	protected static final RAMDirectory directory = new RAMDirectory();
+//	protected static final RAMDirectory directory = new RAMDirectory();
+	protected static FSDirectory directory  ;
 	protected static final ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(100));
 	protected final Logger logger = LogManager.getLogger(Constants.LOGGER);
 	private static final SpatialPrefixTree grid;
 	private static final PrefixTreeStrategy strategy;
 	static {
+		try {
+			directory = NIOFSDirectory.open(new File("d:/test"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		grid = new GeohashPrefixTree(SpatialContext.GEO, 11);
 		strategy = new RecursivePrefixTreeStrategy(grid, "myGeoField");
 	}

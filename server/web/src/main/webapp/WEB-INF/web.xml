@@ -9,7 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <security-constraint>
+ <!--  <security-constraint>
     <web-resource-collection>
       <web-resource-name>rest service</web-resource-name>
       <url-pattern>/services/*</url-pattern>
@@ -24,5 +24,5 @@
   </login-config>
   <security-role>
     <role-name>users</role-name>
-  </security-role>
+  </security-role> -->
 </web-app>

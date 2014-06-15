@@ -12,7 +12,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.itravel.server.services.rest.Authentication;
 import com.itravel.server.services.rest.Users;
-//@ApplicationPath( "auth" )
+@ApplicationPath( "auth" )
 public class AuthenticationApplication extends ResourceConfig {
 	
 	

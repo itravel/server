@@ -14,7 +14,6 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.itravel.server.dal.asyn.FetchAttractionTask;
-import com.itravel.server.dal.managers.AttractionsManager;
 import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IAttractions;
@@ -26,7 +25,7 @@ public final class AttractionsSpatialManager extends AbstractSpatialManager<IAtt
 		private static final AttractionsSpatialManager INSTANCE = new AttractionsSpatialManager();
 		
 	}
-	private final IAttractionsManager manager = AttractionsManager.getInstance();
+//	private final IAttractionsManager manager = AttractionsManager.getInstance();
 	public AttractionsSpatialManager(){
 		
 	}
@@ -116,7 +115,7 @@ public final class AttractionsSpatialManager extends AbstractSpatialManager<IAtt
 
 	@Override
 	public void initIndex() {
-		AttractionsManager aManager = new AttractionsManager();
+		/*AttractionsManager aManager = new AttractionsManager();
 		final int BATCHSIZE = 300;
 		final int round = (int) (aManager.size()/BATCHSIZE) +1;
 		final CountDownLatch cdl = new CountDownLatch(round);
@@ -163,7 +162,7 @@ public final class AttractionsSpatialManager extends AbstractSpatialManager<IAtt
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		*/
 		
 	}
 
@@ -180,7 +179,7 @@ public final class AttractionsSpatialManager extends AbstractSpatialManager<IAtt
 		List<Long> ids = this.search(EntityType.attraction, longitude, latitude, radius);
 		List<IAttractions> result = Lists.newLinkedList();
 		for (long id : ids) {
-			result.add(this.manager.get(id));
+//			result.add(this.manager.get(id));
 		}
 		return result;
 	}

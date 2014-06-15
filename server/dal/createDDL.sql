@@ -1,0 +1,4 @@
+CREATE TABLE activities (id BIGINT AUTO_INCREMENT NOT NULL, abstract_content VARCHAR(255), convenience INTEGER, end_time DATE, fee BIGINT, gmt_create DATETIME, gmt_modified DATETIME, images VARCHAR(4096), interesting_rate INTEGER, latitude DOUBLE, longitude DOUBLE, popularity INTEGER, scale INTEGER, start_time DATE, tags VARCHAR(256), title VARCHAR(255), activity_type VARCHAR(256), PRIMARY KEY (id))
+CREATE TABLE users (ID BIGINT AUTO_INCREMENT NOT NULL, avatar VARCHAR(255), cell_phone VARCHAR(255), city INTEGER, email VARCHAR(255), latitude DOUBLE, longitude DOUBLE, password VARCHAR(255), qq INTEGER, role VARCHAR(255), user_name VARCHAR(255), weibo VARCHAR(255), PRIMARY KEY (ID))
+CREATE TABLE activities_comments (ID BIGINT NOT NULL, activities_id BIGINT, comments VARCHAR(4096), convenience INTEGER, interesting_rate INTEGER, popularity INTEGER, PRIMARY KEY (ID))
+CREATE TABLE activities_users (id activities_id, PRIMARY KEY (id))

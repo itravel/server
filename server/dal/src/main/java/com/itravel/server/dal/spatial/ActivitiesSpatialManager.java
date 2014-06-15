@@ -13,10 +13,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.itravel.server.dal.asyn.FetchActivitiesTask;
 import com.itravel.server.dal.asyn.FetchAttractionTask;
-import com.itravel.server.dal.managers.ActivitiesManager;
-import com.itravel.server.dal.managers.AttractionsManager;
 import com.itravel.server.interfaces.dal.EntityType;
 import com.itravel.server.interfaces.dal.IActivities;
 import com.itravel.server.interfaces.dal.IAttractions;
@@ -33,7 +30,7 @@ public final class ActivitiesSpatialManager extends
 	public static final ActivitiesSpatialManager getInstance(){
 		return ActivitiesSpatialManagerHolder.INSTANCE;
 	}
-	private final IActivitiesManager manager = ActivitiesManager.getInstance();
+//	private final IActivitiesManager manager = ActivitiesManager.getInstance();
 	@Override
 	public void addIndex(IActivities poi) {
 		// TODO Auto-generated method stub
@@ -61,7 +58,7 @@ public final class ActivitiesSpatialManager extends
 	@Override
 	public void initIndex() {
 		// TODO Auto-generated method stub
-		IActivitiesManager aManager = new ActivitiesManager();
+		/*IActivitiesManager aManager = new ActivitiesManager();
 		final int BATCHSIZE = 300;
 		final int round = (int) (aManager.size()/BATCHSIZE) +1;
 		final CountDownLatch cdl = new CountDownLatch(round);
@@ -107,7 +104,7 @@ public final class ActivitiesSpatialManager extends
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		
 		
 	}
@@ -123,7 +120,7 @@ public final class ActivitiesSpatialManager extends
 		List<Long> ids = this.search(EntityType.activity, longitude, latitude, radius);
 		List<IActivities> result = Lists.newLinkedList();
 		for (long id : ids) {
-			result.add(this.manager.get(id));
+//			result.add(this.manager.get(id));
 		}
 		return result;
 	}

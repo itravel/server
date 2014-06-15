@@ -1,0 +1,146 @@
+package com.itravel.server.dal.entities;
+
+import com.itravel.server.dal.entities.UpcomingEvents;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.*;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import static javax.persistence.FetchType.EAGER;
+
+/**
+ * Entity implementation class for Entity: Activities
+ *
+ */
+@Entity
+@Table(name="activities")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public class ActivitiesEntity extends UpcomingEvents implements Serializable {
+	private static final long serialVersionUID = 1L;
+	public ActivitiesEntity() {
+		super();
+	}
+	/**
+	 * 活动费用
+	 */
+	@Column(name="fee")
+	private long fee;
+	
+	/**
+	 * 活动标签
+	 */
+	@Column(name="tags",length=256)
+	private String tags;
+	
+	/**
+	 * 活动类型
+	 */
+	@Column(name="activity_type",length=256)
+	private String type;
+	
+	/**
+	 * 活动规模
+	 */
+	@Column(name="scale")
+	private int scale;
+	
+	/**
+	 * 活动用户
+	 */
+	/*@JoinTable(inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "ID", columnDefinition = "user_id"), joinColumns = @JoinColumn(name = "id", referencedColumnName = "id", columnDefinition = "activities_id"))
+	@OneToMany(fetch = EAGER)
+	private List<UserEntity> participants;*/
+	
+	/**
+	 * 趣味性评级
+	 */
+	@Column(name="interesting_rate")
+	private int interestingRate;
+	
+	/**
+	 * 人气
+	 */
+	@Column(name="popularity")
+	private int popularity;
+	
+	/**
+	 * 交通方便性
+	 */
+	@Column(name="convenience")
+	private int convenience;
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public long getFee() {
+		return fee;
+	}
+
+	public void setFee(long fee) {
+		this.fee = fee;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getScale() {
+		return scale;
+	}
+
+	public void setScale(int scale) {
+		this.scale = scale;
+	}
+
+	/*public List<UserEntity> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(List<UserEntity> participants) {
+		this.participants = participants;
+	}*/
+
+	public int getInterestingRate() {
+		return interestingRate;
+	}
+
+	public void setInterestingRate(int interestingRate) {
+		this.interestingRate = interestingRate;
+	}
+
+	public int getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
+
+	public int getConvenience() {
+		return convenience;
+	}
+
+	public void setConvenience(int convenience) {
+		this.convenience = convenience;
+	}
+
+	
+}
