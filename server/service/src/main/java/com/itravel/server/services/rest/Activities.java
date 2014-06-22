@@ -38,15 +38,16 @@ public class Activities {
 	private static IDataRepository<ActivitiesEntity> dataRepo = new UpcomingEventsDBRepository();
 	private static ObjectMapper om = new ObjectMapper();
 	public Activities(){
-		logger.info("");
+		logger.info("activities server started");
 	}
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response query(@BeanParam UpcomingEventsQuery query){
 		logger.info(query);
 		IFilter<ActivitiesEntity> filter = query.createFilter();
 		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
-		return Response.serverError().entity(entities).build();
+		
+		return Response.ok(entities).build();
 	}
 }
