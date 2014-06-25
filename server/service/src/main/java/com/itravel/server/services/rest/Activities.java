@@ -7,10 +7,12 @@ import javax.inject.Singleton;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,5 +51,16 @@ public class Activities {
 		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
 		
 		return Response.ok(entities).build();
+	}
+	@Path("/{id}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response get(@PathParam(value = "id") long id){
+		IFilter<ActivitiesEntity> filter = UpcomingEventDBFilter.createIDFilter(id);
+		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
+		if(entities.isEmpty()){
+			return Response.status(Status.NOT_FOUND).entity("{}").build();
+		}
+		return Response.ok(entities.get(0)).build();
 	}
 }
