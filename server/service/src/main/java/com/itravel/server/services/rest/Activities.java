@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -48,6 +49,14 @@ public class Activities {
 		IFilter<ActivitiesEntity> filter = query.createFilter();
 		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
 		
+		return Response.ok(entities).build();
+	}
+	@Path("/{id}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response get(@PathParam(value = "id") long id){
+		IFilter<ActivitiesEntity> filter = UpcomingEventDBFilter.createIDFilter(id);
+		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
 		return Response.ok(entities).build();
 	}
 }
