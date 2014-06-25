@@ -58,9 +58,11 @@ public class Activities {
 	public Response get(@PathParam(value = "id") long id){
 		IFilter<ActivitiesEntity> filter = UpcomingEventDBFilter.createIDFilter(id);
 		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
+
 		if(entities.isEmpty()){
 			return Response.status(Status.NOT_FOUND).entity("{}").build();
 		}
 		return Response.ok(entities.get(0)).build();
+
 	}
 }
