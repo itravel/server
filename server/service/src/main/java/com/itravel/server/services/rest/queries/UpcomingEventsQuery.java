@@ -5,8 +5,8 @@ import javax.ws.rs.QueryParam;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.itravel.server.dal.entities.ActivitiesEntity;
-import com.itravel.server.dal.filters.UpcomingEventDBFilter;
-import com.itravel.server.dal.filters.UpcomingEventDBFilter.UpcomingEventDBFilterByCity;
+import com.itravel.server.dal.filters.ActivitiesDBFilter;
+import com.itravel.server.dal.filters.ActivitiesDBFilter.UpcomingEventDBFilterByCity;
 import com.itravel.server.interfaces.dal.IFilter;
 import com.itravel.server.services.interfaces.QueryFilterGenerator;
 
@@ -34,13 +34,13 @@ public class UpcomingEventsQuery {
 		}
 		public IFilter<ActivitiesEntity> createFilter() {
 			if(id > 0){
-				return UpcomingEventDBFilter.createIDFilter(id);
+				return ActivitiesDBFilter.createIDFilter(id);
 			}
 			else if(cityCode > 0) {
-				return UpcomingEventDBFilter.createCityFilter(cityCode);
+				return ActivitiesDBFilter.createCityFilter(cityCode);
 			}
 			else {
-				return UpcomingEventDBFilter.createNoneFilter();
+				return ActivitiesDBFilter.createNoneFilter();
 			}
 		}
 		

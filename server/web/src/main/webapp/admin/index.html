@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html ng-app="admin">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../resources/css/darshboard.css">
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="../resources/angular-1.2.18/angular.js"></script>
+<script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="../resources/scripts/app.js"></script>
+<title>活动管理</title>
+</head>
+<body ng-controller="ActivitiesCtrl">
+	<!-- 页头导航部分开始 -->
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">后台管理系统</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+ 	</div>
+ 	<!-- 页头导航部分结束 -->
+ 	
+ 	<!-- 左导航部分开始 -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+            		<li class="active"><a href="#">活动管理</a></li>
+            		<li><a href="#">目的地管理</a></li>
+            		<li><a href="#">用户管理</a></li>
+            		<li><a href="#">其他管理</a></li>
+          		</ul>
+			</div>
+			
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<div class="page-header">
+					<span class="h1">活动管理</span>
+					<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">创建活动</button>
+				</div>
+				<div class="panel panel-default">
+  				<!-- Default panel contents -->
+  					<div class="panel-heading">活动列表</div>
+  					<div class="panel-body">
+    					<p></p>
+  					</div>
+
+  					<!-- Table -->
+  					<table class="table table-hover">
+  						<tr>
+  							<th>ID</th>
+  							<th>标题</th>
+  							<th>开始时间</th>
+  							<th>结束时间</th>
+  							<th>经度</th>
+  							<th>维度</th>
+  							<th style="width:200px">地址</th>
+  							<th style="width:50px">类型</th>
+  							<th>规模</th>
+  						</tr>
+  						<tr ng-repeat="activity in activities">
+							<td>{{activity.id}}</td>
+							<td>{{activity.title}}</td>
+							<td>{{activity.startTime}}</td>
+							<td>{{activity.endTime}}</td>
+							<td>{{activity.longitude}}</td>
+							<td>{{activity.latitude}}</td>
+							<td>{{activity.address}}</td>
+							<td>{{activity.type}}</td>
+							<td>{{activity.scale}}</td>
+						</tr>
+  					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 左导航部分结束 -->
+	
+	<!-- 对话框 -->
+	
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<div class="modal-dialog modal-lg">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        			<h4 class="modal-title" id="myModalLabel">发布新的旅游活动</h4>
+      			</div>
+      			<div class="modal-body">
+      				<div class="container-fluid">
+      					<form ng-submit="submit">
+      					<div class="row">
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">标题</span>
+  									<input type="text" class="form-control" placeholder="title" ng-model="activity.title">
+								</div>
+      						</div>
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">城市</span>
+  									<select class="form-control" placeholder="city" ng-model="activity.city">
+  										<option value="110100" selected>北京</option>
+  									</select>
+								</div>
+      						</div>
+      					</div>
+      					
+      					<div class="row">
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">开始时间</span>
+  									<input type="text" class="form-control" placeholder="startTime" ng-model="activity.startTime">
+								</div>
+      						</div>
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">结束时间</span>
+  									<input type="text" class="form-control" placeholder="endTime" ng-model="activity.endTime">
+								</div>
+      						</div>
+      					</div>
+      					
+      					
+      					<div class="row">
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">地址</span>
+  									<input type="text" class="form-control" placeholder="address" ng-model="activity.address">
+								</div>
+      						</div>
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">类型</span>
+  									<input type="text" class="form-control" placeholder="type" ng-model="activity.type">
+								</div>
+      						</div>
+      					</div>
+      					
+      					<div class="row">
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">规模</span>
+  									<input type="text" class="form-control" placeholder="scale" ng-model="activity.scale">
+								</div>
+      						</div>
+      						<div class="col-md-6">
+      							<div class="input-group">
+  									<span class="input-group-addon">参考价格</span>
+  									<input type="text" class="form-control" placeholder="fee" ng-model="activity.fee">
+								</div>
+      						</div>
+      					</div>
+      					
+      					<div class="row">
+      						<div class="col-md-12">
+      							<div class="input-group">
+  									<span class="input-group-addon">简介</span>
+  									<textarea  rows="6" class="form-control" placeholder="abstractContent" ng-model="activity.abstractContent">
+  									</textarea>
+								</div>
+      						</div>
+      					</div>
+      					
+						</form>
+        			</div>
+		
+		
+		
+		
+      			</div>
+      
+      			<div class="modal-footer">
+        			<button type="reset" class="btn btn-default" data-dismiss="modal">放弃</button>
+        			<button type="submit" class="btn btn-primary" ng-click="save(activity)">保存</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+</body>
+</html>

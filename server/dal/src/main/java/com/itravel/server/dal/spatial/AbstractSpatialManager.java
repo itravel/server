@@ -88,17 +88,17 @@ public abstract class AbstractSpatialManager<T> implements ISpatialIndexManager<
 
 	public List<Long> search(EntityType type,double lnt, double lat, int radius) {
 		try {
-			//创建Query
+			//Query
 			Query query = new TermQuery(new Term("type",String.valueOf(type.ordinal())));
 			
-			//创建fileter
+			//fileter
 			Point pt = SpatialContext.GEO.makePoint(lnt, lat);
 			SpatialArgs args = new SpatialArgs(SpatialOperation.IsWithin,
 					SpatialContext.GEO.makeCircle(lnt, lat, DistanceUtils
 							.dist2Degrees(radius,
 									DistanceUtils.EARTH_MEAN_RADIUS_KM)));
 			Filter filter = strategy.makeFilter(args);
-			//创建Sort
+			//Sort
 			double degToM = DistanceUtils.degrees2Dist(1,
 					DistanceUtils.EARTH_MEAN_RADIUS_KM);
 			ValueSource valueSource = strategy.makeDistanceValueSource(pt);

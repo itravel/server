@@ -5,6 +5,7 @@
 		<class>com.itravel.server.dal.entities.UserEntity</class>
 		<class>com.itravel.server.dal.entities.ActivitiesComments</class>
 		<class>com.itravel.server.dal.entities.EventCrawlOriginEntity</class>
+		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://115.28.129.120:3306/itravel?characterEncoding=utf8"/>
 			<property name="javax.persistence.jdbc.user" value="admin"/>

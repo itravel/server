@@ -8,7 +8,6 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import com.itravel.server.services.rest.HomeInfoStream;
-import com.itravel.server.services.rest.TravelNotes;
 import com.itravel.server.services.rest.Activities;
 import com.itravel.server.services.rest.Users;
 
@@ -20,7 +19,6 @@ public class RestServiceApplication extends ResourceConfig {
 		this.register(Activities.class)
 		.register(HomeInfoStream.class)
 		.register(Users.class)
-		.register(TravelNotes.class)
         .register(JacksonFeature.class)
         .register(MultiPartFeature.class);
     }

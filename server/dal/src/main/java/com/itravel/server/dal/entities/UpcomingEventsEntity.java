@@ -23,6 +23,13 @@ public abstract class UpcomingEventsEntity implements Serializable {
 
 	public UpcomingEventsEntity() {
 		super();
+		Date now=new Date();
+		this.gmt_create = now;
+		this.gmt_modified = now;
+		this.title = "";
+		this.abstractContent = "";
+		this.address = "";
+		this.images = "";
 	}
 	
 	@Id
@@ -57,6 +64,9 @@ public abstract class UpcomingEventsEntity implements Serializable {
 	
 	@Column(name="latitude")
 	private double latitude;
+	
+	@Column(name="city_code")
+	private int cityCode;
 	
 	@Column(name="address")
 	private String address;
@@ -142,6 +152,14 @@ public abstract class UpcomingEventsEntity implements Serializable {
 
 	public void setImages(String images) {
 		this.images = images;
+	}
+
+	public int getCityCode() {
+		return cityCode;
+	}
+
+	public void setCityCode(int cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public String getAddress() {

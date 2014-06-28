@@ -20,14 +20,14 @@ import com.itravel.server.dal.entities.ActivitiesEntity;
 import com.itravel.server.dal.repos.UpcomingEventsDBRepository;
 import com.itravel.server.interfaces.dal.IFilter;
 import com.itravel.server.interfaces.dal.repos.IDataRepository;
-public abstract class UpcomingEventDBFilter implements IFilter<ActivitiesEntity>{
+public abstract class ActivitiesDBFilter implements IFilter<ActivitiesEntity>{
 	protected Logger logger = LogManager.getLogger(this.getClass());
 
 
-	public static UpcomingEventDBFilter createIDFilter(long... ids){
+	public static ActivitiesDBFilter createIDFilter(long... ids){
 		return new UpcomingEventDBFilterByIDs(ids);
 	}
-	public static UpcomingEventDBFilter createCityFilter(int city){
+	public static ActivitiesDBFilter createCityFilter(int city){
 		return new UpcomingEventDBFilterByCity(city);
 	}
 	
@@ -36,7 +36,7 @@ public abstract class UpcomingEventDBFilter implements IFilter<ActivitiesEntity>
 	 * @author william.wangwm
 	 *
 	 */
-	public static class UpcomingEventDBFilterByIDs extends  UpcomingEventDBFilter {
+	public static class UpcomingEventDBFilterByIDs extends  ActivitiesDBFilter {
 		private final List<Long> idList=Lists.newArrayList();
 		private static final String QUERY_BY_IDS = "select A from ActivitiesEntity A where A.id in :ids order by A.id";
 		public UpcomingEventDBFilterByIDs(long... ids){
@@ -61,8 +61,8 @@ public abstract class UpcomingEventDBFilter implements IFilter<ActivitiesEntity>
 	 * @author william.wangwm
 	 *
 	 */
-	public static class UpcomingEventDBFilterByCity extends  UpcomingEventDBFilter {
-		private static final String QUERY_BY_CITY = "select A from ActivitiesEntity A order by A.id ";
+	public static class UpcomingEventDBFilterByCity extends  ActivitiesDBFilter {
+		private static final String QUERY_BY_CITY = "select A from ActivitiesEntity A order by ABS(A.startTime-current_date()) ";
 		int city = 0;
 		public UpcomingEventDBFilterByCity(int city){
 			this.city = city;
@@ -81,13 +81,27 @@ public abstract class UpcomingEventDBFilter implements IFilter<ActivitiesEntity>
 	public static IFilter<ActivitiesEntity> createNoneFilter() {
 		// TODO Auto-generated method stub
 		return new IFilter<ActivitiesEntity>(){
-			private static final String QUERY_ALL = "select A from ActivitiesEntity A";
+			private static final String QUERY_ALL = "select * from activities order by abs(start_time - now())";
 			@Override
 			public List<ActivitiesEntity> doFilter(
 					IDataRepository<ActivitiesEntity> repo) {
 				UpcomingEventsDBRepository reppo = (UpcomingEventsDBRepository) repo;
-				return reppo.getEntityManager().createQuery(QUERY_ALL,ActivitiesEntity.class).getResultList();
+				return reppo.getEntityManager().createNativeQuery(QUERY_ALL,ActivitiesEntity.class).getResultList();
 			}
+			
+		};
+	}
+	public static IFilter<ActivitiesEntity> createMonthFilter(int month, int cityCode) {
+		// TODO Auto-generated method stub
+		return new IFilter<ActivitiesEntity>() {
+
+			@Override
+			public List<ActivitiesEntity> doFilter(
+					IDataRepository<ActivitiesEntity> upcomingEventsRepository) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
 			
 		};
 	}

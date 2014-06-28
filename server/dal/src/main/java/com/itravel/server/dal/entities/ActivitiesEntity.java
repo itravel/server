@@ -22,52 +22,59 @@ public class ActivitiesEntity extends UpcomingEventsEntity implements Serializab
 	private static final long serialVersionUID = 1L;
 	public ActivitiesEntity() {
 		super();
+		this.fee=0;
+		this.tags="";
+		this.type=0;
+		this.scale=16;
+		this.interestingRate=5;
+		this.popularity = 5;
+		this.convenience = 5;
 	}
 	/**
-	 * »î¶¯·ÑÓÃ
+	 * è´¹ç”¨
 	 */
 	@Column(name="fee")
 	private long fee;
 	
 	/**
-	 * »î¶¯±êÇ©
+	 * æ ‡è®°
 	 */
 	@Column(name="tags",length=256)
 	private String tags;
 	
 	/**
-	 * »î¶¯ÀàĞÍ
+	 * ï¿½î¶¯ï¿½ï¿½ï¿½ï¿½
 	 */
 	@Column(name="activity_type",length=256)
-	private String type;
+	private int type;
 	
 	/**
-	 * »î¶¯¹æÄ£
+	 * è§„æ¨¡
 	 */
 	@Column(name="scale")
 	private int scale;
 	
 	/**
-	 * »î¶¯ÓÃ»§
+	 * 
 	 */
 	/*@JoinTable(inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "ID", columnDefinition = "user_id"), joinColumns = @JoinColumn(name = "id", referencedColumnName = "id", columnDefinition = "activities_id"))
 	@OneToMany(fetch = EAGER)
 	private List<UserEntity> participants;*/
 	
 	/**
-	 * È¤Î¶ĞÔÆÀ¼¶
+	 * æœ‰è¶£ç¨‹åº¦
 	 */
 	@Column(name="interesting_rate")
 	private int interestingRate;
 	
 	/**
-	 * ÈËÆø
+	 * æµè¡Œç¨‹åº¦
 	 */
 	@Column(name="popularity")
 	private int popularity;
 	
 	/**
-	 * ½»Í¨·½±ãĞÔ
+	 * æ–¹ä¾¿æ€§
 	 */
 	@Column(name="convenience")
 	private int convenience;
@@ -94,11 +101,11 @@ public class ActivitiesEntity extends UpcomingEventsEntity implements Serializab
 		this.tags = tags;
 	}
 
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
