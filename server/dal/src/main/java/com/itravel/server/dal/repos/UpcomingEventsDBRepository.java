@@ -22,5 +22,29 @@ public class UpcomingEventsDBRepository   implements IDataRepository<ActivitiesE
 		return filter.doFilter(this);
 	}
 
+	@Override
+	public void persist(ActivitiesEntity entity) {
+		// TODO Auto-generated method stub
+		
+		EntityManager manager = emf.createEntityManager();
+		manager.getTransaction().begin();
+		manager.persist(entity);
+		manager.getTransaction().commit();
+	}
+
+	@Override
+	public void persistAll(List<ActivitiesEntity> entities) {
+		// TODO Auto-generated method stub
+		EntityManager manager = emf.createEntityManager();
+		manager.getTransaction().begin();
+		for(ActivitiesEntity entity:entities){
+			
+			manager.persist(entity);
+		}
+		manager.getTransaction().commit();
+	}
+	
+	
+
 
 }

@@ -23,6 +23,13 @@ public abstract class UpcomingEventsEntity implements Serializable {
 
 	public UpcomingEventsEntity() {
 		super();
+		Date now=new Date();
+		this.gmt_create = now;
+		this.gmt_modified = now;
+		this.title = "";
+		this.abstractContent = "";
+		this.address = "";
+		this.images = "";
 	}
 	
 	@Id

@@ -22,6 +22,13 @@ public class ActivitiesEntity extends UpcomingEventsEntity implements Serializab
 	private static final long serialVersionUID = 1L;
 	public ActivitiesEntity() {
 		super();
+		this.fee=0;
+		this.tags="";
+		this.type=0;
+		this.scale=16;
+		this.interestingRate=5;
+		this.popularity = 5;
+		this.convenience = 5;
 	}
 	/**
 	 * 活动费用
@@ -39,7 +46,7 @@ public class ActivitiesEntity extends UpcomingEventsEntity implements Serializab
 	 * 活动类型
 	 */
 	@Column(name="activity_type",length=256)
-	private String type;
+	private int type;
 	
 	/**
 	 * 活动规模
@@ -94,11 +101,11 @@ public class ActivitiesEntity extends UpcomingEventsEntity implements Serializab
 		this.tags = tags;
 	}
 
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 

@@ -62,7 +62,7 @@ public abstract class UpcomingEventDBFilter implements IFilter<ActivitiesEntity>
 	 *
 	 */
 	public static class UpcomingEventDBFilterByCity extends  UpcomingEventDBFilter {
-		private static final String QUERY_BY_CITY = "select A from ActivitiesEntity A order by A.id ";
+		private static final String QUERY_BY_CITY = "select A from ActivitiesEntity A order by ABS(A.startTime-current_date()) ";
 		int city = 0;
 		public UpcomingEventDBFilterByCity(int city){
 			this.city = city;
@@ -81,12 +81,12 @@ public abstract class UpcomingEventDBFilter implements IFilter<ActivitiesEntity>
 	public static IFilter<ActivitiesEntity> createNoneFilter() {
 		// TODO Auto-generated method stub
 		return new IFilter<ActivitiesEntity>(){
-			private static final String QUERY_ALL = "select A from ActivitiesEntity A";
+			private static final String QUERY_ALL = "select * from activities order by abs(start_time - now())";
 			@Override
 			public List<ActivitiesEntity> doFilter(
 					IDataRepository<ActivitiesEntity> repo) {
 				UpcomingEventsDBRepository reppo = (UpcomingEventsDBRepository) repo;
-				return reppo.getEntityManager().createQuery(QUERY_ALL,ActivitiesEntity.class).getResultList();
+				return reppo.getEntityManager().createNativeQuery(QUERY_ALL,ActivitiesEntity.class).getResultList();
 			}
 			
 		};

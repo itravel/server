@@ -1,0 +1,151 @@
+<html ng-app="admin">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>什么值得玩 - 后台</title>
+<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="../resources/angular-1.2.18/angular.js"></script>
+<script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+var adminModule = angular.module('admin',[]); 	
+adminModule.controller('ActivitiesCtrl',function($scope,$http){
+	$http.get('../services/activities').success(function(data) {
+	    $scope.activities = data;
+	  });
+	$scope.activity = {};
+	$scope.save = function(activity){
+		console.debug("---");
+		$http({
+			method:'POST',
+			url:'../services/activities',
+			data:$.param(activity),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				
+		});
+	};
+});
+
+</script>
+</head>
+<body  ng-controller="ActivitiesCtrl">
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">发布新的旅游活动</h4>
+      </div>
+      <div class="modal-body">
+      	<form ng-submit="save(activity)">
+        <div class="input-group">
+  			<span class="input-group-addon">标题</span>
+  			<input type="text" class="form-control" placeholder="title" ng-model="activity.title">
+		</div>
+		<br/>
+		<div class="input-group">
+  			<span class="input-group-addon">简介</span>
+  			<input type="text" class="form-control" placeholder="abstractContent" ng-model="activity.abstractContent">
+		</div>
+		<br/>
+		<div class="input-group">
+  			<span class="input-group-addon">开始时间</span>
+  			<input type="text" class="form-control" placeholder="startTime" ng-model="activity.startTime">
+		</div>
+		<br/>
+		<div class="input-group">
+  			<span class="input-group-addon">结束时间</span>
+  			<input type="text" class="form-control" placeholder="endTime" ng-model="activity.endTime">
+		</div>
+		<br/>
+		
+		<div class="input-group">
+  			<span class="input-group-addon">城市</span>
+  			<input type="text" class="form-control" placeholder="city" ng-model="activity.cityCode">
+		</div>
+		<br/>
+		
+		<div class="input-group">
+  			<span class="input-group-addon">地址</span>
+  			<input type="text" class="form-control" placeholder="address" ng-model="activity.address">
+		</div>
+		<br/>
+		
+		<div class="input-group">
+  			<span class="input-group-addon">类型</span>
+  			<input type="text" class="form-control" placeholder="type" ng-model="activity.type">
+		</div>
+		<br/>
+		
+		<div class="input-group">
+  			<span class="input-group-addon">规模</span>
+  			<input type="text" class="form-control" placeholder="scale" ng-model="activity.scale">
+		</div>
+		<br/>
+		
+		</form>
+		
+		
+      </div>
+      
+      <pre>form = {{activity | json}}</pre>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-default" data-dismiss="modal">放弃</button>
+        <button type="submit" class="btn btn-primary" ng-click="save(activity)">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div style="width:1024px;margin-left:100px;margin-top:100px">
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">活动</div>
+  <div class="panel-body">
+    <p>
+    	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  			create
+		</button>
+    </p>
+  </div>
+
+  <!-- Table -->
+  <table class="table" >
+  	<tr>
+  		<th>ID</th>
+  		<th>标题</th>
+  		<th>内容简介</th>
+  		<th>开始时间</th>
+  		<th>结束时间</th>
+  		<th>经度</th>
+  		<th>维度</th>
+  		<th style="width:200px">地址</th>
+  		<th style="width:50px">类型<br/>(1:节日;)</th>
+  		<th>规模</th>
+  		<th>有趣程度</th>
+  		<th>方便程度</th>
+  	</tr>
+	<tr ng-repeat="activity in activities">
+		<td>{{activity.id}}</td>
+		<td>{{activity.title}}</td>
+		<td>{{activity.abstractContent}}</td>
+		<td>{{activity.startTime}}</td>
+		<td>{{activity.endTime}}</td>
+		<td>{{activity.longitude}}</td>
+		<td>{{activity.latitude}}</td>
+		<td>{{activity.address}}</td>
+		<td>{{activity.type}}</td>
+		<td>{{activity.scale}}</td>
+		<td>{{activity.interestingRate}}</td>
+		<td>{{activity.convenience}}</td>
+	</tr>
+  </table>
+</div>
+</div>
+</body>
+</html>
