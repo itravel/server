@@ -69,7 +69,7 @@ public class Activities {
 		logger.info(query);
 		IFilter<ActivitiesEntity> filter = query.createFilter();
 		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
-		logger.debug(entities);
+
 		try {
 			return Response.ok(om.writeValueAsString(entities)).build();
 		} catch (JsonProcessingException e) {
@@ -161,9 +161,39 @@ public class Activities {
 //			entity.setImages("/images/"+entity.getId()+".jpg");
 //			dataRepo.persist(entity);
 			return Response.ok().build();
+		}
+		catch(Exception e){
+			return Response.serverError().build();
+		}
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} 
+	@POST
+	@Consumes("application/x-www-form-urlencoded")
+	public Response create(
+			@FormParam(value = "title") String title,
+			@FormParam(value = "abstractContent") String abstractContent,
+			@FormParam(value = "startTime") String _startTime,
+			@FormParam(value = "endTime") String _endTime,
+			@FormParam(value = "city") String cityCode,
+			@FormParam(value = "address") String address,
+			@FormParam(value = "type") int type,
+			@FormParam(value = "scale") int scale
+		){
+		try {
+			Date startTime = simpleDateFormat.parse(_startTime);
+			Date endTime = simpleDateFormat.parse(_endTime);
+			ActivitiesEntity entity = new ActivitiesEntity();
+			entity.setTitle(title);
+			entity.setAbstractContent(abstractContent);
+			entity.setAddress(address);
+			entity.setStartTime(startTime);
+			entity.setEndTime(endTime);
+			entity.setType(type);
+			entity.setScale(scale);
+			dataRepo.persist(entity);
+			return Response.ok().build();
+			
+		} catch (ParseException e) {
 		
 			e.printStackTrace();
 			return Response.serverError().entity(e.getMessage()).build();
