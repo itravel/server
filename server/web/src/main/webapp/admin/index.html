@@ -7,16 +7,22 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" href="../../favicon.ico">
-<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
-<link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="../resources/css/darshboard.css">
-<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="../resources/admin/css/darshboard.css">
+<link rel="stylesheet" href="../resources/datepicker/css/datepicker.css">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="../resources/angular-1.2.18/angular.js"></script>
-<script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="../resources/scripts/app.js"></script>
+<script src="../resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="../resources/datepicker/js/bootstrap-datepicker.js"></script>
+<script src="../resources/admin/scripts/app.js"></script>
+
+
+
 <title>活动管理</title>
 </head>
 <body ng-controller="ActivitiesCtrl">
+	
 	<!-- 页头导航部分开始 -->
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
@@ -61,12 +67,15 @@
 					<span class="h1">活动管理</span>
 					<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">创建活动</button>
 				</div>
+				
+				
 				<div class="panel panel-default">
   				<!-- Default panel contents -->
   					<div class="panel-heading">活动列表</div>
-  					<div class="panel-body">
+  					<!-- <div class="panel-body">
     					<p></p>
   					</div>
+					  -->
 
   					<!-- Table -->
   					<table class="table table-hover">
@@ -81,7 +90,7 @@
   							<th style="width:50px">类型</th>
   							<th>规模</th>
   						</tr>
-  						<tr ng-repeat="activity in activities">
+  						<tr ng-repeat="activity in activities" ng-click="go(activity)">
 							<td>{{activity.id}}</td>
 							<td>{{activity.title}}</td>
 							<td>{{activity.startTime}}</td>
@@ -112,6 +121,7 @@
       			<div class="modal-body">
       				<div class="container-fluid">
       					<form ng-submit="submit">
+      					<input type="hidden" ng-model="activity.id">
       					<div class="row">
       						<div class="col-md-6">
       							<div class="input-group">
@@ -122,8 +132,8 @@
       						<div class="col-md-6">
       							<div class="input-group">
   									<span class="input-group-addon">城市</span>
-  									<select class="form-control" placeholder="city" ng-model="activity.city">
-  										<option value="110100" selected>北京</option>
+  									<select class="form-control" placeholder="city" ng-model="activity.cityCode">
+  										<option value="110000" selected>北京</option>
   									</select>
 								</div>
       						</div>
@@ -133,13 +143,20 @@
       						<div class="col-md-6">
       							<div class="input-group">
   									<span class="input-group-addon">开始时间</span>
-  									<input type="text" class="form-control" placeholder="startTime" ng-model="activity.startTime">
+  									<div class=" input-append date" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
+  										<input class="form-control span2" placeholder="startTime" ng-model="activity.startTime" type="text" id="startTime">
+  										<span class="add-on"><i class="icon-calendar"></i></span>
+									</div>
+
 								</div>
       						</div>
       						<div class="col-md-6">
       							<div class="input-group">
   									<span class="input-group-addon">结束时间</span>
-  									<input type="text" class="form-control" placeholder="endTime" ng-model="activity.endTime">
+  									<div class=" input-append date" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
+  										<input class="form-control span2" placeholder="endTime" ng-model="activity.endTime" type="text" id="endTime">
+  										<span class="add-on"><i class="icon-calendar"></i></span>
+									</div>
 								</div>
       						</div>
       					</div>
@@ -154,8 +171,8 @@
       						</div>
       						<div class="col-md-6">
       							<div class="input-group">
-  									<span class="input-group-addon">类型</span>
-  									<input type="text" class="form-control" placeholder="type" ng-model="activity.type">
+  									<span class="input-group-addon">参考价格</span>
+  									<input type="text" class="form-control" placeholder="fee" ng-model="activity.fee">
 								</div>
       						</div>
       					</div>
@@ -163,14 +180,21 @@
       					<div class="row">
       						<div class="col-md-6">
       							<div class="input-group">
-  									<span class="input-group-addon">规模</span>
-  									<input type="text" class="form-control" placeholder="scale" ng-model="activity.scale">
+  									<span class="input-group-addon">类型</span>
+  									<select class="form-control" placeholder="type" ng-model="activity.type">
+  										<option value="256" selected>公众活动</option>
+  									</select>
 								</div>
       						</div>
+      						
       						<div class="col-md-6">
       							<div class="input-group">
-  									<span class="input-group-addon">参考价格</span>
-  									<input type="text" class="form-control" placeholder="fee" ng-model="activity.fee">
+  									<span class="input-group-addon">规模</span>
+  									<select class="form-control" placeholder="scale" ng-model="activity.scale">
+  										<option value="16" selected>大型(500人以上)</option>
+  										<option value="8" selected>中型(50-500人)</option>
+  										<option value="4" selected>小型(50人以下)</option>
+  									</select>
 								</div>
       						</div>
       					</div>
@@ -194,11 +218,37 @@
       			</div>
       
       			<div class="modal-footer">
-        			<button type="reset" class="btn btn-default" data-dismiss="modal">放弃</button>
+        			<button type="reset" class="btn btn-default" data-dismiss="modal">关闭</button>
         			<button type="submit" class="btn btn-primary" ng-click="save(activity)">保存</button>
       			</div>
     		</div>
   		</div>
 	</div>
+	
+	<script type="text/javascript">
+		$('#startTime').datepicker({
+	  		format: 'yyyy-mm-dd',
+	        weekStart: 1,
+	        autoclose: true,
+	        todayBtn: 'linked',
+	        language: 'zh-CN'
+	 	}).on('changeDate',function(ev){
+	  		var startTime = ev.date.valueOf();
+	  		
+	   });
+		
+		$('#endTime').datepicker({
+	  		format: 'yyyy-mm-dd',
+	        weekStart: 1,
+	        autoclose: true,
+	        todayBtn: 'linked',
+	        language: 'zh-CN'
+	 	}).on('changeDate',function(ev){
+	  		var startTime = ev.date.valueOf();
+	  		
+	   });
+		
+		
+</script>
 </body>
 </html>

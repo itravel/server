@@ -14,6 +14,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -131,7 +132,7 @@ public class Activities {
 			@FormParam(value = "abstractContent") String abstractContent,
 			@FormParam(value = "startTime") String _startTime,
 			@FormParam(value = "endTime") String _endTime,
-			@FormParam(value = "city") int cityCode,
+			@FormParam(value = "cityCode") int cityCode,
 			@FormParam(value = "address") String address,
 			@FormParam(value = "type") int type,
 			@FormParam(value = "scale") int scale,
@@ -148,6 +149,7 @@ public class Activities {
 			Date startTime = simpleDateFormat.parse(_startTime);
 			Date endTime = simpleDateFormat.parse(_endTime);
 			ActivitiesEntity entity = new ActivitiesEntity();
+			
 			entity.setTitle(title);
 			entity.setAbstractContent(abstractContent);
 			entity.setAddress(address);
@@ -157,6 +159,7 @@ public class Activities {
 			entity.setType(type);
 			entity.setScale(scale);
 			entity.setFee(fee);
+			logger.debug(entity);
 			dataRepo.persist(entity);
 //			entity.setImages("/images/"+entity.getId()+".jpg");
 //			dataRepo.persist(entity);
@@ -166,30 +169,81 @@ public class Activities {
 			return Response.serverError().build();
 		}
 			
-		} 
-	@POST
+	} 
+	@PUT
+	@Path("/{id}")
+	@Consumes("application/x-www-form-urlencoded")
+	public Response update(
+			@PathParam(value = "id") long id,
+			@FormParam(value = "title") String title,
+			@FormParam(value = "abstractContent") String abstractContent,
+			@FormParam(value = "startTime") String _startTime,
+			@FormParam(value = "endTime") String _endTime,
+			@FormParam(value = "cityCode") int cityCode,
+			@FormParam(value = "address") String address,
+			@FormParam(value = "type") int type,
+			@FormParam(value = "scale") int scale,
+			@FormParam(value = "fee") long fee){
+		
+		try {
+//			List<FormDataBodyPart> bodyPartList= formDataMultiPart.getFields("pictures");  
+//			for(FormDataBodyPart part:bodyPartList){
+//				InputStream input = part.getEntityAs(InputStream.class);
+////				String url = ImageResourceUtil.saveImage(input, ImageCategory.TRAVEL_NOTE,String.valueOf(tNote.getId()));
+//				System.out.println( "111");
+//			}
+			Date startTime = simpleDateFormat.parse(_startTime);
+			Date endTime = simpleDateFormat.parse(_endTime);
+			ActivitiesEntity entity = new ActivitiesEntity();
+			entity.setId(id);
+			entity.setTitle(title);
+			entity.setAbstractContent(abstractContent);
+			entity.setAddress(address);
+			entity.setStartTime(startTime);
+			entity.setEndTime(endTime);
+			entity.setCityCode(cityCode);
+			entity.setType(type);
+			entity.setScale(scale);
+			entity.setFee(fee);
+			logger.debug(entity);
+			dataRepo.persist(entity);
+//			entity.setImages("/images/"+entity.getId()+".jpg");
+//			dataRepo.persist(entity);
+			return Response.ok().build();
+		}
+		catch(Exception e){
+			return Response.serverError().build();
+		}
+	}
+	
+	/*@POST
 	@Consumes("application/x-www-form-urlencoded")
 	public Response create(
 			@FormParam(value = "title") String title,
 			@FormParam(value = "abstractContent") String abstractContent,
 			@FormParam(value = "startTime") String _startTime,
 			@FormParam(value = "endTime") String _endTime,
-			@FormParam(value = "city") String cityCode,
+			@FormParam(value = "cityCode") int cityCode,
 			@FormParam(value = "address") String address,
 			@FormParam(value = "type") int type,
 			@FormParam(value = "scale") int scale
 		){
 		try {
+			System.out.println("--------------------------------------");
+			logger.debug(cityCode);
 			Date startTime = simpleDateFormat.parse(_startTime);
 			Date endTime = simpleDateFormat.parse(_endTime);
 			ActivitiesEntity entity = new ActivitiesEntity();
 			entity.setTitle(title);
+			entity.setCityCode(cityCode);
 			entity.setAbstractContent(abstractContent);
 			entity.setAddress(address);
 			entity.setStartTime(startTime);
 			entity.setEndTime(endTime);
 			entity.setType(type);
 			entity.setScale(scale);
+			System.out.println(entity);
+			logger.debug(entity);
 			dataRepo.persist(entity);
 			return Response.ok().build();
 			
@@ -199,5 +253,5 @@ public class Activities {
 			return Response.serverError().entity(e.getMessage()).build();
 		}
 		
-	}
+	}*/
 }

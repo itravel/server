@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="admin">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap-theme.css">
+<link rel="stylesheet" href="../resources/admin/css/darshboard.css">
+<link rel="stylesheet" href="../resources/datepicker/css/datepicker.css">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="../resources/angular-1.2.18/angular.js"></script>
+<script src="../resources/bootstrap/js/bootstrap.js"></script>
+<script src="../resources/datepicker/js/bootstrap-datepicker.js"></script>
+<script src="../resources/admin/scripts/app.js"></script>
+</head>
+<body class="">
+<div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+  <input class="span2" size="16" type="text" value="12-02-2012" id="starttime">
+  <span class="add-on"><i class="icon-calendar"></i></span>
+</div> 
+				<script type="text/javascript">
+				$('#starttime').datepicker({
+					  format: 'yyyy.mm.dd',
+					        weekStart: 1,
+					        autoclose: true,
+					        todayBtn: 'linked',
+					        language: 'zh-CN'
+					 }).on('changeDate',function(ev){
+					  var startTime = ev.date.valueOf();
+					  if(start<teach){
+					   alert("“评估开始时间 ”不能早于“授课时间 ” ！");
+					   $("#starttime").focus();
+					  }
+					   });
+					 $('#endtime').datepicker({
+					  format: 'yyyy.mm.dd',
+					        weekStart: 1,
+					        autoclose: true,
+					        todayBtn: 'linked',
+					        language: 'zh-CN'
+					 }).on('changeDate',function(ev){
+					  var endTime = ev.date.valueOf();
+					  end = endTime;
+					  if(end<start){
+					   alert("“评估结束时间 ”不能早于“评估开始时间 ” ！");
+					   
+					  }else{
+					   
+					  }
+					 });
+				</script>
+</body>
+</html>

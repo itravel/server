@@ -28,6 +28,9 @@ public class UpcomingEventsDBRepository   implements IDataRepository<ActivitiesE
 		
 		EntityManager manager = emf.createEntityManager();
 		manager.getTransaction().begin();
+		if(entity.getId()>0){
+			manager.find(ActivitiesEntity.class, entity.getId());
+		}
 		manager.merge(entity);
 		manager.getTransaction().commit();
 	}
