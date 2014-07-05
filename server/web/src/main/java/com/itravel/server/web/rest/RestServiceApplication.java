@@ -9,7 +9,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.itravel.server.services.rest.HomeInfoStream;
 import com.itravel.server.services.rest.Activities;
+import com.itravel.server.services.rest.ImageUploader;
 import com.itravel.server.services.rest.Users;
+import com.itravel.web.admin.servlets.ImageUpload;
 
 @ApplicationPath( "services" )
 public class RestServiceApplication extends ResourceConfig {
@@ -19,6 +21,7 @@ public class RestServiceApplication extends ResourceConfig {
 		this.register(Activities.class)
 		.register(HomeInfoStream.class)
 		.register(Users.class)
+		.register(ImageUploader.class)
         .register(JacksonFeature.class)
         .register(MultiPartFeature.class);
     }
