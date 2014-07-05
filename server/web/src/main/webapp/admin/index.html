@@ -216,11 +216,11 @@
         			
         			<div class="row">
         				<div class="col-md-12">
-	        			<input type="file" name="pictures" id="fileupload_input" />
+	        			<input type="file" name="pictures" id="fileupload_input" ng-model="activity.d"/>
 						</div>
 					</div>
       			</div>
-      
+      			<pre>{{activity | json}}</pre>
       			<div class="modal-footer">
         			<button type="reset" class="btn btn-default" data-dismiss="modal">关闭</button>
         			<button type="submit" class="btn btn-primary" ng-click="save(activity)">保存</button>

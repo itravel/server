@@ -166,6 +166,7 @@ public class Activities {
 			return Response.ok().build();
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			return Response.serverError().build();
 		}
 			
@@ -212,6 +213,7 @@ public class Activities {
 			return Response.ok().build();
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			return Response.serverError().build();
 		}
 	}
