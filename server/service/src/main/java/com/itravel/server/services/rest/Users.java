@@ -41,7 +41,7 @@ public class Users {
 		
 	}
 	/**
-	 * 根据id获取用户信息
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -58,7 +58,7 @@ public class Users {
 	
 			
 	/**
-	 * 上传头像
+	 * 
 	 * @param userId
 	 * @param in
 	 * @return
@@ -78,7 +78,7 @@ public class Users {
 	}
 	
 	/**
-	 * 获取头像
+	 * 
 	 * @param userId
 	 * @return
 	 */

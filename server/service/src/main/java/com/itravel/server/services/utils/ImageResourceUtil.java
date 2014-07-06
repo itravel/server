@@ -23,7 +23,7 @@ public final class ImageResourceUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "" ;
+		return filePath ;
 		
 	}
 	

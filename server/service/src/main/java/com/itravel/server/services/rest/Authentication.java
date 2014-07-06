@@ -28,7 +28,7 @@ public class Authentication {
 	@Context
 	UriInfo uriInfo;
 	/**
-	 * 创建用户信息
+	 * 
 	 * @param userName
 	 * @param email
 	 * @param password
@@ -81,7 +81,7 @@ public class Authentication {
 	}
 	
 	/**
-	 * 创建用户信息
+	 * 锟斤拷锟斤拷锟矫伙拷锟斤拷息
 	 * @param json
 	 * @return
 	 */
@@ -97,7 +97,7 @@ public class Authentication {
 	}
 	
 	/**
-	 * 验证手机号码是否重复
+	 * 
 	 * @param phoneNumber
 	 * @return
 	 */
@@ -114,7 +114,7 @@ public class Authentication {
 	}
 	
 	/**
-	 * 根据用户名，密码获取用户信息
+	 * 
 	 * @param userName
 	 * @param password
 	 * @return
@@ -124,7 +124,7 @@ public class Authentication {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserByUsrPwd(@QueryParam(value = "userName") String userName,@QueryParam(value = "password") String password){
 		if(userName == null || password == null) {
-			return Response.status(Status.BAD_REQUEST).entity("用户名密码不能为空").build();
+			return Response.status(Status.BAD_REQUEST).entity("锟矫伙拷锟斤拷锟斤拷锟诫不锟斤拷为锟斤拷").build();
 		}
 		IUser usr = this.manager.getUserByUserName(userName);
 		if(usr == null) {

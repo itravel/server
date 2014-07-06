@@ -16,7 +16,9 @@
 <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
 <script src="../resources/datepicker/js/bootstrap-datepicker.js"></script>
 <script src="../resources/admin/scripts/app.js"></script>
-
+<script src="../resources/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="../resources/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
+<script src="../resources/jQuery-File-Upload/js/jquery.fileupload.js"></script>
 
 
 <title>活动管理</title>
@@ -122,6 +124,7 @@
       				<div class="container-fluid">
       					<form ng-submit="submit">
       					<input type="hidden" ng-model="activity.id">
+      					<input type="hidden" ng-model="acvitity.images">
       					<div class="row">
       						<div class="col-md-6">
       							<div class="input-group">
@@ -144,7 +147,7 @@
       							<div class="input-group">
   									<span class="input-group-addon">开始时间</span>
   									<div class=" input-append date" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
-  										<input class="form-control span2" placeholder="startTime" ng-model="activity.startTime" type="text" id="startTime">
+  										<input class="form-control span2" b-datepicker placeholder="startTime" ng-model="activity.startTime" type="text" id="startTime">
   										<span class="add-on"><i class="icon-calendar"></i></span>
 									</div>
 
@@ -153,8 +156,8 @@
       						<div class="col-md-6">
       							<div class="input-group">
   									<span class="input-group-addon">结束时间</span>
-  									<div class=" input-append date" data-date="12-02-2012" data-date-format="yyyy-mm-dd">
-  										<input class="form-control span2" placeholder="endTime" ng-model="activity.endTime" type="text" id="endTime">
+  									<div class=" input-append date"  data-date="12-02-2012" data-date-format="yyyy-mm-dd">
+  										<input class="form-control span2" b-datepicker placeholder="endTime" ng-model="activity.endTime" type="text" id="endTime">
   										<span class="add-on"><i class="icon-calendar"></i></span>
 									</div>
 								</div>
@@ -202,6 +205,15 @@
       					<div class="row">
       						<div class="col-md-12">
       							<div class="input-group">
+  									<span class="input-group-addon">标签</span>
+  									<input type="text" class="form-control" placeholder="多个标签用逗号分割" ng-model="activity.tags">
+								</div>
+      						</div>
+      					</div>
+      					
+      					<div class="row">
+      						<div class="col-md-12">
+      							<div class="input-group">
   									<span class="input-group-addon">简介</span>
   									<textarea  rows="6" class="form-control" placeholder="abstractContent" ng-model="activity.abstractContent">
   									</textarea>
@@ -211,14 +223,16 @@
       					
 						</form>
         			</div>
-		
-		
-		
-		
+        			
+        			<div class="row">
+        				<div class="col-md-12">
+	        			<input type="file" name="pictures" id="fileupload_input" ng-model="activity.d"/>
+						</div>
+					</div>
       			</div>
-      
+      			<pre>{{activity | json}}</pre>
       			<div class="modal-footer">
-        			<button type="reset" class="btn btn-default" data-dismiss="modal">关闭</button>
+        			<button type="reset" class="btn btn-default" data-dismiss="modal" ng-click="clear()">关闭</button>
         			<button type="submit" class="btn btn-primary" ng-click="save(activity)">保存</button>
       			</div>
     		</div>
@@ -226,7 +240,7 @@
 	</div>
 	
 	<script type="text/javascript">
-		$('#startTime').datepicker({
+	/* 	$('#startTime').datepicker({
 	  		format: 'yyyy-mm-dd',
 	        weekStart: 1,
 	        autoclose: true,
@@ -246,7 +260,7 @@
 	 	}).on('changeDate',function(ev){
 	  		var startTime = ev.date.valueOf();
 	  		
-	   });
+	   }); */
 		
 		
 </script>

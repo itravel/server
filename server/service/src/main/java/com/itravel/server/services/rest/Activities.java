@@ -136,7 +136,9 @@ public class Activities {
 			@FormParam(value = "address") String address,
 			@FormParam(value = "type") int type,
 			@FormParam(value = "scale") int scale,
-			@FormParam(value = "fee") long fee
+			@FormParam(value = "fee") long fee,
+			@FormParam(value = "images") String images,
+			@FormParam(value = "tags") String tags
 			
 		){
 		try {
@@ -146,6 +148,9 @@ public class Activities {
 ////				String url = ImageResourceUtil.saveImage(input, ImageCategory.TRAVEL_NOTE,String.valueOf(tNote.getId()));
 //				System.out.println( "111");
 //			}
+			
+			System.out.println(tags);
+			System.out.println(images);
 			Date startTime = simpleDateFormat.parse(_startTime);
 			Date endTime = simpleDateFormat.parse(_endTime);
 			ActivitiesEntity entity = new ActivitiesEntity();
@@ -159,6 +164,8 @@ public class Activities {
 			entity.setType(type);
 			entity.setScale(scale);
 			entity.setFee(fee);
+			entity.setImages(images);
+			entity.setTags(tags);
 			logger.debug(entity);
 			dataRepo.persist(entity);
 //			entity.setImages("/images/"+entity.getId()+".jpg");
@@ -166,6 +173,7 @@ public class Activities {
 			return Response.ok().build();
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			return Response.serverError().build();
 		}
 			
@@ -183,7 +191,10 @@ public class Activities {
 			@FormParam(value = "address") String address,
 			@FormParam(value = "type") int type,
 			@FormParam(value = "scale") int scale,
-			@FormParam(value = "fee") long fee){
+			@FormParam(value = "fee") long fee,
+			@FormParam(value = "images") String images,
+			@FormParam(value = "tags") String tags
+			){
 		
 		try {
 //			List<FormDataBodyPart> bodyPartList= formDataMultiPart.getFields("pictures");  
@@ -192,6 +203,7 @@ public class Activities {
 ////				String url = ImageResourceUtil.saveImage(input, ImageCategory.TRAVEL_NOTE,String.valueOf(tNote.getId()));
 //				System.out.println( "111");
 //			}
+			System.out.println(images);
 			Date startTime = simpleDateFormat.parse(_startTime);
 			Date endTime = simpleDateFormat.parse(_endTime);
 			ActivitiesEntity entity = new ActivitiesEntity();
@@ -205,6 +217,8 @@ public class Activities {
 			entity.setType(type);
 			entity.setScale(scale);
 			entity.setFee(fee);
+			entity.setImages(images);
+			entity.setTags(tags);
 			logger.debug(entity);
 			dataRepo.persist(entity);
 //			entity.setImages("/images/"+entity.getId()+".jpg");
@@ -212,6 +226,7 @@ public class Activities {
 			return Response.ok().build();
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			return Response.serverError().build();
 		}
 	}
