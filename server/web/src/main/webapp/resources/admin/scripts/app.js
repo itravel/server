@@ -39,23 +39,50 @@ adminModule.controller('ActivitiesCtrl',function($scope,$http){
 			
 		}
 	}; 
-	
+	$scope.clear = function(){
+		$scope.activity = {};
+	}
 	$scope.go = function(activity){
 		$scope.activity = activity;
 		$('#myModal').modal();
 	}
 	
-	$scope.submit = function(){
-		console.debug("11111");
-	}
 	
 	$("#fileupload_input").fileupload({
 	    url:"../services/images/activities",//文件上传地址
 	    done:function(e,result){
 	    	JSON.stringify(result.result)
-	    	$scope.activity.image=result.result.imageNames;
+	    	$scope.activity.images=result.result.imageNames;
 	    	console.log($scope.activity.image);
 	    	
 	    }
 	});
-});
+})
+.directive('bDatepicker', function () {  
+	
+    return {  
+        restrict: 'A',  
+        require: "ngModel",    
+        link: function (scope, element, attr,ngModelCtrl) {  
+            element.datepicker({  
+            	format: 'yyyy-mm-dd',
+    	        weekStart: 1,
+    	        autoclose: true,
+    	        todayBtn: 'linked',
+    	        language: 'zh-CN'
+          
+            }).on('changeDate', function(e) {  
+                // var outputDate = new Date(e.date);  
+                // var n = outputDate.getTime();  
+            	console.log(e);
+                ngModelCtrl.$setViewValue(e.currentTarget.value);  
+                scope.$apply();  
+            });  
+            var component = element.siblings('[data-toggle="datepicker"]');  
+            if (component.length) {  
+                component.on('click', function () {  
+                });  
+            }  
+        }  
+    };  
+});  ;
