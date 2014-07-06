@@ -1,21 +1,14 @@
 package com.itravel.server.dal.filters;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-
-
-
-
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.itravel.server.dal.common.LimitParameter;
 import com.itravel.server.dal.entities.ActivitiesEntity;
 import com.itravel.server.dal.repos.UpcomingEventsDBRepository;
 import com.itravel.server.interfaces.dal.IFilter;
@@ -29,6 +22,10 @@ public abstract class ActivitiesDBFilter implements IFilter<ActivitiesEntity>{
 	}
 	public static ActivitiesDBFilter createCityFilter(int city){
 		return new UpcomingEventDBFilterByCity(city);
+	}
+	
+	public static ActivitiesDBFilter createTimeFilter(Date timeBegin,Date timeEnd,int page){
+		return new ActivitiesDBFilterByTime(timeBegin,timeEnd,page);
 	}
 	
 	/**
@@ -56,6 +53,36 @@ public abstract class ActivitiesDBFilter implements IFilter<ActivitiesEntity>{
 		}
 	}
 	
+	public static class ActivitiesDBFilterByTime extends  ActivitiesDBFilter{
+		private static final String QUERY_ALL = "select A from ActivitiesEntity A where A.startTime<:timeEnd and  A.endTime>:timeBegin order"
+				+ " by A.popularity";
+		//private static final String QUERY_ALL = "select A from ActivitiesEntity A where startTime<:timeEnd and  endTime>:timeBegin";
+		private Date timeBegin = null;
+		private Date timeEnd = null;
+		private int page = 0;
+		public ActivitiesDBFilterByTime(Date timeBegin,Date timeEnd,int page){
+			this.timeBegin = timeBegin;
+			this.timeEnd = timeEnd;
+			this.page = page;
+		}
+
+		@Override
+		public List<ActivitiesEntity> doFilter(
+				IDataRepository<ActivitiesEntity> repo) {
+			// TODO Auto-generated method stub
+			UpcomingEventsDBRepository reppo = (UpcomingEventsDBRepository) repo;
+			LimitParameter limit = new LimitParameter(page);
+			int limitPara1 = limit.getLimitFirstPar();
+			int limitPara2 = limit.getLimitSecondPar();
+			System.out.println(limitPara1);
+			System.out.println(limitPara2);
+			EntityManager em = reppo.getEntityManager();
+			List<ActivitiesEntity> result = em.createQuery(QUERY_ALL,ActivitiesEntity.class).setParameter("timeBegin", this.timeBegin)
+					.setParameter("timeEnd",this.timeEnd).setMaxResults(limitPara2).setFirstResult(limitPara1).getResultList();
+			em.close();
+			return result;
+		}	
+	}
 	/**
 	 * 
 	 * @author william.wangwm
@@ -105,6 +132,7 @@ public abstract class ActivitiesDBFilter implements IFilter<ActivitiesEntity>{
 			
 		};
 	}
+
 
 	
 	
