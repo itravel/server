@@ -5,7 +5,7 @@
     <artifactId>server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>tools</artifactId>
+  <artifactId>server-tools</artifactId>
   <name>admin-tools</name>
   <description>什么值得买后台工具系统</description>
   <dependencies>
@@ -20,7 +20,7 @@
 	</dependency>
   	<dependency>
   		<groupId>com.itravel</groupId>
-  		<artifactId>dal</artifactId>
+  		<artifactId>server-dal</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>

@@ -5,7 +5,7 @@
     <artifactId>server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>dal</artifactId>
+  <artifactId>server-dal</artifactId>
   <dependencies>
   	<dependency>
   		<groupId>org.eclipse.persistence</groupId>
@@ -49,7 +49,7 @@
   	</dependency>
   	<dependency>
   		<groupId>com.itravel</groupId>
-  		<artifactId>common</artifactId>
+  		<artifactId>server-common</artifactId>
   		<version>0.0.2-SNAPSHOT</version>
   	</dependency>
   </dependencies>
