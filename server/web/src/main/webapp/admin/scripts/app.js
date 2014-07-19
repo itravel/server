@@ -88,9 +88,57 @@ adminModule.controller('ActivitiesCtrl',function($scope,$http){
 }); 
 
 
+adminModule.controller('TagCtrl',function($scope,$http){
+	$http.get('../services/tags').success(function(data) {
+	    $scope.tags = data;
+	});
+	$http.get('../services/tags/categories').success(function(data) {
+	    $scope.tagCategories = data;
+	});
+	$scope.save = function(tag){
+		if(!tag){
+			return 
+		}
+		$http({
+			method:'POST',
+			url:'../services/tags',
+			data:$.param(tag),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		
+		}).success(function(data){
+			$scope.tags.push(data);
+		});
+		
+	};
+	$scope.clean = function(){
+		$scope.tag = null
+	};
+	$scope.saveCategory = function(tagCategory){
+		if(!tagCategory){
+			return
+		}
+		$http({
+			method:'POST',
+			url:'../services/tags/categories',
+			data:$.param(tagCategory),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		
+		}).success(function(data){
+			console.log(data);
+			$scope.tagCategories.push(data)
+		});
+	};
+	$scope.cleanCategory = function() {
+		$scope.tagCategory = null
+	}
+	
+	
+})
+
 adminModule.config(['$routeProvider', function($routeProvider) {
 	$routeProvider
-    .when('/', {templateUrl: 'views/activity_list.html', controller: 'ActivitiesCtrl'});
+    .when('/', {templateUrl: 'views/activity_list.html', controller: 'ActivitiesCtrl'})
+    .when('/tags',{templateUrl:'views/tags_list.html',controller:'TagCtrl'});
     
    
 }
