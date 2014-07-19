@@ -18,13 +18,13 @@ import com.itravel.server.services.rest.ImageUploader;
 public class RestServiceApplication extends ResourceConfig {
 	public RestServiceApplication() {
 		
-//        packages("com.itravel.server.services.rest")
-		this.register(Activities.class)
-		.register(HomeInfoStream.class)
-		.register(Users.class)
-		.register(ImageUploader.class)
+        packages("com.itravel.server.services.rest")
+//		this.register(Activities.class)
+//		.register(HomeInfoStream.class)
+//		.register(Users.class)
+//		.register(ImageUploader.class)
         .register(JacksonFeature.class)
-        .register(MultiPartFeature.class)
-		.register(LatestActivities.class);
+        .register(MultiPartFeature.class);
+//		.register(LatestActivities.class);
     }
 }
