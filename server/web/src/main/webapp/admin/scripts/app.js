@@ -115,7 +115,7 @@ adminModule.controller('TagCtrl',function($scope,$http){
 	};
 	$scope.saveCategory = function(tagCategory){
 		if(!tagCategory){
-			
+			return
 		}
 		$http({
 			method:'POST',
