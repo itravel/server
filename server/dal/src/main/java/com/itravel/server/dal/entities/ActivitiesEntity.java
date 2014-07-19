@@ -79,6 +79,7 @@ public class ActivitiesEntity extends UpcomingEventsEntity implements Serializab
 	@Column(name="convenience")
 	private int convenience;
 	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

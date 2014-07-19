@@ -2,10 +2,10 @@ package com.itravel.server.dal.common;
 
 public class LimitParameter {
 	int page = 0;
-	//int firstPageNum = 15;
-	//int everyPageNum = 10;
-	int firstPageNum = 50;
-	int everyPageNum = 40;
+	int firstPageNum = 15;
+	int everyPageNum = 10;
+	//int firstPageNum = 50;
+	//int everyPageNum = 40;
 	
 	public LimitParameter(int page){
 		this.page = page;

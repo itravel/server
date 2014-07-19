@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 import static javax.persistence.TemporalType.DATE;
@@ -74,6 +75,9 @@ public abstract class UpcomingEventsEntity implements Serializable {
 	@Column(name = "images",length=4096)
 	private String images;
 
+	@Column(name="city_name")
+	private String cityName;
+	
 	public long getId() {
 		return id;
 	}
@@ -170,6 +174,11 @@ public abstract class UpcomingEventsEntity implements Serializable {
 		this.address = address;
 	}
 	
+	public String getCityName() {
+		return cityName;
+	}
 	
-	
+	public String setCityName(String cityName) {
+		return this.cityName = cityName;
+	}
 }
