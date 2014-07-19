@@ -5,7 +5,7 @@
     <artifactId>server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>server-service</artifactId>
+  <artifactId>service</artifactId>
   <name>service</name>
   <description>爱侣游对外提供的服务</description>
   <dependencies>
@@ -15,12 +15,12 @@
   	</dependency>
   	<dependency>
   		<groupId>com.itravel</groupId>
-  		<artifactId>server-common</artifactId>
+  		<artifactId>common</artifactId>
   		<version>0.0.2-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>com.itravel</groupId>
-  		<artifactId>server-dal</artifactId>
+  		<artifactId>dal</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	<dependency>
