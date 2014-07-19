@@ -96,6 +96,9 @@ adminModule.controller('TagCtrl',function($scope,$http){
 	    $scope.tagCategories = data;
 	});
 	$scope.save = function(tag){
+		if(!tag){
+			return 
+		}
 		$http({
 			method:'POST',
 			url:'../services/tags',
@@ -106,8 +109,14 @@ adminModule.controller('TagCtrl',function($scope,$http){
 			$scope.tags.push(data);
 		});
 		
-	}
+	};
+	$scope.clean = function(){
+		$scope.tag = null
+	};
 	$scope.saveCategory = function(tagCategory){
+		if(!tagCategory){
+			
+		}
 		$http({
 			method:'POST',
 			url:'../services/tags/categories',
@@ -118,6 +127,9 @@ adminModule.controller('TagCtrl',function($scope,$http){
 			console.log(data);
 			$scope.tagCategories.push(data)
 		});
+	};
+	$scope.cleanCategory = function() {
+		$scope.tagCategory = null
 	}
 	
 	
