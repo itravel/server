@@ -3,9 +3,9 @@
 	<persistence-unit name="dal" transaction-type="RESOURCE_LOCAL">
 		<class>com.itravel.server.dal.entities.ActivitiesEntity</class>
 		<class>com.itravel.server.dal.entities.EventCrawlOriginEntity</class>
-		<class>com.itravel.server.dal.entities.TagEntities</class>
 		<class>com.itravel.server.dal.entities.UserEntity</class>
 		<class>com.itravel.server.dal.entities.ActivitiesCommentsEntity</class>
+		<class>com.itravel.server.dal.entities.TagEntity</class>
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://115.28.129.120:3306/itravel?characterEncoding=utf8"/>
