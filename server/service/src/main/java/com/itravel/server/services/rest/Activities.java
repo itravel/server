@@ -1,272 +1,99 @@
 package com.itravel.server.services.rest;
 
-
-import java.io.InputStream;
-import java.net.URL;
-import java.text.ParseException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Singleton;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.itravel.server.dal.entities.ActivitiesEntity;
-import com.itravel.server.dal.filters.ActivitiesDBFilter;
-import com.itravel.server.dal.repos.UpcomingEventsDBRepository;
-import com.itravel.server.interfaces.dal.IFilter;
-import com.itravel.server.interfaces.dal.repos.IDataRepository;
-import com.itravel.server.services.rest.queries.UpcomingEventsQuery;
-import com.mysql.jdbc.log.LogFactory;
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import com.itravel.server.dal.entities.ActivityEntity;
+import com.itravel.server.dal.managers.ActivityManager;
+import com.itravel.server.services.rest.params.ActivitiesFormParam;
 
-/**
- * @author william.wangwm
- *
- */
 @Singleton
 @Path("/activities")
 public class Activities {
+	@Context
+	UriInfo uriInfo;
+	protected ActivityManager activityManager = new ActivityManager();
+	protected ObjectMapper objectMapper = new ObjectMapper().setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 	private static Logger logger = LogManager.getLogger(Activities.class);
-	private static IDataRepository<ActivitiesEntity> dataRepo = new UpcomingEventsDBRepository();
-	private static ObjectMapper om = new ObjectMapper();
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	static {
-		om.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-		om.setDateFormat( new SimpleDateFormat("yyyy-MM-dd")); 
-	}
-	public Activities(){
-		logger.info("activities server started");
-	}
-	
-	/**
-	 * 
-	 * @param query
-	 * @return
-	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response query(@BeanParam UpcomingEventsQuery query){
-		logger.info(query);
-		IFilter<ActivitiesEntity> filter = query.createFilter();
-		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
-
+	public Response getActivities(@QueryParam(value = "start") int start,@QueryParam(value="number") int number){
+		List<ActivityEntity> activites = activityManager.getActivities(start, number);
+		String activityJsonStr="";
 		try {
-			return Response.ok(om.writeValueAsString(entities)).build();
+			activityJsonStr = objectMapper.writeValueAsString(activites);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.serverError().build();
+			logger.error(e);
 		}
+		return Response.ok().entity(activityJsonStr).build();
 	}
 	@Path("/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response get(@PathParam(value = "id") long id){
-		
-		IFilter<ActivitiesEntity> filter = ActivitiesDBFilter.createIDFilter(id);
-		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
-		System.out.println(entities);
-		if(entities.isEmpty()){
-			return Response.status(Status.NOT_FOUND).entity("{}").build();
-		}
+	public Response getActivities(@PathParam("id") long id){
+		ActivityEntity activity = this.activityManager.getActivity(id);
+		String activityJsonStr="";
 		try {
-			return Response.ok(om.writeValueAsString(entities.get(0))).build();
+			activityJsonStr = objectMapper.writeValueAsString(activity);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.serverError().build();
+			logger.error(e);
 		}
-		
-		
-	}
-	
-	@Path("/month/{month}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response getByMonth(@PathParam(value = "month") int month){
-		if(month<0||month>12){
-			Response.status(Status.BAD_REQUEST).entity("month should >0 and <= 12");
-		}
-		int cityCode = 110000;
-		IFilter<ActivitiesEntity> filter = ActivitiesDBFilter.createMonthFilter(month,cityCode);
-		List<ActivitiesEntity> entities = filter.doFilter(dataRepo);
-		if(entities.isEmpty()){
-			return Response.status(Status.NOT_FOUND).entity(entities).build();
-		}
-		try {
-			return Response.ok(om.writeValueAsString(entities)).build();
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.serverError().build();
-		}
-		
+		return Response.ok().entity(activityJsonStr).build();
 	}
 	
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response create(
-			@FormParam(value = "title") String title,
-			@FormParam(value = "abstractContent") String abstractContent,
-			@FormParam(value = "startTime") String _startTime,
-			@FormParam(value = "endTime") String _endTime,
-			@FormParam(value = "cityCode") int cityCode,
-			@FormParam(value = "address") String address,
-			@FormParam(value = "type") int type,
-			@FormParam(value = "scale") int scale,
-			@FormParam(value = "fee") long fee,
-			@FormParam(value = "images") String images,
-			@FormParam(value = "tags") String tags
-			
-		){
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createActivity(@BeanParam ActivitiesFormParam activityForm){
+		Optional<ActivitiesFormParam> formData = Optional.fromNullable(activityForm);
+		ActivityEntity entity = formData.transform(new Function<ActivitiesFormParam,ActivityEntity>(){
+			@Override
+			public ActivityEntity apply(ActivitiesFormParam input) {
+				ActivityEntity entity = new ActivityEntity();
+				try {
+					String json = objectMapper.writeValueAsString(input);
+					entity = objectMapper.readValue(json,ActivityEntity.class);
+				} catch (IOException e) {
+					logger.error(e);
+				}
+				
+				
+				return entity;
+			}}).get();
+		this.activityManager.save(entity);
+		String activityJsonStr="";
 		try {
-//			List<FormDataBodyPart> bodyPartList= formDataMultiPart.getFields("pictures");  
-//			for(FormDataBodyPart part:bodyPartList){
-//				InputStream input = part.getEntityAs(InputStream.class);
-////				String url = ImageResourceUtil.saveImage(input, ImageCategory.TRAVEL_NOTE,String.valueOf(tNote.getId()));
-//				System.out.println( "111");
-//			}
-			
-			System.out.println(tags);
-			System.out.println(images);
-			Date startTime = simpleDateFormat.parse(_startTime);
-			Date endTime = simpleDateFormat.parse(_endTime);
-			ActivitiesEntity entity = new ActivitiesEntity();
-			
-			entity.setTitle(title);
-			entity.setAbstractContent(abstractContent);
-			entity.setAddress(address);
-			entity.setStartTime(startTime);
-			entity.setEndTime(endTime);
-			entity.setCityCode(cityCode);
-			entity.setType(type);
-			entity.setScale(scale);
-			entity.setFee(fee);
-			entity.setImages(images);
-			entity.setTags(tags);
-			logger.debug(entity);
-			dataRepo.persist(entity);
-//			entity.setImages("/images/"+entity.getId()+".jpg");
-//			dataRepo.persist(entity);
-			return Response.ok().build();
+			activityJsonStr = objectMapper.writeValueAsString(entity);
+		} catch (JsonProcessingException e) {
+			logger.error(e);
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			return Response.serverError().build();
-		}
-			
-	} 
-	@PUT
-	@Path("/{id}")
-	@Consumes("application/x-www-form-urlencoded")
-	public Response update(
-			@PathParam(value = "id") long id,
-			@FormParam(value = "title") String title,
-			@FormParam(value = "abstractContent") String abstractContent,
-			@FormParam(value = "startTime") String _startTime,
-			@FormParam(value = "endTime") String _endTime,
-			@FormParam(value = "cityCode") int cityCode,
-			@FormParam(value = "address") String address,
-			@FormParam(value = "type") int type,
-			@FormParam(value = "scale") int scale,
-			@FormParam(value = "fee") long fee,
-			@FormParam(value = "images") String images,
-			@FormParam(value = "tags") String tags
-			){
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(entity.getId())).build()).entity(activityJsonStr).build();
 		
-		try {
-//			List<FormDataBodyPart> bodyPartList= formDataMultiPart.getFields("pictures");  
-//			for(FormDataBodyPart part:bodyPartList){
-//				InputStream input = part.getEntityAs(InputStream.class);
-////				String url = ImageResourceUtil.saveImage(input, ImageCategory.TRAVEL_NOTE,String.valueOf(tNote.getId()));
-//				System.out.println( "111");
-//			}
-			System.out.println(images);
-			Date startTime = simpleDateFormat.parse(_startTime);
-			Date endTime = simpleDateFormat.parse(_endTime);
-			ActivitiesEntity entity = new ActivitiesEntity();
-			entity.setId(id);
-			entity.setTitle(title);
-			entity.setAbstractContent(abstractContent);
-			entity.setAddress(address);
-			entity.setStartTime(startTime);
-			entity.setEndTime(endTime);
-			entity.setCityCode(cityCode);
-			entity.setType(type);
-			entity.setScale(scale);
-			entity.setFee(fee);
-			entity.setImages(images);
-			entity.setTags(tags);
-			logger.debug(entity);
-			dataRepo.persist(entity);
-//			entity.setImages("/images/"+entity.getId()+".jpg");
-//			dataRepo.persist(entity);
-			return Response.ok().build();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			return Response.serverError().build();
-		}
 	}
 	
-	/*@POST
-	@Consumes("application/x-www-form-urlencoded")
-	public Response create(
-			@FormParam(value = "title") String title,
-			@FormParam(value = "abstractContent") String abstractContent,
-			@FormParam(value = "startTime") String _startTime,
-			@FormParam(value = "endTime") String _endTime,
-			@FormParam(value = "cityCode") int cityCode,
-			@FormParam(value = "address") String address,
-			@FormParam(value = "type") int type,
-			@FormParam(value = "scale") int scale
-		){
-		try {
-			System.out.println("--------------------------------------");
-			logger.debug(cityCode);
-			Date startTime = simpleDateFormat.parse(_startTime);
-			Date endTime = simpleDateFormat.parse(_endTime);
-			ActivitiesEntity entity = new ActivitiesEntity();
-			entity.setTitle(title);
-			entity.setCityCode(cityCode);
-			entity.setAbstractContent(abstractContent);
-			entity.setAddress(address);
-			entity.setStartTime(startTime);
-			entity.setEndTime(endTime);
-			entity.setType(type);
-			entity.setScale(scale);
-			System.out.println(entity);
-			logger.debug(entity);
-			dataRepo.persist(entity);
-			return Response.ok().build();
-			
-		} catch (ParseException e) {
-		
-			e.printStackTrace();
-			return Response.serverError().entity(e.getMessage()).build();
-		}
-		
-	}*/
+	
 }

@@ -1,10 +1,9 @@
 package com.itravel.server.services.rest;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,47 +12,34 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itravel.server.dal.entities.ActivitiesEntity;
-import com.itravel.server.dal.filters.ActivitiesDBFilter;
-import com.itravel.server.dal.repos.UpcomingEventsDBRepository;
-import com.itravel.server.interfaces.dal.IFilter;
-import com.itravel.server.interfaces.dal.repos.IDataRepository;
-import com.itravel.server.services.aos.LatestActivitiesAOS;
+import com.itravel.server.dal.entities.ActivityEntity;
+import com.itravel.server.dal.managers.ActivityManager;
+
 @Path("/latestActivities")
 public class LatestActivities {
-	private static IDataRepository<ActivitiesEntity> dataRepo = new UpcomingEventsDBRepository();
-	private static ObjectMapper om = new ObjectMapper();
+	protected ActivityManager activityManager = new ActivityManager();
+	protected ObjectMapper objectMapper = new ObjectMapper().setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+	private static Logger logger = LogManager.getLogger(LatestActivities.class);
 	@GET
-	@Produces(MediaType.APPLICATION_JSON +";charset=utf-8")
-	public Response f(@QueryParam (value = "days") @DefaultValue("14") int days,
-			@QueryParam (value = "pages") @DefaultValue("0") int page) throws JsonProcessingException{
-		//System.out.println(days);
-		System.out.println(page);
-		Date currentTime = new Date();
-		Date timeBegin = currentTime;
-		Date timeEnd = currentTime;
-		timeBegin = DateUtils.addDays(timeBegin, 0-days);
-		timeEnd = DateUtils.addDays(timeEnd, days);
-		//System.out.println(timeBegin);
-		//System.out.println(timeEnd);
-		IFilter<ActivitiesEntity> filter = ActivitiesDBFilter.createTimeFilter(timeBegin, timeEnd, page);
-		List<ActivitiesEntity> entities = dataRepo.filterBy(filter);
-		List<LatestActivitiesAOS> aosEntities  = getAos(entities);
-		System.out.println(aosEntities.size());
-		return Response.ok().entity(om.writeValueAsString(aosEntities)).build();
-	}
-
-	private List<LatestActivitiesAOS> getAos(List<ActivitiesEntity> entities){
-		List<LatestActivitiesAOS> aosEntities = new ArrayList<LatestActivitiesAOS>();
-		for(int i=0;i<entities.size();i++){
-			ActivitiesEntity tmpEntity = entities.get(i);
-			LatestActivitiesAOS latestActivityAos = new LatestActivitiesAOS(tmpEntity);
-			aosEntities.add(latestActivityAos);
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response getActivities(@QueryParam(value = "days") int days,@QueryParam(value = "start") int start,@QueryParam(value="number") int number){
+		Date now = new Date();
+		Date from = DateUtils.addDays(now, 0-days);
+		Date to = DateUtils.addDays(now, days);
+		List<ActivityEntity> activites = activityManager.getLatestActivities(from,to,start, number);
+		String activityJsonStr="";
+		try {
+			activityJsonStr = objectMapper.writeValueAsString(activites);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			logger.error(e);
 		}
-		return aosEntities;
+		return Response.ok().entity(activityJsonStr).build();
 	}
 	
 }

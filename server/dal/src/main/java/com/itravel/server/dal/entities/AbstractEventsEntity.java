@@ -17,20 +17,20 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
  */
 
 @MappedSuperclass
-public abstract class UpcomingEventsEntity implements Serializable {
+public abstract class AbstractEventsEntity implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
 
-	public UpcomingEventsEntity() {
+	public AbstractEventsEntity() {
 		super();
 		Date now=new Date();
 		this.gmt_create = now;
 		this.gmt_modified = now;
 		this.title = "";
-		this.abstractContent = "";
-		this.address = "";
-		this.images = "";
+		this.content = "";
+		this.startTime = now;
+		this.endTime = now;
 	}
 	
 	@Id
@@ -49,8 +49,8 @@ public abstract class UpcomingEventsEntity implements Serializable {
 	@Column(name="title")
 	private String title;
 	
-	@Column(name="abstract_content")
-	private String abstractContent;
+	@Column(name="content")
+	private String content;
 	
 	@Column(name="start_time")
 	@Temporal(DATE)
@@ -60,23 +60,6 @@ public abstract class UpcomingEventsEntity implements Serializable {
 	@Temporal(DATE)
 	private Date endTime;
 	
-	@Column(name="longitude")
-	private double longitude;
-	
-	@Column(name="latitude")
-	private double latitude;
-	
-	@Column(name="city_code")
-	private int cityCode;
-	
-	@Column(name="address")
-	private String address;
-	
-	@Column(name = "images",length=4096)
-	private String images;
-
-	@Column(name="city_name")
-	private String cityName;
 	
 	public long getId() {
 		return id;
@@ -110,12 +93,12 @@ public abstract class UpcomingEventsEntity implements Serializable {
 		this.title = title;
 	}
 
-	public String getAbstractContent() {
-		return abstractContent;
+	public String getContent() {
+		return content;
 	}
 
-	public void setAbstractContent(String abstractContent) {
-		this.abstractContent = abstractContent;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public Date getStartTime() {
@@ -134,51 +117,5 @@ public abstract class UpcomingEventsEntity implements Serializable {
 		this.endTime = endTime;
 	}
 
-	public double getLongitude() {
-		return longitude;
-	}
 
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getImages() {
-		return images;
-	}
-
-	public void setImages(String images) {
-		this.images = images;
-	}
-
-	public int getCityCode() {
-		return cityCode;
-	}
-
-	public void setCityCode(int cityCode) {
-		this.cityCode = cityCode;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
-	public String getCityName() {
-		return cityName;
-	}
-	
-	public String setCityName(String cityName) {
-		return this.cityName = cityName;
-	}
 }

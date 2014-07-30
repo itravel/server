@@ -28,16 +28,11 @@ import com.google.common.io.Files;
 @Singleton
 @Path("/images")
 public class ImageUploader {
+	private static final File IMAGE_DIR=new File("/usr/share/nginx/www/images/");
 	@Context
 	UriInfo uriInfo;
 	
 	private ObjectMapper mapper = new ObjectMapper();
-	
-	@GET
-	public String ss (){
-		System.out.println(uriInfo.getBaseUri().toString());
-		return uriInfo.getBaseUriBuilder().path("fdfdf").build().toString();
-	}
 	
 	@Path("activities")
 	@POST
@@ -47,9 +42,9 @@ public class ImageUploader {
 			throws IOException {
 		List<FormDataBodyPart> bodyPartList = formDataMultiPart
 				.getFields("pictures");
+		System.out.println(bodyPartList.size());;
 		FormDataBodyPart part = bodyPartList.get(0);
-		File _temp = File.createTempFile("activities-", ".png");
-		System.out.println(_temp.toString());
+		File _temp = File.createTempFile("activities-", ".png",IMAGE_DIR);
 		ByteSink bs = Files.asByteSink(_temp);
 		InputStream input = part.getEntityAs(InputStream.class);
 		bs.writeFrom(input);
