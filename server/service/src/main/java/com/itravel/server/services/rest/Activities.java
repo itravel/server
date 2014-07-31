@@ -80,8 +80,6 @@ public class Activities {
 				} catch (IOException e) {
 					logger.error(e);
 				}
-				
-				
 				return entity;
 			}}).get();
 		this.activityManager.save(entity);
