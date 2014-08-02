@@ -7,174 +7,215 @@ import javax.ws.rs.FormParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ActivitiesFormParam {
-	
-	
+	private static final Logger logger = LogManager
+			.getLogger(ActivitiesFormParam.class);
+	public enum ActivityFromValidationEnum {
+		SUCCESS(1),
+		TITLE_FAILED(-1),
+		CONTENT_FAILED(-2),
+		STARTTIME_FAILED(-3),
+		ENDTIME_FAILED(-4)
+		
+		;
+		private int value;
+
+		ActivityFromValidationEnum(int value){
+			this.value = value;
+		}
+	}
+
 	/**
 	 * 标题
 	 */
-	@FormParam(value = "title") 
-	String title;//必填
-	
+	@FormParam(value = "title")
+	String title;// 必填
+
 	/**
 	 * 内容
 	 */
-	@FormParam(value = "content") 
-	String content;//必填
-	
+	@FormParam(value = "content")
+	String content;// 必填
+
 	/**
 	 * 开始时间
 	 */
-	@FormParam(value = "startTime") 
-	String startTime;//必填
-	
+	@FormParam(value = "startTime")
+	String startTime;// 必填
+
 	/**
 	 * 结束时间
 	 */
-	@FormParam(value = "endTime") 
-	String endTime;//必填
-	
+	@FormParam(value = "endTime")
+	String endTime;// 必填
 
 	/**
 	 * 出发城市
 	 */
-	@FormParam(value="fromCity")
+	@FormParam(value = "fromCity")
 	private String fromCity;
-	
+
 	/**
 	 * 出发地址
 	 */
-	@FormParam(value="fromAddress")
+	@FormParam(value = "fromAddress")
 	private String fromAddress;
 
 	/**
 	 * 目的地城市
 	 */
-	@FormParam(value="destinationCity")
+	@FormParam(value = "destinationCity")
 	private String destinationCity;
-	
+
 	/**
 	 * 目的地地址
 	 */
-	@FormParam(value="destinationAddress")
+	@FormParam(value = "destinationAddress")
 	private String destinationAddress;
-
-	
 
 	/**
 	 * 目的地纬度
 	 */
-	@FormParam(value="destinationLatitude")
+	@FormParam(value = "destinationLatitude")
 	private double destinationLatitude;
 
 	/**
 	 * 目的地经度
 	 */
-	@FormParam(value="destinationLongitude")
+	@FormParam(value = "destinationLongitude")
 	private double destinationLongitude;
 
-	
 	/**
 	 * 活动图片
 	 */
-	@FormParam(value="images")
+	@FormParam(value = "images")
 	private String images;
-	
+
 	/**
 	 * 活动联系人
 	 */
-	@FormParam(value="contact")
+	@FormParam(value = "contact")
 	private String contact;
-	
+
 	/**
 	 * 活动推荐人
 	 */
-	@FormParam(value="recommender")
+	@FormParam(value = "recommender")
 	private String recommender;
-	
+
 	/**
 	 * 活动主办方
 	 */
-	@FormParam(value="sponsor")
+	@FormParam(value = "sponsor")
 	private String sponsor;
-	
+
 	/**
 	 * 活动标签
 	 */
-	@FormParam(value="tags")
+	@FormParam(value = "tags")
 	private String tags;
-	
-	
+
 	/**
 	 * 活动参与类型
 	 */
-	@FormParam(value="participationType")
+	@FormParam(value = "participationType")
 	private int participationType;
 
 	/**
 	 * 活动规模
 	 */
-	@FormParam(value="scale")
+	@FormParam(value = "scale")
 	private int scale;
-	
+
 	/**
 	 * 活动费用
 	 */
-	@FormParam(value="fee")
+	@FormParam(value = "fee")
 	private int fee;
-	
+
 	/**
 	 * 活动名气
 	 */
-	@FormParam(value="popularity")
+	@FormParam(value = "popularity")
 	private int popularity;
 
 	/**
 	 * 活动交通方便度
 	 */
-	@FormParam(value="convenience")
+	@FormParam(value = "convenience")
 	private int convenience;
-	
 
 	/**
 	 * 活动独特性
 	 */
-	@FormParam(value="originality")
+	@FormParam(value = "originality")
 	private int originality;
-	
-	
-	public boolean validate(){
-		if(StringUtils.isNotEmpty(this.title)
-				&&StringUtils.isNotEmpty(this.content)
-				&&StringUtils.isNotEmpty(this.startTime)
-				&&StringUtils.isNotEmpty(this.endTime)
-				&&StringUtils.isNotEmpty(this.fromCity)
-				&&StringUtils.isNotEmpty(this.destinationCity)
-				&&StringUtils.isNotEmpty(this.destinationAddress)
-				&&StringUtils.isNotEmpty(this.images)
-				&&StringUtils.isNotEmpty(this.tags)
-				&&this.participationType>0
-				&&this.popularity >0
-				&&this.originality >0
-				&&this.convenience >0){
-			
-			try {
-				DateUtils.parseDateStrictly(this.startTime, "yyyy-MM-dd");
-				DateUtils.parseDateStrictly(this.endTime, "yyyy-MM-dd");
-				return true;
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				
-			
-			return false;
+
+	/**
+	 * 活动网页地址
+	 */
+	@FormParam(value = "web")
+	private String web;
+
+	public int validate() {
+		logger.debug(this);
+		if (StringUtils.isEmpty(this.title)) {
+			return -1;
 		}
-				
-		return false;
+		if (StringUtils.isEmpty(this.content)) {
+			return -2;
+		}
+		if (StringUtils.isEmpty(this.startTime)) {
+			return -3;
+		}
+		if (StringUtils.isEmpty(this.endTime)) {
+			return -4;
+		}
+		if (StringUtils.isEmpty(this.fromCity)) {
+			return -5;
+		}
+		if (StringUtils.isEmpty(this.destinationCity)) {
+			return -6;
+		}
+		if (StringUtils.isEmpty(this.destinationAddress)) {
+			return -7;
+		}
+		if (StringUtils.isEmpty(this.images)) {
+			return -8;
+		}
+		if (StringUtils.isEmpty(this.tags)) {
+			return -9;
+		}
+		if (this.participationType < 0) {
+			return -10;
+		}
+		if (this.popularity < 0) {
+			return -11;
+		}
+		if (this.originality < 0) {
+			return -12;
+		}
+		if (this.convenience < 0) {
+			return -13;
+		}
+
+		try {
+			DateUtils.parseDateStrictly(this.startTime, "yyyy-MM-dd");
+			DateUtils.parseDateStrictly(this.endTime, "yyyy-MM-dd");
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -14;
+		}
+
+		return 1;
+
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
@@ -346,5 +387,13 @@ public class ActivitiesFormParam {
 
 	public void setOriginality(int originality) {
 		this.originality = originality;
+	}
+
+	public String getWeb() {
+		return web;
+	}
+
+	public void setWeb(String web) {
+		this.web = web;
 	}
 }

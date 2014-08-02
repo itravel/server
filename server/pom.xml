@@ -12,6 +12,7 @@
   	<module>common</module>
   	<module>web</module>
   	<module>tools</module>
+  	<module>client</module>
   </modules>
   <dependencyManagement>
   	<dependencies>
@@ -97,6 +98,11 @@
   			<artifactId>jsoup</artifactId>
   			<version>1.7.3</version>
 		</dependency>
+  		<dependency>
+  			<groupId>javax.ws.rs</groupId>
+  			<artifactId>javax.ws.rs-api</artifactId>
+  			<version>2.0</version>
+  		</dependency>
   	</dependencies>
   </dependencyManagement>
   <build>

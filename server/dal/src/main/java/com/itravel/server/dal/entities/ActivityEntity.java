@@ -123,7 +123,8 @@ public class ActivityEntity extends AbstractEventsEntity {
 	@Column(name="originality")
 	private int originality;
 
-
+	@Column(name="web")
+	private String web;
 
 	public ActivityEntity() {
 	}
@@ -267,6 +268,16 @@ public class ActivityEntity extends AbstractEventsEntity {
 
 	public void setTags(String tags) {
 		this.tags = tags;
+	}
+
+
+	public String getWeb() {
+		return web;
+	}
+
+
+	public void setWeb(String web) {
+		this.web = web;
 	}
 
 
