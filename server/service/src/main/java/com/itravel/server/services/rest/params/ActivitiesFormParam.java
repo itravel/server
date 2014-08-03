@@ -13,20 +13,6 @@ import org.apache.logging.log4j.Logger;
 public class ActivitiesFormParam {
 	private static final Logger logger = LogManager
 			.getLogger(ActivitiesFormParam.class);
-	public enum ActivityFromValidationEnum {
-		SUCCESS(1),
-		TITLE_FAILED(-1),
-		CONTENT_FAILED(-2),
-		STARTTIME_FAILED(-3),
-		ENDTIME_FAILED(-4)
-		
-		;
-		private int value;
-
-		ActivityFromValidationEnum(int value){
-			this.value = value;
-		}
-	}
 
 	/**
 	 * 标题
@@ -52,41 +38,25 @@ public class ActivitiesFormParam {
 	@FormParam(value = "endTime")
 	String endTime;// 必填
 
+	
 	/**
-	 * 出发城市
+	 * 出发地
 	 */
-	@FormParam(value = "fromCity")
-	private String fromCity;
+	@FormParam(value = "from")
+	private String from;
 
 	/**
-	 * 出发地址
+	 * 目的地
 	 */
-	@FormParam(value = "fromAddress")
-	private String fromAddress;
+	@FormParam(value = "destination")
+	private String destination;
 
 	/**
-	 * 目的地城市
+	 * 活动景点
 	 */
-	@FormParam(value = "destinationCity")
-	private String destinationCity;
+	@FormParam(value = "scenerySpot")
+	private String scenerySpot;
 
-	/**
-	 * 目的地地址
-	 */
-	@FormParam(value = "destinationAddress")
-	private String destinationAddress;
-
-	/**
-	 * 目的地纬度
-	 */
-	@FormParam(value = "destinationLatitude")
-	private double destinationLatitude;
-
-	/**
-	 * 目的地经度
-	 */
-	@FormParam(value = "destinationLongitude")
-	private double destinationLongitude;
 
 	/**
 	 * 活动图片
@@ -174,13 +144,13 @@ public class ActivitiesFormParam {
 		if (StringUtils.isEmpty(this.endTime)) {
 			return -4;
 		}
-		if (StringUtils.isEmpty(this.fromCity)) {
+		if (StringUtils.isEmpty(this.from)) {
 			return -5;
 		}
-		if (StringUtils.isEmpty(this.destinationCity)) {
+		if (StringUtils.isEmpty(this.destination)) {
 			return -6;
 		}
-		if (StringUtils.isEmpty(this.destinationAddress)) {
+		if (StringUtils.isEmpty(this.scenerySpot)) {
 			return -7;
 		}
 		if (StringUtils.isEmpty(this.images)) {
@@ -253,53 +223,32 @@ public class ActivitiesFormParam {
 		this.endTime = endTime;
 	}
 
-	public String getFromCity() {
-		return fromCity;
-	}
-
-	public void setFromCity(String fromCity) {
-		this.fromCity = fromCity;
-	}
 
 	public String getFromAddress() {
-		return fromAddress;
+		return from;
 	}
 
 	public void setFromAddress(String fromAddress) {
-		this.fromAddress = fromAddress;
+		this.from = fromAddress;
 	}
 
 	public String getDestinationCity() {
-		return destinationCity;
+		return destination;
 	}
 
 	public void setDestinationCity(String destinationCity) {
-		this.destinationCity = destinationCity;
+		this.destination = destinationCity;
 	}
 
 	public String getDestinationAddress() {
-		return destinationAddress;
+		return scenerySpot;
 	}
 
 	public void setDestinationAddress(String destinationAddress) {
-		this.destinationAddress = destinationAddress;
+		this.scenerySpot = destinationAddress;
 	}
 
-	public double getDestinationLatitude() {
-		return destinationLatitude;
-	}
 
-	public void setDestinationLatitude(double destinationLatitude) {
-		this.destinationLatitude = destinationLatitude;
-	}
-
-	public double getDestinationLongitude() {
-		return destinationLongitude;
-	}
-
-	public void setDestinationLongitude(double destinationLongitude) {
-		this.destinationLongitude = destinationLongitude;
-	}
 
 	public String getImages() {
 		return images;

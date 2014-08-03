@@ -17,44 +17,25 @@ public class ActivityEntity extends AbstractEventsEntity {
 	
 	
 	/**
-	 * 出发城市
+	 * 出发地
 	 */
-	@Column(name="from_city")
-	private String fromCity;
+	@Column(name="from")
+	private String from;
 	
-	/**
-	 * 出发地址
-	 */
-	@Column(name="from_address")
-	private String fromAddress;
-
-	/**
-	 * 目的地城市
-	 */
-	@Column(name="destination_city")
-	private String destinationCity;
-	
-	/**
-	 * 目的地地址
-	 */
-	@Column(name="destination_address")
-	private String destinationAddress;
-
 	
 
 	/**
-	 * 目的地纬度
+	 * 目的地
 	 */
-	@Column(name="destination_latitude")
-	private double destinationLatitude;
-
-	/**
-	 * 目的地经度
-	 */
-	@Column(name="destination_longitude")
-	private double destinationLongitude;
-
+	@Column(name="destination")
+	private String destination;
 	
+	/**
+	 * 活动景点
+	 */
+	@Column(name="scenery_spot")
+	private String scenerySpot;
+
 	/**
 	 * 活动图片
 	 */
@@ -148,37 +129,20 @@ public class ActivityEntity extends AbstractEventsEntity {
 	}
 
 	public String getDestinationAddress() {
-		return this.destinationAddress;
+		return this.scenerySpot;
 	}
 
 	public void setDestinationAddress(String destinationAddress) {
-		this.destinationAddress = destinationAddress;
+		this.scenerySpot = destinationAddress;
 	}
 
 	public String getDestinationCity() {
-		return this.destinationCity;
+		return this.destination;
 	}
 
 	public void setDestinationCity(String destinationCity) {
-		this.destinationCity = destinationCity;
+		this.destination = destinationCity;
 	}
-
-	public double getDestinationLatitude() {
-		return this.destinationLatitude;
-	}
-
-	public void setDestinationLatitude(double destinationLatitude) {
-		this.destinationLatitude = destinationLatitude;
-	}
-
-	public double getDestinationLongitude() {
-		return this.destinationLongitude;
-	}
-
-	public void setDestinationLongitude(double destinationLongitude) {
-		this.destinationLongitude = destinationLongitude;
-	}
-
 
 	public int getFee() {
 		return this.fee;
@@ -188,20 +152,13 @@ public class ActivityEntity extends AbstractEventsEntity {
 		this.fee = fee;
 	}
 
-	public String getFromAddress() {
-		return this.fromAddress;
+
+	public String getFrom() {
+		return this.from;
 	}
 
-	public void setFromAddress(String fromAddress) {
-		this.fromAddress = fromAddress;
-	}
-
-	public String getFromCity() {
-		return this.fromCity;
-	}
-
-	public void setFromCity(String fromCity) {
-		this.fromCity = fromCity;
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
 

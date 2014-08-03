@@ -3,7 +3,6 @@
 	<persistence-unit name="dal" transaction-type="RESOURCE_LOCAL">
 		<class>com.itravel.server.dal.entities.EventCrawlOriginEntity</class>
 		<class>com.itravel.server.dal.entities.UserEntity</class>
-		<class>com.itravel.server.dal.entities.ActivitiesCommentsEntity</class>
 		<class>com.itravel.server.dal.entities.TagEntity</class>
 		<class>com.itravel.server.dal.entities.TagCategoryEntity</class>
 		<class>com.itravel.server.dal.entities.ActivityEntity</class>
