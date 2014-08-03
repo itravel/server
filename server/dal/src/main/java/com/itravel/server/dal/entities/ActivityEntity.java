@@ -19,8 +19,8 @@ public class ActivityEntity extends AbstractEventsEntity {
 	/**
 	 * 出发地
 	 */
-	@Column(name="from")
-	private String from;
+	@Column(name="depart")
+	private String depart;
 	
 	
 
@@ -128,20 +128,13 @@ public class ActivityEntity extends AbstractEventsEntity {
 		this.convenience = convenience;
 	}
 
-	public String getDestinationAddress() {
-		return this.scenerySpot;
-	}
 
-	public void setDestinationAddress(String destinationAddress) {
-		this.scenerySpot = destinationAddress;
-	}
-
-	public String getDestinationCity() {
+	public String getDestination() {
 		return this.destination;
 	}
 
-	public void setDestinationCity(String destinationCity) {
-		this.destination = destinationCity;
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
 	public int getFee() {
@@ -153,13 +146,6 @@ public class ActivityEntity extends AbstractEventsEntity {
 	}
 
 
-	public String getFrom() {
-		return this.from;
-	}
-
-	public void setFrom(String from) {
-		this.from = from;
-	}
 
 
 	public String getImages() {
@@ -235,6 +221,26 @@ public class ActivityEntity extends AbstractEventsEntity {
 
 	public void setWeb(String web) {
 		this.web = web;
+	}
+
+
+	public String getScenerySpot() {
+		return scenerySpot;
+	}
+
+
+	public void setScenerySpot(String scenerySpot) {
+		this.scenerySpot = scenerySpot;
+	}
+
+
+	public String getDepart() {
+		return depart;
+	}
+
+
+	public void setDepart(String depart) {
+		this.depart = depart;
 	}
 
 

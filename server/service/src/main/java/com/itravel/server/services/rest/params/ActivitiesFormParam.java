@@ -14,6 +14,25 @@ public class ActivitiesFormParam {
 	private static final Logger logger = LogManager
 			.getLogger(ActivitiesFormParam.class);
 
+	public static enum ValidationEnum {
+		SUCC("验证成功"), TITLE("标题为空"), CONTENT("类容为空"), STARTTIME("开始时间不合法"), ENDTIME(
+				"结束时间不合法"), FROM("活动出发地不合法"), DESTINATION("活动目的地为空"), SCENERY(
+				"活动景点为空"), IMAGES("活动图片为空"), TAGS("活动标签为空"), PARTICIPATE(
+				"参加方式未选择"), POPULARITY("名气评价为空"), ORIGINALITY("独特性评价为空"), CONVINIENCE(
+				"方便度评价为空")
+
+		;
+		private String message;
+
+		ValidationEnum(String message) {
+			this.message = message;
+		}
+
+		public String getMessage() {
+			return this.message;
+		}
+	}
+
 	/**
 	 * 标题
 	 */
@@ -38,12 +57,11 @@ public class ActivitiesFormParam {
 	@FormParam(value = "endTime")
 	String endTime;// 必填
 
-	
 	/**
 	 * 出发地
 	 */
 	@FormParam(value = "from")
-	private String from;
+	private String depart;
 
 	/**
 	 * 目的地
@@ -56,7 +74,6 @@ public class ActivitiesFormParam {
 	 */
 	@FormParam(value = "scenerySpot")
 	private String scenerySpot;
-
 
 	/**
 	 * 活动图片
@@ -130,59 +147,68 @@ public class ActivitiesFormParam {
 	@FormParam(value = "web")
 	private String web;
 
-	public int validate() {
+	public ValidationEnum validate() {
 		logger.debug(this);
 		if (StringUtils.isEmpty(this.title)) {
-			return -1;
+			return ValidationEnum.TITLE;
 		}
 		if (StringUtils.isEmpty(this.content)) {
-			return -2;
+			return ValidationEnum.CONTENT;
 		}
 		if (StringUtils.isEmpty(this.startTime)) {
-			return -3;
+			return ValidationEnum.STARTTIME;
+		} else {
+			try {
+				DateUtils.parseDateStrictly(this.startTime, "yyyy-MM-dd");
+
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return ValidationEnum.STARTTIME;
+			}
 		}
 		if (StringUtils.isEmpty(this.endTime)) {
-			return -4;
+			return ValidationEnum.ENDTIME;
+		} else {
+			try {
+				DateUtils.parseDateStrictly(this.endTime, "yyyy-MM-dd");
+
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return ValidationEnum.ENDTIME;
+
+			}
 		}
-		if (StringUtils.isEmpty(this.from)) {
-			return -5;
+		if (StringUtils.isEmpty(this.depart)) {
+			return ValidationEnum.FROM;
 		}
 		if (StringUtils.isEmpty(this.destination)) {
-			return -6;
+			return ValidationEnum.DESTINATION;
 		}
 		if (StringUtils.isEmpty(this.scenerySpot)) {
-			return -7;
+			return ValidationEnum.SCENERY;
 		}
 		if (StringUtils.isEmpty(this.images)) {
-			return -8;
+			return ValidationEnum.IMAGES;
 		}
 		if (StringUtils.isEmpty(this.tags)) {
-			return -9;
+			return ValidationEnum.TAGS;
 		}
 		if (this.participationType < 0) {
-			return -10;
+			return ValidationEnum.PARTICIPATE;
 		}
 		if (this.popularity < 0) {
-			return -11;
+			return ValidationEnum.POPULARITY;
 		}
 		if (this.originality < 0) {
-			return -12;
+			return ValidationEnum.ORIGINALITY;
 		}
 		if (this.convenience < 0) {
-			return -13;
+			return ValidationEnum.CONVINIENCE;
 		}
 
-		try {
-			DateUtils.parseDateStrictly(this.startTime, "yyyy-MM-dd");
-			DateUtils.parseDateStrictly(this.endTime, "yyyy-MM-dd");
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return -14;
-		}
-
-		return 1;
+		return ValidationEnum.SUCC;
 
 	}
 
@@ -224,31 +250,19 @@ public class ActivitiesFormParam {
 	}
 
 
-	public String getFromAddress() {
-		return from;
-	}
-
-	public void setFromAddress(String fromAddress) {
-		this.from = fromAddress;
-	}
-
-	public String getDestinationCity() {
+	public String getDestination() {
 		return destination;
 	}
 
-	public void setDestinationCity(String destinationCity) {
-		this.destination = destinationCity;
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
-	public String getDestinationAddress() {
-		return scenerySpot;
-	}
+	
 
 	public void setDestinationAddress(String destinationAddress) {
 		this.scenerySpot = destinationAddress;
 	}
-
-
 
 	public String getImages() {
 		return images;
@@ -344,5 +358,21 @@ public class ActivitiesFormParam {
 
 	public void setWeb(String web) {
 		this.web = web;
+	}
+
+	public String getDepart() {
+		return depart;
+	}
+
+	public void setDepart(String depart) {
+		this.depart = depart;
+	}
+
+	public String getScenerySpot() {
+		return scenerySpot;
+	}
+
+	public void setScenerySpot(String scenerySpot) {
+		this.scenerySpot = scenerySpot;
 	}
 }
