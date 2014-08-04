@@ -13,7 +13,8 @@
 		
 		<module>web</module>
 		<module>tools</module>
-		
+
+		<module>search</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
