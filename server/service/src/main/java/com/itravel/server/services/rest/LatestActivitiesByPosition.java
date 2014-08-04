@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.managers.ActivityManager;
-import com.itravel.server.interfaces.dal.IFilter;
 
 @Path("/latestActivitiesByPosition")
 public class LatestActivitiesByPosition {

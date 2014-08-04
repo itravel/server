@@ -10,7 +10,7 @@
 	<modules>
 		<module>service</module>
 		<module>dal</module>
-		<module>common</module>
+		
 		<module>web</module>
 		<module>tools</module>
 		

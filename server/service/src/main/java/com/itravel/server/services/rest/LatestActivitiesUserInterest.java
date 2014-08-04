@@ -1,7 +1,6 @@
 package com.itravel.server.services.rest;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.managers.ActivityManager;
-import com.itravel.server.interfaces.dal.IFilter;
 
 @Path("/latestActivitiesUserInterest")
 public class LatestActivitiesUserInterest {
