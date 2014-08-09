@@ -9,6 +9,7 @@ import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -92,6 +93,32 @@ public class Activities {
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(entity.getId())).build()).entity(activityJsonStr).build();
 		
 	}
-	
-	
+	@Path("/{id}")
+	@PUT
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateActivity(@PathParam("id") long id,@BeanParam ActivitiesFormParam activityForm){
+		Optional<ActivitiesFormParam> formData = Optional.fromNullable(activityForm);
+		ActivityEntity entity = formData.transform(new Function<ActivitiesFormParam,ActivityEntity>(){
+			@Override
+			public ActivityEntity apply(ActivitiesFormParam input) {
+				ActivityEntity entity = new ActivityEntity();
+				try {
+					String json = objectMapper.writeValueAsString(input);
+					entity = objectMapper.readValue(json,ActivityEntity.class);
+				} catch (IOException e) {
+					logger.error(e);
+				}
+				return entity;
+			}}).get();
+		entity.setId(id);
+		this.activityManager.save(entity);
+		String activityJsonStr="";
+		try {
+			activityJsonStr = objectMapper.writeValueAsString(entity);
+		} catch (JsonProcessingException e) {
+			logger.error(e);
+		}
+		return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(entity.getId())).build()).entity(activityJsonStr).build();
+	}
 }
