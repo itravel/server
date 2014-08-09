@@ -19,16 +19,25 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+
+
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
+import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Lists;
+import com.itravel.server.client.dos.IActivityObject;
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.managers.ActivityManager;
 import com.itravel.server.services.rest.params.ActivitiesFormParam;
+import com.itravel.server.services.rest.params.ActivitiesFormParam.ValidationEnum;
 
 @Singleton
 @Path("/activities")
@@ -55,10 +64,24 @@ public class Activities {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response getActivities(@PathParam("id") long id){
-		ActivityEntity activity = this.activityManager.getActivity(id);
+		IActivityObject activity = this.activityManager.getActivity(id);
+		if(activity!=null){
+			String[] images = activity.getImages().split(",");
+			Iterable<String> dfdfd = Splitter.on(',').split(activity.getImages());
+			for(String image:dfdfd){
+				if(!image.startsWith("/images")){
+					image = "/images/"+image;
+					System.out.println(image);
+				}
+			}
+			String imagesStr = Joiner.on(",").join(dfdfd);
+			activity.setImages(imagesStr);
+			System.out.println(imagesStr);
+		}
 		String activityJsonStr="";
 		try {
 			activityJsonStr = objectMapper.writeValueAsString(activity);
+			
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			logger.error(e);
@@ -70,7 +93,12 @@ public class Activities {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createActivity(@BeanParam ActivitiesFormParam activityForm){
+		ValidationEnum v = activityForm.validate();
+		if(v != ValidationEnum.SUCC){
+			return Response.serverError().entity(v.getMessage()).build();
+		}
 		Optional<ActivitiesFormParam> formData = Optional.fromNullable(activityForm);
+		logger.debug(activityForm);
 		ActivityEntity entity = formData.transform(new Function<ActivitiesFormParam,ActivityEntity>(){
 			@Override
 			public ActivityEntity apply(ActivitiesFormParam input) {
@@ -83,6 +111,7 @@ public class Activities {
 				}
 				return entity;
 			}}).get();
+		logger.debug(entity);
 		this.activityManager.save(entity);
 		String activityJsonStr="";
 		try {
@@ -98,6 +127,10 @@ public class Activities {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateActivity(@PathParam("id") long id,@BeanParam ActivitiesFormParam activityForm){
+		ValidationEnum v = activityForm.validate();
+		if(v != ValidationEnum.SUCC){
+			return Response.serverError().entity(v.getMessage()).build();
+		}
 		Optional<ActivitiesFormParam> formData = Optional.fromNullable(activityForm);
 		ActivityEntity entity = formData.transform(new Function<ActivitiesFormParam,ActivityEntity>(){
 			@Override

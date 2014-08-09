@@ -60,7 +60,7 @@ public class ActivitiesFormParam {
 	/**
 	 * 出发地
 	 */
-	@FormParam(value = "from")
+	@FormParam(value = "depart")
 	private String depart;
 
 	/**

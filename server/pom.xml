@@ -15,6 +15,7 @@
 		<module>tools</module>
 
 		<module>search</module>
+		<module>client</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
