@@ -158,6 +158,9 @@ public class Activities {
 				image = "/images/"+image;
 				_images.add(image);
 			}
+			else {
+				_images.add(image);
+			}
 		}
 		String imagesStr = Joiner.on(",").join(_images);
 		return imagesStr;
