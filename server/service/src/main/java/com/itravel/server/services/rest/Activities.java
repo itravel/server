@@ -51,6 +51,10 @@ public class Activities {
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response getActivities(@QueryParam(value = "start") int start,@QueryParam(value="number") int number){
 		List<ActivityEntity> activites = activityManager.getActivities(start, number);
+		for(ActivityEntity entity:activites){
+			String imageUrl = this.buildImagesUrl(entity.getImages());
+			entity.setImages(imageUrl);
+		}
 		String activityJsonStr="";
 		try {
 			activityJsonStr = objectMapper.writeValueAsString(activites);
@@ -66,17 +70,8 @@ public class Activities {
 	public Response getActivities(@PathParam("id") long id){
 		IActivityObject activity = this.activityManager.getActivity(id);
 		if(activity!=null){
-			String[] images = activity.getImages().split(",");
-			Iterable<String> dfdfd = Splitter.on(',').split(activity.getImages());
-			for(String image:dfdfd){
-				if(!image.startsWith("/images")){
-					image = "/images/"+image;
-					System.out.println(image);
-				}
-			}
-			String imagesStr = Joiner.on(",").join(dfdfd);
-			activity.setImages(imagesStr);
-			System.out.println(imagesStr);
+			String imageUrl = buildImagesUrl(activity.getImages());
+			activity.setImages(imageUrl);
 		}
 		String activityJsonStr="";
 		try {
@@ -153,5 +148,18 @@ public class Activities {
 			logger.error(e);
 		}
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(entity.getId())).build()).entity(activityJsonStr).build();
+	}
+	
+	private String buildImagesUrl(String images){
+		Iterable<String> originImages = Splitter.on(',').split(images);
+		List<String> _images = Lists.newArrayList();
+		for(String image:originImages){
+			if(!image.startsWith("/images")){
+				image = "/images/"+image;
+				_images.add(image);
+			}
+		}
+		String imagesStr = Joiner.on(",").join(_images);
+		return imagesStr;
 	}
 }
