@@ -19,9 +19,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,9 +28,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
-import com.itravel.server.client.dos.IActivityObject;
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.managers.ActivityManager;
 import com.itravel.server.services.rest.params.ActivitiesFormParam;
@@ -68,7 +63,7 @@ public class Activities {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response getActivities(@PathParam("id") long id){
-		IActivityObject activity = this.activityManager.getActivity(id);
+		ActivityEntity activity = this.activityManager.getActivity(id);
 		if(activity!=null){
 			String imageUrl = buildImagesUrl(activity.getImages());
 			activity.setImages(imageUrl);

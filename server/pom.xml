@@ -10,12 +10,7 @@
 	<modules>
 		<module>service</module>
 		<module>dal</module>
-		
 		<module>web</module>
-		<module>tools</module>
-
-		<module>search</module>
-		<module>client</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import com.itravel.server.client.dos.IActivityObject;
 import com.itravel.server.dal.entities.ActivityEntity;
 
 public class ActivityManager extends AbstractManager{
@@ -16,7 +15,7 @@ public class ActivityManager extends AbstractManager{
 		return result;
 	}
 
-	public IActivityObject save(ActivityEntity entity) {
+	public ActivityEntity save(ActivityEntity entity) {
 		EntityManager manager = this.emf.createEntityManager();
 		manager.getTransaction().begin();
 		if(entity.getId() > 0){
@@ -31,9 +30,9 @@ public class ActivityManager extends AbstractManager{
 		return entity;
 	}
 
-	public IActivityObject getActivity(long id) {
+	public ActivityEntity getActivity(long id) {
 		EntityManager manager = this.emf.createEntityManager();
-		IActivityObject entity = manager.find(ActivityEntity.class, id);
+		ActivityEntity entity = manager.find(ActivityEntity.class, id);
 		manager.close();
 		return entity;
 	}

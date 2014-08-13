@@ -1,12 +1,8 @@
 package com.itravel.server.dal.entities;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
-import com.itravel.server.client.dos.IActivityObject;
-
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -15,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="activities")
-public class ActivityEntity extends AbstractEventsEntity implements IActivityObject {
+public class ActivityEntity extends AbstractEventsEntity  {
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -118,7 +114,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getContact()
 	 */
-	@Override
 	public String getContact() {
 		return this.contact;
 	}
@@ -126,7 +121,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setContact(java.lang.String)
 	 */
-	@Override
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
@@ -135,7 +129,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getConvenience()
 	 */
-	@Override
 	public int getConvenience() {
 		return this.convenience;
 	}
@@ -143,7 +136,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setConvenience(int)
 	 */
-	@Override
 	public void setConvenience(int convenience) {
 		this.convenience = convenience;
 	}
@@ -152,7 +144,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getDestination()
 	 */
-	@Override
 	public String getDestination() {
 		return this.destination;
 	}
@@ -160,7 +151,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setDestination(java.lang.String)
 	 */
-	@Override
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
@@ -168,7 +158,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getFee()
 	 */
-	@Override
 	public int getFee() {
 		return this.fee;
 	}
@@ -176,7 +165,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setFee(int)
 	 */
-	@Override
 	public void setFee(int fee) {
 		this.fee = fee;
 	}
@@ -187,7 +175,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getImages()
 	 */
-	@Override
 	public String getImages() {
 		return this.images;
 	}
@@ -195,7 +182,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setImages(java.lang.String)
 	 */
-	@Override
 	public void setImages(String images) {
 		this.images = images;
 	}
@@ -203,7 +189,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getOriginality()
 	 */
-	@Override
 	public int getOriginality() {
 		return this.originality;
 	}
@@ -211,7 +196,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setOriginality(int)
 	 */
-	@Override
 	public void setOriginality(int originality) {
 		this.originality = originality;
 	}
@@ -219,7 +203,6 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getParticipationType()
 	 */
-	@Override
 	public int getParticipationType() {
 		return this.participationType;
 	}
@@ -227,7 +210,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setParticipationType(int)
 	 */
-	@Override
+	
 	public void setParticipationType(int participationType) {
 		this.participationType = participationType;
 	}
@@ -235,7 +218,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getPopularity()
 	 */
-	@Override
+	
 	public int getPopularity() {
 		return this.popularity;
 	}
@@ -243,7 +226,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setPopularity(int)
 	 */
-	@Override
+	
 	public void setPopularity(int popularity) {
 		this.popularity = popularity;
 	}
@@ -251,7 +234,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getRecommender()
 	 */
-	@Override
+	
 	public String getRecommender() {
 		return this.recommender;
 	}
@@ -259,7 +242,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setRecommender(java.lang.String)
 	 */
-	@Override
+	
 	public void setRecommender(String recommender) {
 		this.recommender = recommender;
 	}
@@ -267,7 +250,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getScale()
 	 */
-	@Override
+	
 	public int getScale() {
 		return this.scale;
 	}
@@ -275,7 +258,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setScale(int)
 	 */
-	@Override
+	
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
@@ -283,7 +266,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getSponsor()
 	 */
-	@Override
+	
 	public String getSponsor() {
 		return this.sponsor;
 	}
@@ -291,7 +274,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setSponsor(java.lang.String)
 	 */
-	@Override
+	
 	public void setSponsor(String sponsor) {
 		this.sponsor = sponsor;
 	}
@@ -300,7 +283,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getTags()
 	 */
-	@Override
+	
 	public String getTags() {
 		return this.tags;
 	}
@@ -308,7 +291,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setTags(java.lang.String)
 	 */
-	@Override
+	
 	public void setTags(String tags) {
 		this.tags = tags;
 	}
@@ -317,7 +300,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getWeb()
 	 */
-	@Override
+	
 	public String getWeb() {
 		return web;
 	}
@@ -326,7 +309,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setWeb(java.lang.String)
 	 */
-	@Override
+	
 	public void setWeb(String web) {
 		this.web = web;
 	}
@@ -335,7 +318,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getScenerySpot()
 	 */
-	@Override
+	
 	public String getScenerySpot() {
 		return scenerySpot;
 	}
@@ -344,7 +327,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setScenerySpot(java.lang.String)
 	 */
-	@Override
+	
 	public void setScenerySpot(String scenerySpot) {
 		this.scenerySpot = scenerySpot;
 	}
@@ -353,7 +336,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getDepart()
 	 */
-	@Override
+	
 	public String getDepart() {
 		return depart;
 	}
@@ -362,7 +345,7 @@ public class ActivityEntity extends AbstractEventsEntity implements IActivityObj
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#setDepart(java.lang.String)
 	 */
-	@Override
+	
 	public void setDepart(String depart) {
 		this.depart = depart;
 	}
