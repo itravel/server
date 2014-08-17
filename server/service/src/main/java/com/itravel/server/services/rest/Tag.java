@@ -4,15 +4,20 @@ import java.util.List;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itravel.server.dal.entities.TagCategoryEntity;
@@ -26,6 +31,7 @@ public class Tag {
 	private TagManager manager = new TagManager();
 	private TagCategoryManager tcManager = new TagCategoryManager();
 	private ObjectMapper mapper = new ObjectMapper();
+	private static final Logger logger = LogManager.getLogger(Tag.class);
 	@Context
 	UriInfo uriInfo;
 	
@@ -78,5 +84,24 @@ public class Tag {
 		System.out.println(entities);
 			
 		return Response.ok(entities).build();
+	}
+	
+	@Path("/categories/{id}")
+	@DELETE
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteTagCatetory(@PathParam("id") long id){
+		logger.info("delete tagcategory(id="+id+")");
+		this.tcManager.delete(id);
+		return Response.ok().build();
+	}
+	
+	@Path("/{id}")
+	@DELETE
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteTag(@PathParam("id") long id){
+		logger.info("delete tag(id="+id+")");
+		this.manager.delete(id);
+		return Response.ok().build();
 	}
 }

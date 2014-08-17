@@ -37,4 +37,20 @@ public class TagCategoryManager extends AbstractManager {
 		manager.close();
 		return tagCategory;
 	}
+	public boolean delete(long id) {
+		EntityManager manager = this.emf.createEntityManager();
+		manager.getTransaction().begin();
+		TagCategoryEntity entity = manager.find(TagCategoryEntity.class, id);
+		if(entity == null){
+			return true;
+		}
+		else {
+			manager.remove(entity);
+		}
+		manager.getTransaction().commit();
+		manager.close();
+		return true;
+		// TODO Auto-generated method stub
+		
+	}
 }
