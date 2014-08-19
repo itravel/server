@@ -9,7 +9,6 @@ import com.itravel.server.dal.entities.TagEntity;
 
 public class TagManager extends AbstractManager {
 
-
 	public void save(TagEntity entity) {
 		// TODO Auto-generated method stub
 		Preconditions.checkArgument(entity!=null);
@@ -51,6 +50,13 @@ public class TagManager extends AbstractManager {
 		manager.getTransaction().commit();
 		manager.close();
 		return true;
+	}
+	
+	public TagEntity get(long id){
+		EntityManager manager = this.emf.createEntityManager();
+		TagEntity entity = manager.find(TagEntity.class,id);
+		manager.close();
+		return entity;
 	}
 	
 }

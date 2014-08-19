@@ -50,7 +50,5 @@ public class TagCategoryManager extends AbstractManager {
 		manager.getTransaction().commit();
 		manager.close();
 		return true;
-		// TODO Auto-generated method stub
-		
 	}
 }

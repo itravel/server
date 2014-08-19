@@ -3,8 +3,8 @@ package com.itravel.server.services.rest;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import javax.inject.Singleton;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -28,20 +28,38 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.itravel.server.dal.entities.ActivityEntity;
+import com.itravel.server.dal.entities.TagEntity;
 import com.itravel.server.dal.managers.ActivityManager;
+import com.itravel.server.dal.managers.TagManager;
 import com.itravel.server.services.rest.params.ActivitiesFormParam;
 import com.itravel.server.services.rest.params.ActivitiesFormParam.ValidationEnum;
 
-@Singleton
 @Path("/activities")
 public class Activities {
 	@Context
 	UriInfo uriInfo;
-	protected ActivityManager activityManager = new ActivityManager();
-	protected ObjectMapper objectMapper = new ObjectMapper().setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-	private static Logger logger = LogManager.getLogger(Activities.class);
+	protected static final ActivityManager activityManager = new ActivityManager();
+	protected static final ObjectMapper objectMapper = new ObjectMapper().setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+	private static final Logger logger = LogManager.getLogger(Activities.class);
+	private static final LoadingCache<Long,TagEntity> tagCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.HOURS).build(new CacheLoader<Long,TagEntity>(){
+		private final TagManager tagManager = new TagManager();
+		
+		@Override
+		public TagEntity load(Long id) throws Exception {
+			return tagManager.get(id);
+		}});
+	
+	/**
+	 * 获取活动信息
+	 * @param start
+	 * @param number
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response getActivities(@QueryParam(value = "start") int start,@QueryParam(value="number") int number){
