@@ -146,6 +146,12 @@ public class ActivitiesFormParam {
 	 */
 	@FormParam(value = "web")
 	private String web;
+	
+	@FormParam(value="journey")
+	private String journey;
+	
+	@FormParam(value="tips")
+	private String tips;
 
 	public ValidationEnum validate() {
 		logger.debug(this);
@@ -374,5 +380,21 @@ public class ActivitiesFormParam {
 
 	public void setScenerySpot(String scenerySpot) {
 		this.scenerySpot = scenerySpot;
+	}
+
+	public String getJourney() {
+		return journey;
+	}
+
+	public void setJourney(String journey) {
+		this.journey = journey;
+	}
+
+	public String getTips() {
+		return tips;
+	}
+
+	public void setTips(String tips) {
+		this.tips = tips;
 	}
 }

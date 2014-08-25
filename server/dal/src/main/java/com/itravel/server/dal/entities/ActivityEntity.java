@@ -106,6 +106,12 @@ public class ActivityEntity extends AbstractEventsEntity  {
 
 	@Column(name="web")
 	private String web;
+	
+	@Column(name="journey")
+	private String journey;
+
+	@Column(name="tips")
+	private String tips;
 
 	public ActivityEntity() {
 	}
@@ -348,6 +354,26 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	
 	public void setDepart(String depart) {
 		this.depart = depart;
+	}
+
+
+	public String getJourney() {
+		return journey;
+	}
+
+
+	public void setJourney(String journey) {
+		this.journey = journey;
+	}
+
+
+	public String getTips() {
+		return tips;
+	}
+
+
+	public void setTips(String tips) {
+		this.tips = tips;
 	}
 
 
