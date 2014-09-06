@@ -1,8 +1,17 @@
 package com.itravel.server.dal.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
 /**
@@ -12,6 +21,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="activities")
 public class ActivityEntity extends AbstractEventsEntity  {
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	};
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -38,9 +50,9 @@ public class ActivityEntity extends AbstractEventsEntity  {
 
 	/**
 	 * 活动图片
-	 */
+	 *//*
 	@Column(name="images")
-	private String images;
+	private String images;*/
 	
 	/**
 	 * 活动联系人
@@ -63,8 +75,13 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	/**
 	 * 活动标签
 	 */
-	@Column(name="tags")
-	private String tags;
+	@ManyToMany
+	@JoinTable(
+		name="activity_tags",
+		joinColumns = @JoinColumn(name="activity_id"),
+		inverseJoinColumns = @JoinColumn(name="tag_id")
+	)
+	private List<TagEntity> tags;
 	
 	
 	/**
@@ -113,6 +130,13 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	@Column(name="tips")
 	private String tips;
 
+	/**
+	 * 活动图片
+	 */
+	@OneToMany
+	@JoinColumn(name="activity_id")
+	private List<ActivityImageEntity> images;
+	
 	public ActivityEntity() {
 	}
 
@@ -173,23 +197,6 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	 */
 	public void setFee(int fee) {
 		this.fee = fee;
-	}
-
-
-
-
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.IActivityObject#getImages()
-	 */
-	public String getImages() {
-		return this.images;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.IActivityObject#setImages(java.lang.String)
-	 */
-	public void setImages(String images) {
-		this.images = images;
 	}
 
 	/* (non-Javadoc)
@@ -285,28 +292,20 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		this.sponsor = sponsor;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.IActivityObject#getTags()
-	 */
 	
-	public String getTags() {
-		return this.tags;
+	public List<TagEntity> getTags() {
+		return tags;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.itravel.server.dal.entities.IActivityObject#setTags(java.lang.String)
-	 */
-	
-	public void setTags(String tags) {
+
+	public void setTags(List<TagEntity> tags) {
 		this.tags = tags;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see com.itravel.server.dal.entities.IActivityObject#getWeb()
 	 */
-	
+
 	public String getWeb() {
 		return web;
 	}
@@ -374,6 +373,16 @@ public class ActivityEntity extends AbstractEventsEntity  {
 
 	public void setTips(String tips) {
 		this.tips = tips;
+	}
+
+
+	public List<ActivityImageEntity> getImages() {
+		return images;
+	}
+
+
+	public void setImages(List<ActivityImageEntity> images) {
+		this.images = images;
 	}
 
 
