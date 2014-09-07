@@ -1,8 +1,18 @@
 package com.itravel.server.dal.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigInteger;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /**
@@ -11,15 +21,15 @@ import java.math.BigInteger;
  */
 @Entity
 @Table(name="activity_images")
-@NamedQuery(name="ActivityImageEntity.findAll", query="SELECT a FROM ActivityImageEntity a")
+
 public class ActivityImageEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	@JsonIgnore
 	@Id
 	private String id;
-
+	@JsonIgnore
 	@Column(name="activity_id")
-	private BigInteger activityId;
+	private long activityId;
 
 	@Column(name="image_uri")
 	private String imageUri;
@@ -35,11 +45,11 @@ public class ActivityImageEntity implements Serializable {
 		this.id = id;
 	}
 
-	public BigInteger getActivityId() {
+	public long getActivityId() {
 		return this.activityId;
 	}
 
-	public void setActivityId(BigInteger activityId) {
+	public void setActivityId(long activityId) {
 		this.activityId = activityId;
 	}
 
@@ -51,4 +61,15 @@ public class ActivityImageEntity implements Serializable {
 		this.imageUri = imageUri;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+	public static void main(String[] args) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		String value = mapper.writeValueAsString(new ActivityImageEntity());
+		System.out.println(value);
+	}
 }

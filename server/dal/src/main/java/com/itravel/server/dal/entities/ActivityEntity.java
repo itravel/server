@@ -2,6 +2,7 @@ package com.itravel.server.dal.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -12,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.google.common.collect.Lists;
 
 
 /**
@@ -133,11 +136,13 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	/**
 	 * 活动图片
 	 */
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="activity_id")
 	private List<ActivityImageEntity> images;
 	
 	public ActivityEntity() {
+		images = Lists.newArrayList();
+		tags = Lists.newArrayList();
 	}
 
 

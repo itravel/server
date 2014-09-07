@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 import static javax.persistence.TemporalType.DATE;
@@ -40,8 +42,9 @@ public abstract class AbstractEventsEntity implements Serializable {
 	
 	@Column(name="gmt_create")
 	@Temporal(TIMESTAMP)
+	@JsonIgnore
 	private Date gmt_create;
-	
+	@JsonIgnore
 	@Column(name="gmt_modified")
 	@Temporal(TIMESTAMP)
 	private Date gmt_modified;
