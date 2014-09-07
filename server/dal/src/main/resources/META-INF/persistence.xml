@@ -4,6 +4,7 @@
 		<class>com.itravel.server.dal.entities.TagEntity</class>
 		<class>com.itravel.server.dal.entities.TagCategoryEntity</class>
 		<class>com.itravel.server.dal.entities.ActivityEntity</class>
+		<class>com.itravel.server.dal.entities.ActivityImageEntity</class>
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://115.28.129.120:3306/itravel?characterEncoding=utf8"/>
