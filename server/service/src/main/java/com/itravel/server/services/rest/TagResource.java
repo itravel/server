@@ -38,7 +38,6 @@ public class TagResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTags(
-			
 		){
 		List<TagEntity> tags = this.manager.getAll();
 			
