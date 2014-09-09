@@ -63,7 +63,7 @@ public class LvyeDataManager {
 	 */
 	public List<LvyeActivityEntity> getUnEditPart(int offset,int limit){
 		EntityManager manager = emf.createEntityManager();
-		List<LvyeActivityEntity> activities = manager.createQuery("select L from LvyeActivity L where L.editStatus = 0 order by L.id",LvyeActivityEntity.class).setFirstResult(offset).setMaxResults(limit).getResultList();
+		List<LvyeActivityEntity> activities = manager.createQuery("select L from LvyeActivityEntity L where L.editStatus = 0 order by L.id",LvyeActivityEntity.class).setFirstResult(offset).setMaxResults(limit).getResultList();
 		manager.close();
 		return activities;
 	}
