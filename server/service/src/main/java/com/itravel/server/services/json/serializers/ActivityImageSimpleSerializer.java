@@ -23,7 +23,12 @@ public class ActivityImageSimpleSerializer extends StdSerializer<ActivityImageEn
 	public void serialize(ActivityImageEntity arg0, JsonGenerator jgen,
 			SerializerProvider srp) throws IOException,
 			JsonProcessingException {
-		jgen.writeString(arg0.getImageUri());
+		if(!arg0.getImageUri().startsWith("/images")){
+			jgen.writeString("/images/"+arg0.getImageUri());
+		}
+		else {
+			jgen.writeString(arg0.getImageUri());	
+		}
 	
 		
 	}
