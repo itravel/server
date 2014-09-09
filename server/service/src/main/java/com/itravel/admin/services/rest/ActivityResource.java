@@ -87,20 +87,10 @@ public class ActivityResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(String jsonStr){
+	public Response create(){
 		try {
-			ActivityEntity entity = mapper.readValue(jsonStr,ActivityEntity.class);
-			List<ActivityImageEntity> _imageEntities = Lists.newArrayList();
-			for(ActivityImageEntity imageEntity : entity.getImages()){
-				_imageEntities.add(imageEntity);
-			}
-			entity.getImages().clear();
-			aManager.save(entity);
-			for(ActivityImageEntity imageEntity:_imageEntities){
-				imageEntity.setActivityId(entity.getId());
-			}
-			entity.setImages(_imageEntities);
-			aManager.save(entity);
+			ActivityEntity entity = new ActivityEntity();
+			entity.setId(System.nanoTime());
 			String activityJsonStr="";
 			try {
 				activityJsonStr = mapper.writeValueAsString(entity);
