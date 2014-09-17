@@ -15,7 +15,7 @@ public class DoubanDataManager {
 	
 	public List<DoubanActivityEntity> getFilteredPageData(int offset,int limit,Set<Long> filteredIds){
 		EntityManager manager = emf.createEntityManager();
-		List<DoubanActivityEntity> activities = manager.createNativeQuery("select * from douban_activity where  id not in (?editings) order by id", DoubanActivityEntity.class).setParameter("editings", Joiner.on(",").join(filteredIds)).setFirstResult(offset).setMaxResults(limit).getResultList();
+		List<DoubanActivityEntity> activities = manager.createNativeQuery("select * from douban_activity where edit_status = 0 and id not in (?editings) order by id", DoubanActivityEntity.class).setParameter("editings", Joiner.on(",").join(filteredIds)).setFirstResult(offset).setMaxResults(limit).getResultList();
 		manager.close();
 		return activities;
 		
