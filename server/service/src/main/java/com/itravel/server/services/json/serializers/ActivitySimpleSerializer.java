@@ -24,8 +24,11 @@ public class ActivitySimpleSerializer extends StdSerializer<ActivityEntity> {
 		jgen.writeNumberField("id",value.getId());
 		jgen.writeStringField("title", value.getTitle());
 		if(value.getImages().size()>0){
+			String imageUri = value.getImages().get(0).getImageUri();
 			
-			jgen.writeStringField("image", value.getImages().get(0).getImageUri());
+			if(imageUri!=null&&!imageUri.startsWith("/images")){
+				jgen.writeStringField("image", "/images/"+imageUri);
+			}
 		}
 		jgen.writeObjectField("start",value.getStartTime());
 		jgen.writeObjectField("end",value.getEndTime());
