@@ -3,9 +3,12 @@ package com.itravel.server.dal.entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -27,12 +30,17 @@ public class ActivityImageEntity implements Serializable {
 	@JsonIgnore
 	@Id
 	private String id;
-	@JsonIgnore
-	@Column(name="activity_id")
-	private long activityId;
+//	@JsonIgnore
+//	@Column(name="activity_id")
+//	private long activityId;
 
 	@Column(name="image_uri")
 	private String imageUri;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "activity_id",nullable=false)
+	private ActivityEntity activity;
+	
 
 	public ActivityImageEntity() {
 	}
@@ -45,13 +53,13 @@ public class ActivityImageEntity implements Serializable {
 		this.id = id;
 	}
 
-	public long getActivityId() {
-		return this.activityId;
-	}
-
-	public void setActivityId(long activityId) {
-		this.activityId = activityId;
-	}
+//	public long getActivityId() {
+//		return this.activityId;
+//	}
+//
+//	public void setActivityId(long activityId) {
+//		this.activityId = activityId;
+//	}
 
 	public String getImageUri() {
 		return this.imageUri;
@@ -59,6 +67,14 @@ public class ActivityImageEntity implements Serializable {
 
 	public void setImageUri(String imageUri) {
 		this.imageUri = imageUri;
+	}
+
+	public ActivityEntity getEntity() {
+		return activity;
+	}
+
+	public void setEntity(ActivityEntity entity) {
+		this.activity = entity;
 	}
 
 	@Override

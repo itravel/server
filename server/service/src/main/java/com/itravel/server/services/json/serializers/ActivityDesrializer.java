@@ -62,10 +62,7 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 		while(iter.hasNext()){
 			JsonNode imageNode = iter.next();
 			ActivityImageEntity imageEntity = new ActivityImageEntity();
-			if(entity.getId()>0){
-				
-				imageEntity.setActivityId(entity.getId());
-			}
+			imageEntity.setEntity(entity);
 			imageEntity.setImageUri(imageNode.textValue());
 			entity.getImages().add(imageEntity);
 		}

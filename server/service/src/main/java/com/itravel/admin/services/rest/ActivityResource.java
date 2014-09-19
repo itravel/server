@@ -67,7 +67,10 @@ public class ActivityResource {
 	public Response update(@PathParam("id") long id,String jsonStr){
 		try {
 			ActivityEntity entity = mapper.readValue(jsonStr,ActivityEntity.class);
+			
+			System.out.println(entity);
 			aManager.save(entity);
+			System.out.println(entity);
 			String activityJsonStr="";
 			try {
 				activityJsonStr = mapper.writeValueAsString(entity);

@@ -136,8 +136,8 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	/**
 	 * 活动图片
 	 */
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="activity_id")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="activity")
+//	@JoinColumn(name = "activity_id")
 	private List<ActivityImageEntity> images;
 	
 	public ActivityEntity() {
