@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.entities.ActivityImageEntity;
+import com.itravel.server.dal.entities.ActivityJourneyEntity;
 import com.itravel.server.dal.entities.TagEntity;
 
 public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
@@ -36,7 +37,6 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 		entity.setTitle(node.get("title").textValue());
 		entity.setContent(node.get("content").textValue());
 		entity.setContact(node.get("contact").textValue());
-		entity.setConvenience(node.get("convenience").intValue());
 		entity.setDepart(node.get("depart").textValue());
 		entity.setDestination(node.get("destination").textValue());
 		try {
@@ -47,33 +47,23 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 			e.printStackTrace();
 		}
 		entity.setFee(node.get("fee").intValue());
-		entity.setJourney(node.get("journey").textValue());
-		entity.setOriginality(node.get("originality").intValue());
 		entity.setParticipationType(node.get("participationType").intValue());
-		entity.setPopularity(node.get("popularity").intValue());
 		entity.setRecommender(node.get("recommender").textValue());
-		entity.setScale(node.get("scale").intValue());
 		entity.setScenerySpot(node.get("scenerySpot").textValue());
 		entity.setTips(node.get("tips").textValue());
 		entity.setSponsor(node.get("sponsor").textValue());
 		entity.setWeb(node.get("web").textValue());
+		entity.setImage(node.get("image").textValue());
 		
-		Iterator<JsonNode> iter = node.get("images").elements();
+		Iterator<JsonNode> iter = node.get("journey").elements();
 		while(iter.hasNext()){
-			JsonNode imageNode = iter.next();
-			ActivityImageEntity imageEntity = new ActivityImageEntity();
-			imageEntity.setEntity(entity);
-			imageEntity.setImageUri(imageNode.textValue());
-			entity.getImages().add(imageEntity);
-		}
-		Iterator<JsonNode> _tagIter = node.get("tags").elements();
-		
-		while(_tagIter.hasNext()){
-			JsonNode tagNode = _tagIter.next();
-			TagEntity tagEntity = new TagEntity();
-			tagEntity.setId(tagNode.get("id").longValue());
-			tagEntity.setTag(tagNode.get("tag").textValue());
-			entity.getTags().add(tagEntity);
+			JsonNode journeyNode = iter.next();
+			ActivityJourneyEntity journeyEntity = new ActivityJourneyEntity();
+			journeyEntity.setActivity(entity);
+			journeyEntity.setImage(journeyNode.get("image").textValue());
+			journeyEntity.setTitle(journeyNode.get("title").textValue());
+			journeyEntity.setContent(journeyNode.get("content").textValue());
+			entity.getJourney().add(journeyEntity);
 		}
 		
 		return entity;

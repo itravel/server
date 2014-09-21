@@ -48,9 +48,9 @@ public class ActivityManager extends AbstractManager{
 	public static void main(String[] args) {
 		ActivityManager manager = new ActivityManager();
 		ActivityEntity entity = manager.getActivity(1L);
-		TagManager tManager = new TagManager();
-		entity.getTags().add(tManager.get(3L));
-		manager.save(entity);
+//		TagManager tManager = new TagManager();
+//		entity.getTags().add(tManager.get(3L));
+//		manager.save(entity);
 		System.out.println(entity);
 	}
 }

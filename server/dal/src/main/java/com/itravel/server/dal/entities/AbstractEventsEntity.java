@@ -55,6 +55,9 @@ public abstract class AbstractEventsEntity implements Serializable {
 	@Column(name="content")
 	private String content;
 	
+	@Column(name="image")
+	private String image;
+	
 	@Column(name="start_time")
 	@Temporal(DATE)
 	private Date startTime;
@@ -102,6 +105,14 @@ public abstract class AbstractEventsEntity implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Date getStartTime() {

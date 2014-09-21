@@ -24,7 +24,7 @@ import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.entities.ActivityImageEntity;
 import com.itravel.server.dal.managers.ActivityManager;
 import com.itravel.server.services.json.serializers.ActivityDesrializer;
-import com.itravel.server.services.json.serializers.ActivityImageSimpleSerializer;
+import com.itravel.server.services.json.serializers.ActivityJourneySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivitySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivityTagSimpleSerializer;
 
@@ -34,7 +34,7 @@ public class ActivityResource {
 	protected static final ObjectMapper listObjectMapper = new ObjectMapper();
 	static {
 		SimpleModule module = new SimpleModule();
-		module.addSerializer(new ActivityImageSimpleSerializer()).addDeserializer(ActivityEntity.class, new ActivityDesrializer());
+		module.addSerializer(new ActivityJourneySimpleSerializer()).addDeserializer(ActivityEntity.class, new ActivityDesrializer());
 		SimpleModule listModule = new SimpleModule();
 		listModule.addSerializer(new ActivitySimpleSerializer());
 		
