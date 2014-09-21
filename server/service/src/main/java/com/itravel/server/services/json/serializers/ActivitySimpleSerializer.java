@@ -44,6 +44,9 @@ public class ActivitySimpleSerializer extends StdSerializer<ActivityEntity> {
 	}
 	
 	private String wrapImage(String image){
+		if(image == null||image.isEmpty()){
+			return "";
+		}
 		if (image.startsWith("/images")){
 			return image;
 		}
