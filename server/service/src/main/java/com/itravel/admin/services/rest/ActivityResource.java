@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -108,5 +109,21 @@ public class ActivityResource {
 			return Response.serverError().entity(e.getMessage()).build();
 			
 		}
+	}
+	@DELETE
+	@Path("{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response delete(@PathParam(value = "id") long id){
+		try {
+			
+			ActivityEntity entity = aManager.remove(id);
+		}
+		catch(Exception e){
+			return Response.serverError().entity(e.getMessage()).build();
+			
+		}
+		return Response.ok().build();
+		
 	}
 }

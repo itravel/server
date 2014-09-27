@@ -69,7 +69,7 @@ public class ActivityResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response getActivities(@QueryParam(value = "start") int start,@QueryParam(value="number") int number){
-		List<ActivityEntity> activites = activityManager.getActivities(start, number);
+		List<ActivityEntity> activites = activityManager.getActivities(start, number,true);
 		String activityJsonStr="";
 		try {
 			activityJsonStr = listObjectMapper.writeValueAsString(activites);

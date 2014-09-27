@@ -25,16 +25,25 @@ public class ActivityJourneySimpleSerializer extends StdSerializer<ActivityJourn
 			JsonProcessingException {
 	
 		jgen.writeStartObject();
-		jgen.writeStringField("id", String.valueOf(value.getId()));
+		jgen.writeNumberField("id", Long.valueOf(value.getId()));
 		jgen.writeStringField("title", value.getTitle());
 		jgen.writeStringField("content", value.getContent());
 		if(value.getImage()!=null&&!value.getImage().isEmpty()){
-			
-			jgen.writeString(value.getImage());
+			jgen.writeStringField("image",this.wrapImage(value.getImage()));
 		}
 		jgen.writeEndObject();
 	}
-
+	private String wrapImage(String image){
+		if(image == null||image.isEmpty()){
+			return "";
+		}
+		if (image.startsWith("/images")){
+			return image;
+		}
+		else {
+			return "/images/"+image;
+		}
+	}
 	public static void main(String[] args) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule listModule = new SimpleModule();

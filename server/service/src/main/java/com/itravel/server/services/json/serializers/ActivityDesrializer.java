@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Iterator;
 
+import jersey.repackaged.com.google.common.base.Optional;
+
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -15,6 +17,7 @@ import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.entities.ActivityImageEntity;
 import com.itravel.server.dal.entities.ActivityJourneyEntity;
 import com.itravel.server.dal.entities.TagEntity;
+import com.sun.research.ws.wadl.Option;
 
 public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 
@@ -60,9 +63,21 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 			JsonNode journeyNode = iter.next();
 			ActivityJourneyEntity journeyEntity = new ActivityJourneyEntity();
 			journeyEntity.setActivity(entity);
-			journeyEntity.setImage(journeyNode.get("image").textValue());
-			journeyEntity.setTitle(journeyNode.get("title").textValue());
-			journeyEntity.setContent(journeyNode.get("content").textValue());
+			if(journeyNode.get("id")!=null){
+				System.out.println(journeyNode.get("id").longValue());
+				journeyEntity.setId(journeyNode.get("id").longValue());
+			}
+			if(journeyNode.get("image")!=null){
+				journeyEntity.setImage(journeyNode.get("image").textValue());
+			}
+			if(journeyNode.get("title")!=null){
+				
+				journeyEntity.setTitle(journeyNode.get("title").textValue());
+			}
+			if(journeyNode.get("content")!=null){
+				
+				journeyEntity.setContent(journeyNode.get("content").textValue());
+			}
 			entity.getJourney().add(journeyEntity);
 		}
 		

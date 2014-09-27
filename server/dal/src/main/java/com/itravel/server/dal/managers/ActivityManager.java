@@ -8,9 +8,15 @@ import javax.persistence.EntityManager;
 import com.itravel.server.dal.entities.ActivityEntity;
 
 public class ActivityManager extends AbstractManager{
-	public List<ActivityEntity> getActivities(int start,int number){
+	public List<ActivityEntity> getActivities(int start,int number,boolean reverse){
 		EntityManager manager = this.emf.createEntityManager();
-		List<ActivityEntity> result = manager.createQuery("select AE from ActivityEntity AE order by AE.id",ActivityEntity.class).setFirstResult(start).setMaxResults(number).getResultList();
+		List<ActivityEntity> result;
+		if(reverse){
+			result = manager.createQuery("select AE from ActivityEntity AE order by AE.id desc",ActivityEntity.class).setFirstResult(start).setMaxResults(number).getResultList();
+		}
+		else {
+			result = manager.createQuery("select AE from ActivityEntity AE order by AE.id",ActivityEntity.class).setFirstResult(start).setMaxResults(number).getResultList();
+		}
 		manager.close();
 		return result;
 	}
@@ -43,6 +49,15 @@ public class ActivityManager extends AbstractManager{
 		List<ActivityEntity> result = manager.createQuery("select AE from ActivityEntity AE where AE.startTime <:toTime and AE.endTime >= :fromTime  order by AE.id ",ActivityEntity.class).setFirstResult(start).setMaxResults(number).setParameter("toTime", to).setParameter("fromTime", from).getResultList();
 		manager.close();
 		return result;
+	}
+	
+	public ActivityEntity remove(long id){
+		EntityManager manager = this.emf.createEntityManager();
+		manager.getTransaction().begin();
+		ActivityEntity entity = manager.find(ActivityEntity.class, id);
+		manager.remove(entity);
+		manager.getTransaction().commit();
+		return entity;
 	}
 	
 	public static void main(String[] args) {
