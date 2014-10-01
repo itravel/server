@@ -84,7 +84,6 @@ public class ActivityResource {
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response getActivities(@PathParam("id") long id){
 		ActivityEntity activity = this.activityManager.getActivity(id);
-		System.out.println(activity);
 		String activityJsonStr="";
 		try {
 			activityJsonStr = objectMapper.writeValueAsString(activity);

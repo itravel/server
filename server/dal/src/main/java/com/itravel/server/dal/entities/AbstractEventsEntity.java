@@ -108,7 +108,15 @@ public abstract class AbstractEventsEntity implements Serializable {
 	}
 
 	public String getImage() {
-		return image;
+		if(this.image == null||this.image.isEmpty()){
+			return "";
+		}
+		else if(this.image.startsWith("/images")){
+			return image;
+		}
+		else {
+			return "/images/"+image;
+		}
 	}
 
 	public void setImage(String image) {
