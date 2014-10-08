@@ -14,6 +14,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.Module;
@@ -42,6 +45,7 @@ public class ActivityResource {
 		mapper.registerModule(module).setDateFormat(new SimpleDateFormat("yyyy-MM-dd")).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		listObjectMapper.registerModule(listModule).setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 	}
+	private static Logger logger = LogManager.getLogger(ActivityResource.class);
 	private static ActivityManager aManager = new ActivityManager();
 	@PUT
 	@Path("/{id}/editing")
@@ -68,10 +72,8 @@ public class ActivityResource {
 	public Response update(@PathParam("id") long id,String jsonStr){
 		try {
 			ActivityEntity entity = mapper.readValue(jsonStr,ActivityEntity.class);
-			
-			System.out.println(entity);
-			aManager.save(entity);
-			System.out.println(entity);
+			logger.debug(entity);
+			entity = aManager.save(entity);
 			String activityJsonStr="";
 			try {
 				activityJsonStr = mapper.writeValueAsString(entity);

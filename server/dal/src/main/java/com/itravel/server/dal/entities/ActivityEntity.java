@@ -1,15 +1,15 @@
 package com.itravel.server.dal.entities;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -99,7 +99,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	@Column(name="web")
 	private String web;
 	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="activity")
+	@OneToMany(cascade = CascadeType.PERSIST,mappedBy="activity")
+//	@OrderBy("id")
+	@OrderColumn(name="journey_order")
+//	@OrderBy("journey.id")
 	private List<ActivityJourneyEntity> journey;
 
 	@Column(name="tips")
@@ -200,11 +203,34 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	}
 
 	public List<ActivityJourneyEntity> getJourney() {
-		return journey;
+//		 Collections.sort(this.journey, new Comparator<ActivityJourneyEntity>() {
+//
+//			@Override
+//			public int compare(ActivityJourneyEntity o1,
+//					ActivityJourneyEntity o2) {
+//				// TODO Auto-generated method stub
+//				return o1.getJourneyOrder()-o2.getJourneyOrder();
+//			}
+//		});
+		return this.journey;
 	}
 
 	public void setJourney(List<ActivityJourneyEntity> journey) {
 		this.journey = journey;
+	}
+	
+	public ActivityJourneyEntity addActivityJourney(ActivityJourneyEntity activityJourney) {
+		this.journey.add(activityJourney);
+		activityJourney.setActivity(this);
+
+		return activityJourney;
+	}
+
+	public ActivityJourneyEntity removeActivityJourney(ActivityJourneyEntity activityJourney) {
+		this.journey.remove(activityJourney);
+		activityJourney.setActivity(null);
+
+		return activityJourney;
 	}
 
 

@@ -24,6 +24,7 @@ public class ActivityJourneyEntity implements Serializable {
 	private long id;
 
 	@ManyToOne
+	@JoinColumn(name="activity_id")
 	private ActivityEntity activity;
 
 	@Column(name="content")
@@ -34,6 +35,9 @@ public class ActivityJourneyEntity implements Serializable {
 
 	@Column(name="title")
 	private String title;
+	
+	@Column(name="journey_order")
+	private int journeyOrder;
 
 	public ActivityJourneyEntity() {
 		this.content = "";
@@ -83,6 +87,14 @@ public class ActivityJourneyEntity implements Serializable {
 
 	public void setActivity(ActivityEntity activity) {
 		this.activity = activity;
+	}
+
+	public int getJourneyOrder() {
+		return journeyOrder;
+	}
+
+	public void setJourneyOrder(int journeyOrder) {
+		this.journeyOrder = journeyOrder;
 	}
 
 	@Override

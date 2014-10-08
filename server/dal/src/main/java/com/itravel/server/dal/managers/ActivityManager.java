@@ -25,8 +25,14 @@ public class ActivityManager extends AbstractManager{
 		EntityManager manager = this.emf.createEntityManager();
 		manager.getTransaction().begin();
 		if(entity.getId() > 0){
-			manager.find(ActivityEntity.class, entity.getId());
-			manager.merge(entity);
+			ActivityEntity _entity = manager.find(ActivityEntity.class, entity.getId());
+			if(_entity!=null){
+				
+				manager.merge(entity);
+			}
+			else {
+				manager.persist(entity);
+			}
 		}
 		else {
 			manager.persist(entity);

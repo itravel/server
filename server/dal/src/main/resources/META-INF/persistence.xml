@@ -10,7 +10,7 @@
 		<class>com.itravel.server.dal.entities.ActivityJourneyEntity</class>
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
-		   <!--  <property name="eclipselink.logging.level" value="FINE" /> -->
+		   <!--<property name="eclipselink.logging.level" value="FINE" /> -->
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/itravel?characterEncoding=utf8"/>
 			<property name="javax.persistence.jdbc.user" value="admin"/>
 			<property name="javax.persistence.jdbc.password" value="admin"/>
