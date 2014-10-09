@@ -99,7 +99,7 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	@Column(name="web")
 	private String web;
 	
-	@OneToMany(cascade = CascadeType.PERSIST,mappedBy="activity")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="activity")
 //	@OrderBy("id")
 	@OrderColumn(name="journey_order")
 //	@OrderBy("journey.id")
