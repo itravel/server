@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
@@ -53,39 +55,19 @@ public class ActivityEntity extends AbstractEventsEntity  {
 
 	
 	/**
-	 * 活动联系人
+	 * 活动联系电话
 	 */
 	@Column(name="contact")
 	private String contact;
 	
-	/**
-	 * 活动推荐人
-	 */
-	@Column(name="recommender")
-	private String recommender;
 	
 	/**
-	 * 活动主办方
+	 * 活动组织者
 	 */
-	@Column(name="sponsor")
-	private String sponsor;
+	@ManyToOne
+	@JoinColumn(name="organizer")
+	private UserEntity organizer;
 	
-//	/**
-//	 * 活动标签
-//	 */
-//	@ManyToMany
-//	@JoinTable(
-//		name="activity_tags",
-//		joinColumns = @JoinColumn(name="activity_id"),
-//		inverseJoinColumns = @JoinColumn(name="tag_id")
-//	)
-	
-	
-	/**
-	 * 活动参与类型
-	 */
-	@Column(name="participation_type")
-	private int participationType;
 
 	
 	/**
@@ -94,29 +76,36 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	@Column(name="fee")
 	private int fee;
 	
-	
-
-	@Column(name="web")
-	private String web;
-	
+	/**
+	 * 旅行活动安排
+	 */
 	@OneToMany(cascade = CascadeType.ALL,mappedBy="activity")
-//	@OrderBy("id")
 	@OrderColumn(name="journey_order")
-//	@OrderBy("journey.id")
 	private List<ActivityJourneyEntity> journey;
 
+	/**
+	 * 活动须知
+	 */
 	@Column(name="tips")
 	private String tips;
 
-//	/**
-//	 * 活动图片
-//	 */
-//	@OneToMany(cascade = CascadeType.ALL,mappedBy="activity")
-////	@JoinColumn(name = "activity_id")
-//	private List<ActivityImageEntity> images;
+	/**
+	 * 活动可用时间
+	 */
+
+	@Column(name="available_time")
+	private String availableTime;
+	
+	/**
+	 * 活动持续时间
+	 */
+	@Column(name="duration")
+	private int duration;
 	
 	public ActivityEntity() {
 		this.journey = Lists.newArrayList();
+		this.availableTime = "0";
+		
 	}
 
 	public String getContact() {
@@ -141,47 +130,11 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	public void setFee(int fee) {
 		this.fee = fee;
 	}
-
-	public int getParticipationType() {
-		return this.participationType;
-	}
-
-	public void setParticipationType(int participationType) {
-		this.participationType = participationType;
-	}
-
-	public String getRecommender() {
-		return this.recommender;
-	}
-
-	public void setRecommender(String recommender) {
-		this.recommender = recommender;
-	}
-
-	public String getSponsor() {
-		return this.sponsor;
-	}
-
-	public void setSponsor(String sponsor) {
-		this.sponsor = sponsor;
-	}
-
-	public String getWeb() {
-		return web;
-	}
-
-	public void setWeb(String web) {
-		this.web = web;
-	}
-
-
 	
 	public String getScenerySpot() {
 		return scenerySpot;
 	}
 
-
-	
 	public void setScenerySpot(String scenerySpot) {
 		this.scenerySpot = scenerySpot;
 	}
@@ -203,15 +156,6 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	}
 
 	public List<ActivityJourneyEntity> getJourney() {
-//		 Collections.sort(this.journey, new Comparator<ActivityJourneyEntity>() {
-//
-//			@Override
-//			public int compare(ActivityJourneyEntity o1,
-//					ActivityJourneyEntity o2) {
-//				// TODO Auto-generated method stub
-//				return o1.getJourneyOrder()-o2.getJourneyOrder();
-//			}
-//		});
 		return this.journey;
 	}
 
@@ -231,6 +175,30 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		activityJourney.setActivity(null);
 
 		return activityJourney;
+	}
+
+	public UserEntity getOrganizer() {
+		return organizer;
+	}
+
+	public void setOrganizer(UserEntity organizer) {
+		this.organizer = organizer;
+	}
+
+	public String getAvailableTime() {
+		return availableTime;
+	}
+
+	public void setAvailableTime(String availableTime) {
+		this.availableTime = availableTime;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 

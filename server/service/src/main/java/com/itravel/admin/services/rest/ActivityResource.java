@@ -2,10 +2,10 @@ package com.itravel.admin.services.rest;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -19,18 +19,16 @@ import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.collect.Lists;
 import com.itravel.admin.services.rest.aos.ActivityEditingEntity;
 import com.itravel.server.dal.entities.ActivityEntity;
-import com.itravel.server.dal.entities.ActivityImageEntity;
+import com.itravel.server.dal.entities.UserEntity;
 import com.itravel.server.dal.managers.ActivityManager;
 import com.itravel.server.services.json.serializers.ActivityDesrializer;
 import com.itravel.server.services.json.serializers.ActivityJourneySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivitySimpleSerializer;
-import com.itravel.server.services.json.serializers.ActivityTagSimpleSerializer;
 
 @Path("activities")
 public class ActivityResource {
@@ -91,12 +89,15 @@ public class ActivityResource {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(){
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response create(@FormParam("organizerId") long organizerId){
 		try {
 			ActivityEntity entity = new ActivityEntity();
-			entity.setId(System.nanoTime());
+			UserEntity user = new UserEntity();
+			user.setId(organizerId);
+			entity.setOrganizer(user);
+			this.aManager.save(entity);
 			String activityJsonStr="";
 			try {
 				activityJsonStr = mapper.writeValueAsString(entity);

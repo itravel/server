@@ -17,6 +17,7 @@ import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.entities.ActivityImageEntity;
 import com.itravel.server.dal.entities.ActivityJourneyEntity;
 import com.itravel.server.dal.entities.TagEntity;
+import com.itravel.server.dal.entities.UserEntity;
 import com.sun.research.ws.wadl.Option;
 
 public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
@@ -42,21 +43,16 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 		entity.setContact(node.get("contact").textValue());
 		entity.setDepart(node.get("depart").textValue());
 		entity.setDestination(node.get("destination").textValue());
-		try {
-			entity.setEndTime(DateUtils.parseDate(node.get("endTime").textValue(),"yyyy-MM-dd"));
-			entity.setStartTime(DateUtils.parseDate(node.get("startTime").textValue(),"yyyy-MM-dd"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		entity.setFee(node.get("fee").intValue());
-		entity.setParticipationType(node.get("participationType").intValue());
-		entity.setRecommender(node.get("recommender").textValue());
 		entity.setScenerySpot(node.get("scenerySpot").textValue());
 		entity.setTips(node.get("tips").textValue());
-		entity.setSponsor(node.get("sponsor").textValue());
-		entity.setWeb(node.get("web").textValue());
 		entity.setImage(node.get("image").textValue());
+		entity.setAvailableTime("0");
+		entity.setDuration(node.get("duration").intValue());
+		UserEntity organizer = new UserEntity();
+		organizer.setId(node.get("organizer").longValue());
+		entity.setOrganizer(organizer);
 		
 		Iterator<JsonNode> iter = node.get("journey").elements();
 		while(iter.hasNext()){

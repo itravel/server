@@ -35,10 +35,15 @@ public class ActivitySimpleSerializer extends StdSerializer<ActivityEntity> {
 			}
 		}
 		jgen.writeEndArray();
-		
-		jgen.writeObjectField("start",value.getStartTime());
-		jgen.writeObjectField("end",value.getEndTime());
 		jgen.writeStringField("scenerySpot", value.getScenerySpot());
+		jgen.writeStringField("destination",value.getDestination());
+		jgen.writeNumberField("duration",value.getDuration());
+		jgen.writeNumberField("fee", value.getFee());
+		jgen.writeObjectFieldStart("organizer");
+		jgen.writeNumberField("id", value.getOrganizer().getId());
+		jgen.writeStringField("avatar", value.getOrganizer().getAvatar());
+		jgen.writeStringField("userName",value.getOrganizer().getUserName());
+		jgen.writeEndObject();
 		jgen.writeEndObject();
 		
 	}

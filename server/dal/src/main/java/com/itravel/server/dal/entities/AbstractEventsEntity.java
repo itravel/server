@@ -31,8 +31,7 @@ public abstract class AbstractEventsEntity implements Serializable {
 		this.gmt_modified = now;
 		this.title = "";
 		this.content = "";
-		this.startTime = now;
-		this.endTime = now;
+		
 	}
 	
 	@Id
@@ -57,14 +56,9 @@ public abstract class AbstractEventsEntity implements Serializable {
 	
 	@Column(name="image")
 	private String image;
-	
-	@Column(name="start_time")
-	@Temporal(DATE)
-	private Date startTime;
-	
-	@Column(name="end_time")
-	@Temporal(DATE)
-	private Date endTime;
+
+	@Column(name="duration")
+	private int duration;
 	
 	
 	public long getId() {
@@ -123,21 +117,15 @@ public abstract class AbstractEventsEntity implements Serializable {
 		this.image = image;
 	}
 
-	public Date getStartTime() {
-		return startTime;
+	public int getDuration() {
+		return duration;
 	}
 
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+	
 
 
 }

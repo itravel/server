@@ -10,6 +10,7 @@
 		<class>com.itravel.server.dal.entities.ActivityJourneyEntity</class>
 		<class>com.itravel.server.dal.entities.OrderTravelerEntity</class>
 		<class>com.itravel.server.dal.entities.OrderEntity</class>
+		<class>com.itravel.server.dal.entities.UserEntity</class>
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 		   <property name="eclipselink.logging.level" value="FINE" />
