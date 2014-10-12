@@ -20,7 +20,6 @@ import static javax.persistence.InheritanceType.TABLE_PER_CLASS;
 
 @MappedSuperclass
 public abstract class AbstractEventsEntity implements Serializable {
-
 	
 	private static final long serialVersionUID = 1L;
 
@@ -34,33 +33,24 @@ public abstract class AbstractEventsEntity implements Serializable {
 		
 	}
 	
+	
+	private long id;
+	
+	private Date gmt_create;
+	
+	private Date gmt_modified;
+	
+	private String title;
+	
+	private String content;
+	
+	private String image;
+	
+	private int duration;
+	
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = IDENTITY)
-	private long id;
-	
-	@Column(name="gmt_create")
-	@Temporal(TIMESTAMP)
-	@JsonIgnore
-	private Date gmt_create;
-	@JsonIgnore
-	@Column(name="gmt_modified")
-	@Temporal(TIMESTAMP)
-	private Date gmt_modified;
-	
-	@Column(name="title")
-	private String title;
-	
-	@Column(name="content")
-	private String content;
-	
-	@Column(name="image")
-	private String image;
-
-	@Column(name="duration")
-	private int duration;
-	
-	
 	public long getId() {
 		return id;
 	}
@@ -69,6 +59,9 @@ public abstract class AbstractEventsEntity implements Serializable {
 		this.id = id;
 	}
 
+	@Column(name="gmt_create")
+	@Temporal(TIMESTAMP)
+	@JsonIgnore
 	public Date getGmt_create() {
 		return gmt_create;
 	}
@@ -77,6 +70,9 @@ public abstract class AbstractEventsEntity implements Serializable {
 		this.gmt_create = gmt_create;
 	}
 
+	@JsonIgnore
+	@Column(name="gmt_modified")
+	@Temporal(TIMESTAMP)
 	public Date getGmt_modified() {
 		return gmt_modified;
 	}
@@ -85,6 +81,7 @@ public abstract class AbstractEventsEntity implements Serializable {
 		this.gmt_modified = gmt_modified;
 	}
 
+	@Column(name="title")
 	public String getTitle() {
 		return title;
 	}
@@ -93,6 +90,7 @@ public abstract class AbstractEventsEntity implements Serializable {
 		this.title = title;
 	}
 
+	@Column(name="content")
 	public String getContent() {
 		return content;
 	}
@@ -100,6 +98,7 @@ public abstract class AbstractEventsEntity implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	@Column(name="image")
 
 	public String getImage() {
 		if(this.image == null||this.image.isEmpty()){
@@ -117,6 +116,7 @@ public abstract class AbstractEventsEntity implements Serializable {
 		this.image = image;
 	}
 
+	@Column(name="duration")
 	public int getDuration() {
 		return duration;
 	}

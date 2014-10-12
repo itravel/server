@@ -1,5 +1,6 @@
 package com.itravel.server.dal.entities;
 
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,83 +32,34 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	};
 	private static final long serialVersionUID = 1L;
 	
-	
-	
-	/**
-	 * 出发地
-	 */
-	@Column(name="depart")
 	private String depart;
 	
-	
-
-	/**
-	 * 目的地
-	 */
-	@Column(name="destination")
 	private String destination;
 	
-	/**
-	 * 活动景点
-	 */
-	@Column(name="scenery_spot")
 	private String scenerySpot;
 
+	private String contact;
 	
+	private UserEntity organizer;
+	
+	private int fee;
+	
+	private List<ActivityJourneyEntity> journey;
+	
+	private String tips;
+
+	private BitSet availableTime;
+	
+	public ActivityEntity() {
+		this.journey = Lists.newArrayList();
+		this.availableTime = new BitSet();
+		
+	}
+
 	/**
 	 * 活动联系电话
 	 */
 	@Column(name="contact")
-	private String contact;
-	
-	
-	/**
-	 * 活动组织者
-	 */
-	@ManyToOne
-	@JoinColumn(name="organizer")
-	private UserEntity organizer;
-	
-
-	
-	/**
-	 * 活动费用
-	 */
-	@Column(name="fee")
-	private int fee;
-	
-	/**
-	 * 旅行活动安排
-	 */
-	@OneToMany(cascade = CascadeType.ALL,mappedBy="activity")
-	@OrderColumn(name="journey_order")
-	private List<ActivityJourneyEntity> journey;
-
-	/**
-	 * 活动须知
-	 */
-	@Column(name="tips")
-	private String tips;
-
-	/**
-	 * 活动可用时间
-	 */
-
-	@Column(name="available_time")
-	private String availableTime;
-	
-	/**
-	 * 活动持续时间
-	 */
-	@Column(name="duration")
-	private int duration;
-	
-	public ActivityEntity() {
-		this.journey = Lists.newArrayList();
-		this.availableTime = "0";
-		
-	}
-
 	public String getContact() {
 		return this.contact;
 	}
@@ -116,6 +68,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		this.contact = contact;
 	}
 
+	/**
+	 * 目的地
+	 */
+	@Column(name="destination")
 	public String getDestination() {
 		return this.destination;
 	}
@@ -123,6 +79,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		this.destination = destination;
 	}
 
+	/**
+	 * 活动费用
+	 */
+	@Column(name="fee")
 	public int getFee() {
 		return this.fee;
 	}
@@ -130,7 +90,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	public void setFee(int fee) {
 		this.fee = fee;
 	}
-	
+	/**
+	 * 活动景点
+	 */
+	@Column(name="scenery_spot")
 	public String getScenerySpot() {
 		return scenerySpot;
 	}
@@ -139,6 +102,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		this.scenerySpot = scenerySpot;
 	}
 
+	/**
+	 * 出发地
+	 */
+	@Column(name="depart")
 	public String getDepart() {
 		return depart;
 	}
@@ -146,6 +113,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	public void setDepart(String depart) {
 		this.depart = depart;
 	}
+	/**
+	 * 活动须知
+	 */
+	@Column(name="tips")
 
 	public String getTips() {
 		return tips;
@@ -155,6 +126,11 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		this.tips = tips;
 	}
 
+	/**
+	 * 旅行活动安排
+	 */
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="activity")
+	@OrderColumn(name="journey_order")
 	public List<ActivityJourneyEntity> getJourney() {
 		return this.journey;
 	}
@@ -177,6 +153,11 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		return activityJourney;
 	}
 
+	/**
+	 * 活动组织者
+	 */
+	@ManyToOne
+	@JoinColumn(name="organizer")
 	public UserEntity getOrganizer() {
 		return organizer;
 	}
@@ -184,21 +165,23 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	public void setOrganizer(UserEntity organizer) {
 		this.organizer = organizer;
 	}
+	
+	@Column(name="available_time")
 
-	public String getAvailableTime() {
-		return availableTime;
+	public long getAvailableTime() {
+		if(availableTime.toLongArray().length <=0 ){
+			return 0;
+		}
+		return availableTime.toLongArray()[0];
 	}
 
-	public void setAvailableTime(String availableTime) {
-		this.availableTime = availableTime;
+	public void setAvailableTime(long availableTime) {
+		this.availableTime = BitSet.valueOf(new long[]{availableTime});
 	}
 
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
+	
+	public static void main(String[] args) {
+		System.out.println(BitSet.valueOf(new long[]{1024L}));
 	}
 
 

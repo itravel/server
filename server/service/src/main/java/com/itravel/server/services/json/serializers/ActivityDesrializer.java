@@ -48,7 +48,7 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 		entity.setScenerySpot(node.get("scenerySpot").textValue());
 		entity.setTips(node.get("tips").textValue());
 		entity.setImage(node.get("image").textValue());
-		entity.setAvailableTime("0");
+		entity.setAvailableTime(node.get("availableTime").longValue());
 		entity.setDuration(node.get("duration").intValue());
 		UserEntity organizer = new UserEntity();
 		organizer.setId(node.get("organizer").longValue());
