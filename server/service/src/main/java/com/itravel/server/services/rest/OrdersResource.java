@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -31,6 +32,7 @@ import com.google.common.base.Optional;
 import com.itravel.server.dal.entities.OrderEntity;
 import com.itravel.server.dal.entities.OrderTravelerEntity;
 import com.itravel.server.dal.managers.OrderManager;
+anagers.OrderManager;
 
 @Path("/orders")
 public class OrdersResource {
@@ -115,7 +117,15 @@ public class OrdersResource {
 		}
 		
 	}
-
+	
+	@Path("/{orderId}/status")
+	@PUT
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response changeOrderStatus(@PathParam("orderId") long orderId,@FormParam("action") String action){
+		
+		return Response.ok().build();
+	}
 	private static class OrderJsonParser implements
 			Function<String, OrderEntity> {
 

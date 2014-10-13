@@ -22,9 +22,6 @@ import com.sun.research.ws.wadl.Option;
 
 public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2628552199597579480L;
 
 	public ActivityDesrializer() {
