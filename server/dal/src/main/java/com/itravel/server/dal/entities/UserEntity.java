@@ -14,13 +14,12 @@ import javax.persistence.*;
 public class UserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	private long id;
 
 	private String avatar;
 
-	@Column(name="cell_phone")
+	
 	private String cellPhone;
 
 	private int city;
@@ -33,14 +32,14 @@ public class UserEntity implements Serializable {
 
 	private int role;
 
-	@Column(name="user_name")
 	private String userName;
 
 	private String weibo;
 
 	public UserEntity() {
 	}
-
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public long getId() {
 		return this.id;
 	}
@@ -48,7 +47,7 @@ public class UserEntity implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	@Column(name="avatar")
 	public String getAvatar() {
 		return this.avatar;
 	}
@@ -56,7 +55,7 @@ public class UserEntity implements Serializable {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-
+	@Column(name="cell_phone")
 	public String getCellPhone() {
 		return this.cellPhone;
 	}
@@ -64,7 +63,7 @@ public class UserEntity implements Serializable {
 	public void setCellPhone(String cellPhone) {
 		this.cellPhone = cellPhone;
 	}
-
+	@Column(name="city")
 	public int getCity() {
 		return this.city;
 	}
@@ -72,7 +71,7 @@ public class UserEntity implements Serializable {
 	public void setCity(int city) {
 		this.city = city;
 	}
-
+	@Column(name="email")
 	public String getEmail() {
 		return this.email;
 	}
@@ -80,7 +79,7 @@ public class UserEntity implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	@Column(name="password")
 	public String getPassword() {
 		return this.password;
 	}
@@ -88,7 +87,7 @@ public class UserEntity implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	@Column(name="qq")
 	public int getQq() {
 		return this.qq;
 	}
@@ -97,6 +96,7 @@ public class UserEntity implements Serializable {
 		this.qq = qq;
 	}
 
+	@Column(name="role")
 	public int getRole() {
 		return this.role;
 	}
@@ -104,7 +104,7 @@ public class UserEntity implements Serializable {
 	public void setRole(int role) {
 		this.role = role;
 	}
-
+	@Column(name="user_name")
 	public String getUserName() {
 		return this.userName;
 	}
@@ -112,7 +112,7 @@ public class UserEntity implements Serializable {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
+	@Column(name="weibo")
 	public String getWeibo() {
 		return this.weibo;
 	}

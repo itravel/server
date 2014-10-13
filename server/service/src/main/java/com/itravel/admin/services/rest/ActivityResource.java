@@ -121,12 +121,12 @@ public class ActivityResource {
 		try {
 			
 			ActivityEntity entity = aManager.remove(id);
+			return Response.ok().entity(entity).build();
 		}
 		catch(Exception e){
 			return Response.serverError().entity(e.getMessage()).build();
 			
 		}
-		return Response.ok().build();
 		
 	}
 }

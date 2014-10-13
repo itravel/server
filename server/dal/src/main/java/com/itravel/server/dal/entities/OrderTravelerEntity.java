@@ -16,35 +16,32 @@ import java.math.BigInteger;
 public class OrderTravelerEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	private long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="gmt_create")
+	
 	private Date gmtCreate;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="gmt_modified")
+	
 	private Date gmtModified;
 
-	@Column(name="traveler_id")
+	
 	private String travelerId;
 
-	@Column(name="traveler_name")
+	
 	private String travelerName;
 
-	@Column(name="traveler_phone")
+	
 	private String travelerPhone;
 
-	//bi-directional many-to-one association to OrderEntity
-	@ManyToOne
-	@JoinColumn(name="orders_id")
+	
 	private OrderEntity order;
 
 	public OrderTravelerEntity() {
 	}
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public long getId() {
 		return this.id;
 	}
@@ -52,7 +49,8 @@ public class OrderTravelerEntity implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="gmt_create")
 	public Date getGmtCreate() {
 		return this.gmtCreate;
 	}
@@ -60,7 +58,8 @@ public class OrderTravelerEntity implements Serializable {
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
-
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="gmt_modified")
 	public Date getGmtModified() {
 		return this.gmtModified;
 	}
@@ -68,7 +67,7 @@ public class OrderTravelerEntity implements Serializable {
 	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
 	}
-
+	@Column(name="traveler_id")
 	public String getTravelerId() {
 		return this.travelerId;
 	}
@@ -76,7 +75,7 @@ public class OrderTravelerEntity implements Serializable {
 	public void setTravelerId(String travelerId) {
 		this.travelerId = travelerId;
 	}
-
+	@Column(name="traveler_name")
 	public String getTravelerName() {
 		return this.travelerName;
 	}
@@ -84,7 +83,7 @@ public class OrderTravelerEntity implements Serializable {
 	public void setTravelerName(String travelerName) {
 		this.travelerName = travelerName;
 	}
-
+	@Column(name="traveler_phone")
 	public String getTravelerPhone() {
 		return this.travelerPhone;
 	}
@@ -92,7 +91,9 @@ public class OrderTravelerEntity implements Serializable {
 	public void setTravelerPhone(String travelerPhone) {
 		this.travelerPhone = travelerPhone;
 	}
-
+	//bi-directional many-to-one association to OrderEntity
+	@ManyToOne
+	@JoinColumn(name="orders_id")
 	public OrderEntity getOrder() {
 		return this.order;
 	}

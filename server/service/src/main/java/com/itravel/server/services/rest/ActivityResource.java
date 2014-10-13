@@ -1,15 +1,9 @@
 package com.itravel.server.services.rest;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.BeanParam;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -25,24 +19,11 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
-import com.google.common.base.Splitter;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Lists;
 import com.itravel.server.dal.entities.ActivityEntity;
-import com.itravel.server.dal.entities.ActivityImageEntity;
-import com.itravel.server.dal.entities.TagEntity;
 import com.itravel.server.dal.managers.ActivityManager;
-import com.itravel.server.dal.managers.TagManager;
 import com.itravel.server.services.json.serializers.ActivityJourneySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivitySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivityTagSimpleSerializer;
-import com.itravel.server.services.rest.params.ActivitiesFormParam;
-import com.itravel.server.services.rest.params.ActivitiesFormParam.ValidationEnum;
 
 @Path("/activities")
 public class ActivityResource {
@@ -52,13 +33,13 @@ public class ActivityResource {
 	protected static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule().addSerializer(new ActivityJourneySimpleSerializer()).addSerializer(new ActivityTagSimpleSerializer())).setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 	protected static final ObjectMapper listObjectMapper = new ObjectMapper().registerModule(new SimpleModule().addSerializer(new ActivitySimpleSerializer())).setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 	private static final Logger logger = LogManager.getLogger(ActivityResource.class);
-	private static final LoadingCache<Long,TagEntity> tagCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.HOURS).build(new CacheLoader<Long,TagEntity>(){
-		private final TagManager tagManager = new TagManager();
-		
-		@Override
-		public TagEntity load(Long id) throws Exception {
-			return tagManager.get(id);
-		}});
+//	private static final LoadingCache<Long,TagEntity> tagCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.HOURS).build(new CacheLoader<Long,TagEntity>(){
+//		private final TagManager tagManager = new TagManager();
+//		
+//		@Override
+//		public TagEntity load(Long id) throws Exception {
+//			return tagManager.get(id);
+//		}});
 	
 	/**
 	 * 获取活动信息

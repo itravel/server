@@ -27,24 +27,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ActivityImageEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@JsonIgnore
-	@Id
-	private String id;
-//	@JsonIgnore
-//	@Column(name="activity_id")
-//	private long activityId;
 
-	@Column(name="image_uri")
+	private String id;
+
+	
 	private String imageUri;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "activity_id",nullable=false)
+
 	private ActivityEntity activity;
 	
 
 	public ActivityImageEntity() {
 	}
-
+	@JsonIgnore
+	@Id
 	public String getId() {
 		return this.id;
 	}
@@ -53,14 +49,7 @@ public class ActivityImageEntity implements Serializable {
 		this.id = id;
 	}
 
-//	public long getActivityId() {
-//		return this.activityId;
-//	}
-//
-//	public void setActivityId(long activityId) {
-//		this.activityId = activityId;
-//	}
-
+	@Column(name="image_uri")
 	public String getImageUri() {
 		return this.imageUri;
 	}
@@ -68,7 +57,8 @@ public class ActivityImageEntity implements Serializable {
 	public void setImageUri(String imageUri) {
 		this.imageUri = imageUri;
 	}
-
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "activity_id",nullable=false)
 	public ActivityEntity getEntity() {
 		return activity;
 	}

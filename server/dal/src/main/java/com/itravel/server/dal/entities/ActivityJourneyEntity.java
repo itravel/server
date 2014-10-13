@@ -19,24 +19,22 @@ import java.math.BigInteger;
 public class ActivityJourneyEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	private long id;
 
-	@ManyToOne
-	@JoinColumn(name="activity_id")
+	
 	private ActivityEntity activity;
 
-	@Column(name="content")
+	
 	private String content;
 
-	@Column(name="image")
+	
 	private String image;
 
-	@Column(name="title")
+	
 	private String title;
 	
-	@Column(name="journey_order")
+	
 	private int journeyOrder;
 
 	public ActivityJourneyEntity() {
@@ -44,7 +42,9 @@ public class ActivityJourneyEntity implements Serializable {
 		this.image = "";
 		this.title = "";
 	}
-
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public long getId() {
 		return this.id;
 	}
@@ -53,7 +53,7 @@ public class ActivityJourneyEntity implements Serializable {
 		this.id = id;
 	}
 
-
+	@Column(name="content")
 	public String getContent() {
 		return this.content;
 	}
@@ -62,7 +62,7 @@ public class ActivityJourneyEntity implements Serializable {
 		if(content!=null)
 			this.content = content;
 	}
-
+	@Column(name="image")
 	public String getImage() {
 		return this.image;
 	}
@@ -71,7 +71,7 @@ public class ActivityJourneyEntity implements Serializable {
 		if(image!=null)
 			this.image = image;
 	}
-
+	@Column(name="title")
 	public String getTitle() {
 		return this.title;
 	}
@@ -80,7 +80,8 @@ public class ActivityJourneyEntity implements Serializable {
 		if(title!=null)
 			this.title = title;
 	}
-
+	@ManyToOne
+	@JoinColumn(name="activity_id")
 	public ActivityEntity getActivity() {
 		return activity;
 	}
@@ -88,7 +89,7 @@ public class ActivityJourneyEntity implements Serializable {
 	public void setActivity(ActivityEntity activity) {
 		this.activity = activity;
 	}
-
+	@Column(name="journey_order")
 	public int getJourneyOrder() {
 		return journeyOrder;
 	}
