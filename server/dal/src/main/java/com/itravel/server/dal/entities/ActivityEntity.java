@@ -29,9 +29,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	};
 	private static final long serialVersionUID = 1L;
 	
-	private long depart;
 	
-	private long destination;
+	private AreaEntity destinationCity;
+	
+	
 	
 	private String scenerySpot;
 
@@ -68,12 +69,13 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	/**
 	 * 目的地
 	 */
-	@Column(name="destination")
-	public long getDestination() {
-		return this.destination;
+	@ManyToOne
+	@JoinColumn(name="destination")
+	public AreaEntity getDestination() {
+		return this.destinationCity;
 	}
-	public void setDestination(long destination) {
-		this.destination = destination;
+	public void setDestination(AreaEntity destination) {
+		this.destinationCity = destination;
 	}
 
 	/**
@@ -99,17 +101,7 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		this.scenerySpot = scenerySpot;
 	}
 
-	/**
-	 * 出发地
-	 */
-	@Column(name="depart")
-	public long getDepart() {
-		return depart;
-	}
-
-	public void setDepart(long depart) {
-		this.depart = depart;
-	}
+	
 	/**
 	 * 活动须知
 	 */

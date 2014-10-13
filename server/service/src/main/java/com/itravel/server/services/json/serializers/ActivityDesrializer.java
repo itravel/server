@@ -38,8 +38,7 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 		entity.setTitle(node.get("title").textValue());
 		entity.setContent(node.get("content").textValue());
 		entity.setContact(node.get("contact").textValue());
-		entity.setDepart(node.get("depart").textValue());
-		entity.setDestination(node.get("destination").textValue());
+//		entity.setDestination(node.get("destination").longValue());
 		
 		entity.setFee(node.get("fee").intValue());
 		entity.setScenerySpot(node.get("scenerySpot").textValue());

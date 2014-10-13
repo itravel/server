@@ -32,7 +32,6 @@ import com.google.common.base.Optional;
 import com.itravel.server.dal.entities.OrderEntity;
 import com.itravel.server.dal.entities.OrderTravelerEntity;
 import com.itravel.server.dal.managers.OrderManager;
-anagers.OrderManager;
 
 @Path("/orders")
 public class OrdersResource {

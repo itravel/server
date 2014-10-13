@@ -19,11 +19,16 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.managers.ActivityManager;
+import com.itravel.server.services.aos.ActivityListVO;
+import com.itravel.server.services.aos.ActivityListVO.Organizer;
 import com.itravel.server.services.json.serializers.ActivityJourneySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivitySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivityTagSimpleSerializer;
+import com.itravel.server.services.rest.utils.JsonFactory;
 
 @Path("/activities")
 public class ActivityResource {
@@ -41,6 +46,27 @@ public class ActivityResource {
 //			return tagManager.get(id);
 //		}});
 	
+	private static final Function<ActivityEntity,ActivityListVO> TO_LISTVO = new Function<ActivityEntity,ActivityListVO>(){
+
+		@Override
+		public ActivityListVO apply(ActivityEntity input) {
+			ActivityListVO vo = new ActivityListVO();
+			vo.setId(input.getId());
+			vo.setTitle(input.getTitle());
+			vo.setContent(vo.getContent());
+//			vo.setDuration(input.get);
+			vo.setFee(input.getFee());
+//			vo.setImages();
+			vo.setScenerySpot(input.getScenerySpot());
+			Organizer organizer = new Organizer();
+			organizer.setId(input.getOrganizer().getId());
+			organizer.setAvatar(input.getOrganizer().getAvatar());
+			organizer.setUserName(input.getOrganizer().getUserName());
+			vo.setOrganizer(organizer);
+			return vo;
+		}
+		
+	};
 	/**
 	 * 获取活动信息
 	 * @param start
@@ -50,10 +76,11 @@ public class ActivityResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
 	public Response getActivities(@QueryParam(value = "start") int start,@QueryParam(value="number") int number){
-		List<ActivityEntity> activites = activityManager.getActivities(start, number,true);
+		List<ActivityEntity> _activites = activityManager.getActivities(start, number,true);
+		List<ActivityListVO> activites = FluentIterable.from(_activites).transform(TO_LISTVO).toList();
 		String activityJsonStr="";
 		try {
-			activityJsonStr = listObjectMapper.writeValueAsString(activites);
+			activityJsonStr = JsonFactory.getMapper().writeValueAsString(activites);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			logger.error(e);
