@@ -1,6 +1,5 @@
 package com.itravel.admin.services.rest;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import javax.ws.rs.Consumes;
@@ -19,10 +18,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.itravel.admin.services.rest.aos.ActivityEditingEntity;
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.entities.UserEntity;
 import com.itravel.server.dal.managers.ActivityManager;
@@ -45,23 +42,6 @@ public class ActivityResource {
 	}
 	private static Logger logger = LogManager.getLogger(ActivityResource.class);
 	private static ActivityManager aManager = new ActivityManager();
-	@PUT
-	@Path("/{id}/editing")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response edit(@PathParam("id") long id,String jsonStr){
-		try {
-			ActivityEditingEntity entity = mapper.readValue(jsonStr,ActivityEditingEntity.class);
-			return Response.ok().entity(entity).build();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Response.serverError().entity(e.getMessage()).build();
-			
-		}
-		
-		
-	}
 	
 	@PUT
 	@Path("{id}")

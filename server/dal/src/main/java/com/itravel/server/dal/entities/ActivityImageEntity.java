@@ -1,7 +1,6 @@
 package com.itravel.server.dal.entities;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

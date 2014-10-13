@@ -60,14 +60,12 @@ public class ActivityDesrializer extends StdDeserializer<ActivityEntity> {
 			ActivityJourneyEntity journeyEntity = new ActivityJourneyEntity();
 			journeyEntity.setActivity(entity);
 			if(journeyNode.get("id")!=null){
-				System.out.println(journeyNode.get("id").longValue());
 				journeyEntity.setId(journeyNode.get("id").longValue());
 			}
 			if(journeyNode.get("image")!=null){
 				journeyEntity.setImage(journeyNode.get("image").textValue());
 			}
 			if(journeyNode.get("title")!=null){
-				
 				journeyEntity.setTitle(journeyNode.get("title").textValue());
 			}
 			if(journeyNode.get("content")!=null){

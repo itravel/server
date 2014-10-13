@@ -22,7 +22,7 @@ public class UserEntity implements Serializable {
 	
 	private String cellPhone;
 
-	private int city;
+	private long city;
 
 	private String email;
 
@@ -64,11 +64,11 @@ public class UserEntity implements Serializable {
 		this.cellPhone = cellPhone;
 	}
 	@Column(name="city")
-	public int getCity() {
+	public long getCity() {
 		return this.city;
 	}
 
-	public void setCity(int city) {
+	public void setCity(long city) {
 		this.city = city;
 	}
 	@Column(name="email")

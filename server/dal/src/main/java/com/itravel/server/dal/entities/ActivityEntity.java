@@ -1,8 +1,6 @@
 package com.itravel.server.dal.entities;
 
 import java.util.BitSet;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
@@ -32,9 +29,9 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	};
 	private static final long serialVersionUID = 1L;
 	
-	private String depart;
+	private long depart;
 	
-	private String destination;
+	private long destination;
 	
 	private String scenerySpot;
 
@@ -72,10 +69,10 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	 * 目的地
 	 */
 	@Column(name="destination")
-	public String getDestination() {
+	public long getDestination() {
 		return this.destination;
 	}
-	public void setDestination(String destination) {
+	public void setDestination(long destination) {
 		this.destination = destination;
 	}
 
@@ -106,11 +103,11 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	 * 出发地
 	 */
 	@Column(name="depart")
-	public String getDepart() {
+	public long getDepart() {
 		return depart;
 	}
 
-	public void setDepart(String depart) {
+	public void setDepart(long depart) {
 		this.depart = depart;
 	}
 	/**

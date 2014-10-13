@@ -22,7 +22,6 @@ public class ActivityImageDeserializer extends StdDeserializer<ActivityImageEnti
 		// TODO Auto-generated method stub
 		ActivityImageEntity entity = new ActivityImageEntity();
 		entity.setImageUri(jp.getValueAsString());
-		
 		return entity;
 	}
 
