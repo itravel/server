@@ -12,6 +12,7 @@
 		<class>com.itravel.server.dal.entities.OrderEntity</class>
 		<class>com.itravel.server.dal.entities.UserEntity</class>
 		<class>com.itravel.server.dal.entities.AreaEntity</class>
+		<class>com.itravel.server.dal.entities.ActivityCommentEntity</class>
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 		  
