@@ -23,6 +23,7 @@ public class OrderManager extends AbstractManager {
 			}
 		}
 		manager.getTransaction().commit();
+		manager.close();
 		return true;
 	}
 	
@@ -30,6 +31,7 @@ public class OrderManager extends AbstractManager {
 		EntityManager manager = this.emf.createEntityManager();
 		List<OrderEntity> orders  = manager.createQuery("select o from OrderEntity o where o.userId = :userId order by o.id desc", OrderEntity.class).setParameter("userId", userId).getResultList();
 		System.out.println(orders);
+		manager.close();
 		return orders;
 	}
 }

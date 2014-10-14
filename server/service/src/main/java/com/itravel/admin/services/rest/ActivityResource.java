@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -20,12 +19,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.common.base.Optional;
 import com.itravel.server.dal.entities.ActivityEntity;
-import com.itravel.server.dal.entities.UserEntity;
 import com.itravel.server.dal.managers.ActivityManager;
+import com.itravel.server.services.aos.ActivityBean;
 import com.itravel.server.services.json.serializers.ActivityDesrializer;
 import com.itravel.server.services.json.serializers.ActivityJourneySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivitySimpleSerializer;
+import com.itravel.server.services.rest.utils.JsonFactory;
 
 @Path("activities")
 public class ActivityResource {
@@ -57,7 +58,6 @@ public class ActivityResource {
 				activityJsonStr = mapper.writeValueAsString(entity);
 				
 			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return Response.ok().entity(activityJsonStr).build();
@@ -69,18 +69,17 @@ public class ActivityResource {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Consumes(MediaType.APPLICATION_JSON+";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
-	public Response create(@FormParam("organizerId") long organizerId){
+	public Response create(ActivityBean paramBean){
 		try {
-			ActivityEntity entity = new ActivityEntity();
-			UserEntity user = new UserEntity();
-			user.setId(organizerId);
-			entity.setOrganizer(user);
+			ActivityEntity entity = Optional.of(paramBean).transform(ActivityBean.TO_ENTITY).get();
 			this.aManager.save(entity);
+			entity = this.aManager.getActivity(entity.getId());
+			ActivityBean bean = new ActivityBean(entity);
 			String activityJsonStr="";
 			try {
-				activityJsonStr = mapper.writeValueAsString(entity);
+				activityJsonStr = JsonFactory.getMapper().writeValueAsString(bean);
 				
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block

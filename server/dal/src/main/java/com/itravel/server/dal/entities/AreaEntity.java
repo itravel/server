@@ -21,6 +21,9 @@ public class AreaEntity implements Serializable {
 	private byte type;
 
 	public AreaEntity() {
+		this.abbName = "";
+		this.name = "";
+		
 	}
 
 
@@ -41,7 +44,8 @@ public class AreaEntity implements Serializable {
 	}
 
 	public void setAbbName(String abbName) {
-		this.abbName = abbName;
+		if(this.abbName!=null)
+			this.abbName = abbName;
 	}
 
 
@@ -50,7 +54,8 @@ public class AreaEntity implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if(name != null)
+			this.name = name;
 	}
 
 
@@ -71,5 +76,14 @@ public class AreaEntity implements Serializable {
 	public void setType(byte type) {
 		this.type = type;
 	}
+
+
+	@Override
+	public String toString() {
+		return "AreaEntity [id=" + id + ", abbName=" + abbName + ", name="
+				+ name + ", parentId=" + parentId + ", type=" + type + "]";
+	}
+	
+	
 
 }

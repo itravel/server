@@ -18,7 +18,7 @@ public interface OrderState {
 		@Override
 		public OrderState handle(String action) {
 			// TODO Auto-generated method stub
-			return new ;
+			return null ;
 		}
 		
 	}
@@ -53,5 +53,4 @@ public interface OrderState {
 		
 	}
 	
-	class Order
 }

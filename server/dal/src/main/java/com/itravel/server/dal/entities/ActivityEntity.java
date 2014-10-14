@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -31,9 +32,7 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	
 	
 	private AreaEntity destinationCity;
-	
-	
-	
+
 	private String scenerySpot;
 
 	private String contact;
@@ -69,7 +68,7 @@ public class ActivityEntity extends AbstractEventsEntity  {
 	/**
 	 * 目的地
 	 */
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE,fetch=FetchType.EAGER)
 	@JoinColumn(name="destination")
 	public AreaEntity getDestination() {
 		return this.destinationCity;

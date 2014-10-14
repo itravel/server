@@ -23,8 +23,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 			 String authToken = requestContext.getHeaderString("auth-token");
 //			 System.out.println(this.decodesAuth(authToken));
 			 if(authToken ==null || authToken.isEmpty()){
-//				 throw new WebApplicationException(Status.UNAUTHORIZED);
-				 return ;
+				 throw new WebApplicationException(Status.UNAUTHORIZED);
+//				 return ;
 			 }
 		 }
 	}

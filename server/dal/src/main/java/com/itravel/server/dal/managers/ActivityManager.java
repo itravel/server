@@ -63,6 +63,7 @@ public class ActivityManager extends AbstractManager{
 		ActivityEntity entity = manager.find(ActivityEntity.class, id);
 		manager.remove(entity);
 		manager.getTransaction().commit();
+		manager.close();
 		return entity;
 	}
 	
