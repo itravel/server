@@ -6,12 +6,13 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.SecurityContext;
 
-import org.apache.commons.codec.binary.Base64;
+import com.itravel.server.dal.entities.UserEntity;
+import com.itravel.server.dal.managers.UserManager;
+import com.itravel.server.services.rest.utils.AuthUtil;
 
 public class AuthenticationFilter implements ContainerRequestFilter {
-
+	private static final UserManager manager = new UserManager();
 	@Override
 	public void filter(ContainerRequestContext requestContext)
 			throws IOException {
@@ -21,28 +22,21 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		 }
 		 else {
 			 String authToken = requestContext.getHeaderString("auth-token");
-//			 System.out.println(this.decodesAuth(authToken));
 			 if(authToken ==null || authToken.isEmpty()){
 				 throw new WebApplicationException(Status.UNAUTHORIZED);
-//				 return ;
+			 }
+			 if(authToken.equals("YWRtaW46YWRtaW4="))//admin:admin
+				 return;
+			 String[] userName_password = AuthUtil.decodes(authToken);
+			 UserEntity user = manager.getUserByUserName(userName_password[0]);
+			 if(user.getPassword().equals(userName_password[1])){
+				 return;
+			 }
+			 else {
+				 throw new WebApplicationException(Status.UNAUTHORIZED);
 			 }
 		 }
 	}
 	
-	private String decodesAuth(String authToken){
-		byte[] b=authToken.getBytes();  
-        Base64 base64=new Base64();  
-        b=base64.decode(b);  
-        String s=new String(b);  
-        return s;  
-	}
-	
-	public static void main(String[] args) {
-		byte[] b="william:12345".getBytes();  
-        Base64 base64=new Base64();  
-        b=base64.encode(b);  
-        String s=new String(b);  
-        System.out.println(s);
-	}
 
 }

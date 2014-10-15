@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import com.itravel.server.dal.entities.ActivityEntity;
+import com.itravel.server.dal.entities.ActivityJourneyEntity;
 
 public class ActivityManager extends AbstractManager{
 	public List<ActivityEntity> getActivities(int start,int number,boolean reverse){
@@ -67,12 +68,31 @@ public class ActivityManager extends AbstractManager{
 		return entity;
 	}
 	
+	public boolean saveJourney(ActivityJourneyEntity journey){
+		EntityManager manager = this.emf.createEntityManager();
+		manager.getTransaction().begin();
+		if(journey.getId() > 0){
+			ActivityJourneyEntity _entity = manager.find(ActivityJourneyEntity.class, journey.getId());
+			if(_entity!=null){
+				manager.merge(journey);
+			}
+			else {
+				manager.persist(journey);
+			}
+					
+		}
+		else {
+			manager.persist(journey);
+			manager.getTransaction().commit();
+		}
+		
+		manager.close();
+		return true;
+	}
+	
 	public static void main(String[] args) {
 		ActivityManager manager = new ActivityManager();
 		ActivityEntity entity = manager.getActivity(1L);
-//		TagManager tManager = new TagManager();
-//		entity.getTags().add(tManager.get(3L));
-//		manager.save(entity);
 		System.out.println(entity);
 	}
 }

@@ -103,7 +103,7 @@ public class ActivityBean {
 	}
 
 	public List<ActivityJourneyBean> getJourney() {
-		return FluentIterable.from(this.entity.getJourney()).transform(ActivityJourneyBean.TO_BEAN).toList();
+		return FluentIterable.from(this.entity.getJourney()).transform(ActivityJourneyBean.FROM_ENTITY).toList();
 	}
 //
 //	public void setJourney(List<ActivityJourneyEntity> journey) {

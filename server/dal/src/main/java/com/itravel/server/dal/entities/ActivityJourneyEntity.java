@@ -89,6 +89,8 @@ public class ActivityJourneyEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="activity_id")
 	public ActivityEntity getActivity() {
+		if(this.activity == null)
+			this.activity = new ActivityEntity();
 		return activity;
 	}
 

@@ -30,8 +30,6 @@ public class ActivityResource {
 	@Context
 	UriInfo uriInfo;
 	protected static final ActivityManager activityManager = new ActivityManager();
-//	protected static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new SimpleModule().addSerializer(new ActivityJourneySimpleSerializer()).addSerializer(new ActivityTagSimpleSerializer())).setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-//	protected static final ObjectMapper listObjectMapper = new ObjectMapper().registerModule(new SimpleModule().addSerializer(new ActivitySimpleSerializer())).setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 	private static final Logger logger = LogManager.getLogger(ActivityResource.class);
 	
 	

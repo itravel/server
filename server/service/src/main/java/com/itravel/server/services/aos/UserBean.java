@@ -1,5 +1,6 @@
 package com.itravel.server.services.aos;
 
+import com.google.common.base.Function;
 import com.itravel.server.dal.entities.UserEntity;
 
 public class UserBean {
@@ -36,5 +37,12 @@ public class UserBean {
 	public void setUserName(String userName) {
 		this.entity.setUserName(userName);
 	}
+	
+	public static final Function<UserBean,UserEntity> TO_ENTITY = new Function<UserBean,UserEntity>(){
 
+		@Override
+		public UserEntity apply(UserBean input) {
+			// TODO Auto-generated method stub
+			return input.entity;
+		}};
 }

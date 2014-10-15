@@ -20,9 +20,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.base.Optional;
+import com.google.common.escape.Escapers;
 import com.itravel.server.dal.entities.ActivityEntity;
+import com.itravel.server.dal.entities.ActivityJourneyEntity;
 import com.itravel.server.dal.managers.ActivityManager;
 import com.itravel.server.services.aos.ActivityBean;
+import com.itravel.server.services.aos.ActivityJourneyBean;
 import com.itravel.server.services.json.serializers.ActivityDesrializer;
 import com.itravel.server.services.json.serializers.ActivityJourneySimpleSerializer;
 import com.itravel.server.services.json.serializers.ActivitySimpleSerializer;
@@ -48,14 +51,15 @@ public class ActivityResource {
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("id") long id,String jsonStr){
+	public Response update(@PathParam("id") long id,ActivityBean paramBean){
 		try {
-			ActivityEntity entity = mapper.readValue(jsonStr,ActivityEntity.class);
-			logger.debug(entity);
+			ActivityEntity entity = Optional.of(paramBean).transform(ActivityBean.TO_ENTITY).get();
+			entity.setId(id);
 			entity = aManager.save(entity);
+			ActivityBean bean = new ActivityBean(entity);
 			String activityJsonStr="";
 			try {
-				activityJsonStr = mapper.writeValueAsString(entity);
+				activityJsonStr = JsonFactory.getMapper().writeValueAsString(bean);
 				
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
@@ -74,8 +78,8 @@ public class ActivityResource {
 	public Response create(ActivityBean paramBean){
 		try {
 			ActivityEntity entity = Optional.of(paramBean).transform(ActivityBean.TO_ENTITY).get();
-			this.aManager.save(entity);
-			entity = this.aManager.getActivity(entity.getId());
+			aManager.save(entity);
+			entity = aManager.getActivity(entity.getId());
 			ActivityBean bean = new ActivityBean(entity);
 			String activityJsonStr="";
 			try {
@@ -104,8 +108,25 @@ public class ActivityResource {
 		}
 		catch(Exception e){
 			return Response.serverError().entity(e.getMessage()).build();
-			
 		}
 		
 	}
+	
+	@POST
+	@Path("/activities/{activityId}/journey")
+	@Consumes(MediaType.APPLICATION_JSON+";charset=utf-8")
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response addJourney (@PathParam(value = "activityId") long activityId, ActivityJourneyBean journeyBean ) {
+		journeyBean.setActivity(activityId);
+		ActivityJourneyEntity entity = Optional.fromNullable(journeyBean).transform(ActivityJourneyBean.TO_ENTITY).get();
+		boolean result = aManager.saveJourney(entity);
+		if(result){
+			return Response.ok().build();
+		}
+		else {
+			logger.error("保存行程安排失败");
+			return Response.serverError().build();
+		}
+	}
+	
 }
