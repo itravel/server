@@ -16,7 +16,6 @@ import com.itravel.server.services.rest.utils.AuthUtil;
 
 @Path("/authentication")
 public class AuthenticationResource {
-	private static final ObjectMapper mapper = new ObjectMapper();
 	private static final UserManager manager = new UserManager();
 	
 	@POST

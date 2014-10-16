@@ -1,6 +1,7 @@
 package com.itravel.server.services.rest;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -10,6 +11,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Optional;
@@ -63,7 +65,23 @@ public class UserResource {
 		} catch (JsonProcessingException e) {
 			return Response.serverError().entity(e.getMessage()).build();
 		}
-		
+	}
+	
+	@Path("/{userId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response getUser(@PathParam("userId") long userId){
+		UserEntity entity = manager.getUserById(userId);
+		if(entity == null){
+			Response.status(Status.NOT_FOUND).build();
+		}
+		UserBean userBean = new UserBean(entity);
+		try {
+			String json = JsonFactory.getMapper().writeValueAsString(userBean);
+			return Response.ok().entity(json).build();
+		} catch (JsonProcessingException e) {
+			return Response.serverError().entity(e.getMessage()).build();
+		}
 	}
 	
 }
