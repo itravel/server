@@ -29,7 +29,6 @@ public class AuthenticationResource {
 				return Response.ok().header("auth-token", authToken).build();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return Response.status(Status.UNAUTHORIZED).build();
