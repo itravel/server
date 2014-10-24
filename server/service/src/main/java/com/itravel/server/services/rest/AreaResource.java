@@ -13,7 +13,7 @@ import com.itravel.server.dal.entities.AreaEntity;
 import com.itravel.server.dal.managers.AreaManager;
 import com.itravel.server.services.aos.AreaType;
 
-@Path("areas")
+@Path("/")
 public class AreaResource {
 	private static final AreaManager aManager = new AreaManager();
 	
@@ -39,6 +39,15 @@ public class AreaResource {
 	public Response getCities(@PathParam("pId") long provinceId){
 		List<AreaEntity> areas = aManager.getAreasByParent(provinceId, AreaType.city.intValue());
 		return Response.ok().entity(areas).build();
+	}
+	
+	@Path("/cities/{cityName}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON+";charset=utf-8")
+	public Response getCityByCityName(@PathParam("cityName") String cityName){
+		AreaEntity entity = aManager.getAreaByNameAndType(cityName,AreaType.city.intValue());
+		return Response.ok().entity(entity).build();
+		
 	}
 	
 }

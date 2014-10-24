@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 
 import com.itravel.server.dal.entities.ActivityEntity;
 import com.itravel.server.dal.entities.ActivityJourneyEntity;
+import com.itravel.server.dal.entities.AreaEntity;
 
 public class ActivityManager extends AbstractManager{
 	public List<ActivityEntity> getActivities(int start,int number,boolean reverse){
@@ -92,7 +93,23 @@ public class ActivityManager extends AbstractManager{
 	
 	public static void main(String[] args) {
 		ActivityManager manager = new ActivityManager();
-		ActivityEntity entity = manager.getActivity(1L);
+		List<ActivityEntity> entity = manager.getActivitiesByCity(1L);
 		System.out.println(entity);
+	}
+
+	public List<ActivityEntity> getActivitiesByCity(long cityId) {
+		EntityManager manager = emf.createEntityManager();
+		List<ActivityEntity> result = manager.createQuery("select A from ActivityEntity A where A.destination.id = :city").setParameter("city", cityId).getResultList();
+		manager.close();
+		return result;
+		
+	}
+	
+	public List<ActivityEntity> getActivitiesByCity(String cityName) {
+		EntityManager manager = emf.createEntityManager();
+		List<ActivityEntity> result = manager.createQuery("select A from ActivityEntity A where A.destination.name = :city").setParameter("city", cityName).getResultList();
+		manager.close();
+		return result;
+		
 	}
 }

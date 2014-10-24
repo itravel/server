@@ -28,5 +28,13 @@ public class AreaManager extends AbstractManager {
 		manager.close();
 		return area;
 	}
+
+	public AreaEntity getAreaByNameAndType(String name, int type) {
+		// TODO Auto-generated method stub
+		EntityManager manager = this.emf.createEntityManager();
+		List<AreaEntity> areas = manager.createQuery("select A from AreaEntity A where A.type = :type and A.abbName = :abbName", AreaEntity.class).setParameter("type", type).setParameter("abbName", name).getResultList();
+		manager.close();
+		return areas.size()>0? areas.get(0):null;
+	}
 	
 }

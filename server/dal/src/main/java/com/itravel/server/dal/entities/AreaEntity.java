@@ -19,6 +19,8 @@ public class AreaEntity implements Serializable {
 	private String name;
 	private long parentId;
 	private byte type;
+	private String description;
+	private String comments;
 
 	public AreaEntity() {
 		this.abbName = "";
@@ -75,6 +77,26 @@ public class AreaEntity implements Serializable {
 
 	public void setType(byte type) {
 		this.type = type;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public String getComments() {
+		return comments;
+	}
+
+
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
 
