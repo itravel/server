@@ -1,40 +1,78 @@
 package com.itravel.server.services.rest.utils;
 
+
+import com.google.common.base.Optional;
+import com.itravel.admin.services.managers.OrderManager;
 import com.itravel.server.dal.entities.OrderEntity;
+import com.itravel.server.dal.managers.OrderEntityManager;
+import com.itravel.server.services.aos.OrderBean;
 
 public interface OrderState {
 	
-	void handle(String action,OrderEntity entity);
+	void doAction(OrderManager manager);
+	void abort(OrderManager manager);
 	
+
+	abstract class  AbstractOrderState implements OrderState{
+		protected OrderBean bean;
+		private OrderEntityManager manager = OrderEntityManager.newInstance();
+		AbstractOrderState(OrderBean bean){
+			this.bean = bean;
+		}
+		
+		protected void persist(){
+			OrderEntity entity = Optional.fromNullable(bean).transform(OrderBean.TO_ENTITY).get();
+			manager.saveOrder(entity);
+		}
+		
+		
+	}
 	/**
 	 * 订单结束
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderComplementeState implements OrderState {
+	class OrderComplementeState extends AbstractOrderState {
+
+		OrderComplementeState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
 
 		@Override
-		
-		public void handle(String action,OrderEntity entity){
+		public void doAction(OrderManager manager) {
 			// TODO Auto-generated method stub
-			return ;
+			
 		}
+
+		@Override
+		public void abort(OrderManager manager) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 	/**
 	 * 订单创建
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderCreatedState implements OrderState {
+	class OrderCreatedState extends AbstractOrderState {
 
-		@Override
-		public void handle(String action,OrderEntity entity){
-			// TODO Auto-generated method stub
+		public OrderCreatedState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
 		}
-		private void pay(){
+		@Override
+		public void doAction(OrderManager manager) {
+			// TODO Auto-generated method stub
+			manager.pay();
 			
 		}
-		private void cancel(){
+		@Override
+		public void abort(OrderManager manager) {
+			// TODO Auto-generated method stub
 			
 		}
 		
@@ -44,14 +82,26 @@ public interface OrderState {
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderPaySuccessState implements OrderState {
+	class OrderPaySuccessState extends AbstractOrderState {
+
+		OrderPaySuccessState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		@Override
-		public void handle(String action,OrderEntity entity){
+		public void doAction(OrderManager manager) {
 			// TODO Auto-generated method stub
+			
 		}
-		
-		public void refund(){
+
+
+		@Override
+		public void abort(OrderManager manager) {
+			// TODO Auto-generated method stub
 			
 		}
 		
@@ -61,14 +111,26 @@ public interface OrderState {
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderPayFailedState implements OrderState {
+	class OrderPayFailedState extends AbstractOrderState {
+
+		OrderPayFailedState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		@Override
-		public void handle(String action,OrderEntity entity){
+		public void doAction(OrderManager manager) {
 			// TODO Auto-generated method stub
+			
 		}
-		
-		private void pay(){
+
+
+		@Override
+		public void abort(OrderManager manager) {
+			// TODO Auto-generated method stub
 			
 		}
 		
@@ -78,11 +140,27 @@ public interface OrderState {
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderPayTimeoutState implements OrderState {
+	class OrderPayTimeoutState extends AbstractOrderState {
+
+		OrderPayTimeoutState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		@Override
-		public void handle(String action,OrderEntity entity){
+		public void doAction(OrderManager manager) {
 			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void abort(OrderManager manager) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 		
@@ -93,10 +171,25 @@ public interface OrderState {
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderCancelSuccessState implements OrderState {
+	class OrderCancelSuccessState extends AbstractOrderState {
+
+		OrderCancelSuccessState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		@Override
-		public void handle(String action,OrderEntity entity){
+		public void doAction(OrderManager manager) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void abort(OrderManager manager) {
 			// TODO Auto-generated method stub
 			
 		}
@@ -108,15 +201,30 @@ public interface OrderState {
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderCancelFailedState implements OrderState {
+	class OrderCancelFailedState extends AbstractOrderState {
+
+		OrderCancelFailedState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
+		
+		public void cancel(){
+			
+		}
+
+
 
 		@Override
-		public void handle(String action,OrderEntity entity){
+		public void doAction(OrderManager manager) {
 			// TODO Auto-generated method stub
 			
 		}
-		
-		public void cancel(){
+
+
+		@Override
+		public void abort(OrderManager manager) {
+			// TODO Auto-generated method stub
 			
 		}
 		
@@ -127,10 +235,25 @@ public interface OrderState {
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderRefundSuccessState implements OrderState {
+	class OrderRefundSuccessState extends AbstractOrderState {
+
+		OrderRefundSuccessState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		@Override
-		public void handle(String action, OrderEntity entity) {
+		public void doAction(OrderManager manager) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void abort(OrderManager manager) {
 			// TODO Auto-generated method stub
 			
 		}
@@ -142,15 +265,26 @@ public interface OrderState {
 	 * @author william.wangwm
 	 *
 	 */
-	class OrderRefundFailedState implements OrderState {
+	class OrderRefundFailedState extends AbstractOrderState {
+
+		OrderRefundFailedState(OrderBean bean) {
+			super(bean);
+			// TODO Auto-generated constructor stub
+		}
+
+
+
 
 		@Override
-		public void handle(String action, OrderEntity entity) {
+		public void doAction(OrderManager manager) {
 			// TODO Auto-generated method stub
 			
 		}
-		
-		public void refund(){
+
+
+		@Override
+		public void abort(OrderManager manager) {
+			// TODO Auto-generated method stub
 			
 		}
 		

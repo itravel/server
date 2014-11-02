@@ -47,6 +47,14 @@ public class ActivityEntity extends AbstractEventsEntity  {
 
 	private BitSet availableTime;
 	
+	private String highlights;
+	
+	private int acceptablePersons;
+	
+	private String feeInclude;
+	
+	private String feeExclude;
+	
 	public ActivityEntity() {
 		this.journey = Lists.newArrayList();
 		this.availableTime = new BitSet();
@@ -167,7 +175,42 @@ public class ActivityEntity extends AbstractEventsEntity  {
 		this.availableTime = BitSet.valueOf(new long[]{availableTime});
 	}
 
-	
+	@Column(name="highlights")
+	public String getHighlights() {
+		return highlights;
+	}
+
+	public void setHighlights(String highlights) {
+		this.highlights = highlights;
+	}
+
+	@Column(name="acceptable_persons")
+	public int getAcceptablePersons() {
+		return acceptablePersons;
+	}
+
+	public void setAcceptablePersons(int acceptablePersons) {
+		this.acceptablePersons = acceptablePersons;
+	}
+
+	@Column(name="fee_include")
+	public String getFeeInclude() {
+		return feeInclude;
+	}
+
+	public void setFeeInclude(String feeInclude) {
+		this.feeInclude = feeInclude;
+	}
+
+	@Column(name="fee_exclude")
+	public String getFeeExclude() {
+		return feeExclude;
+	}
+
+	public void setFeeExclude(String feeExclude) {
+		this.feeExclude = feeExclude;
+	}
+
 	public static void main(String[] args) {
 		System.out.println(BitSet.valueOf(new long[]{1024L}));
 	}

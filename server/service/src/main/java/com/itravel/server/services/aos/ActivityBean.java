@@ -2,6 +2,8 @@ package com.itravel.server.services.aos;
 
 import java.util.List;
 
+import javax.persistence.Column;
+
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.itravel.server.dal.entities.ActivityEntity;
@@ -105,25 +107,6 @@ public class ActivityBean {
 	public List<ActivityJourneyBean> getJourney() {
 		return FluentIterable.from(this.entity.getJourney()).transform(ActivityJourneyBean.FROM_ENTITY).toList();
 	}
-//
-//	public void setJourney(List<ActivityJourneyEntity> journey) {
-//		this.journey = journey;??
-//	}
-//	
-//	public ActivityJourneyEntity addActivityJourney(ActivityJourneyEntity activityJourney) {
-//		this.journey.add(activityJourney);
-//		activityJourney.setActivity(this);
-//
-//		return activityJourney;
-//	}
-//
-//	public ActivityJourneyEntity removeActivityJourney(ActivityJourneyEntity activityJourney) {
-//		this.journey.remove(activityJourney);
-//		activityJourney.setActivity(null);
-//
-//		return activityJourney;
-//	}
-//
 	public UserBean getOrganizer() {
 		return new UserBean(this.entity.getOrganizer());
 	}
@@ -134,8 +117,7 @@ public class ActivityBean {
 		this.entity.setOrganizer(organizer);
 		
 	}
-//	
-//
+	
 	public long getAvailableTime() {
 		return this.entity.getAvailableTime();
 	}
@@ -176,6 +158,39 @@ public class ActivityBean {
 		}
 		
 	};
+	
+	public String getHighlights() {
+		return entity.getHighlights();
+	}
+
+	public void setHighlights(String highlights) {
+		this.entity.setHighlights(highlights);
+	}
+
+	public int getAcceptablePersons() {
+		return this.entity.getAcceptablePersons();
+	}
+
+	public void setAcceptablePersons(int acceptablePersons) {
+		this.entity.setAcceptablePersons(acceptablePersons);
+	}
+
+	public String getFeeInclude() {
+		return this.entity.getFeeInclude();
+	}
+
+	public void setFeeInclude(String feeInclude) {
+		this.entity.setFeeInclude(feeInclude);
+		
+	}
+
+	public String getFeeExclude() {
+		return this.entity.getFeeExclude();
+	}
+
+	public void setFeeExclude(String feeExclude) {
+		this.entity.setFeeExclude(feeExclude);
+	}
 	
 	public static void main(String[] args) {
 		System.out.println(0x04ff);

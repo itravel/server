@@ -31,7 +31,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.itravel.server.dal.entities.OrderEntity;
 import com.itravel.server.dal.entities.OrderTravelerEntity;
-import com.itravel.server.dal.managers.OrderManager;
+import com.itravel.server.dal.managers.OrderEntityManager;
 
 @Path("/orders")
 public class OrdersResource {
@@ -39,7 +39,7 @@ public class OrdersResource {
 	private static final Logger logger = LogManager
 			.getLogger(OrdersResource.class);
 	private static final OrderJsonParser parser = new OrderJsonParser();
-	private static final OrderManager manager = new OrderManager();
+	private static final OrderEntityManager manager = new OrderEntityManager();
 
 	@Path("/")
 	@POST
